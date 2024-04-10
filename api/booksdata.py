@@ -1,6 +1,6 @@
 import requests
 
-API_KEY = "6cb9ddf171f311b797704995917f6a8f"
+API_KEY = "5a689a479794ca6f7e45f09bbf781f63"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -294,28 +294,29 @@ def find_best_props(
                     ),
                 }
 
-    # print(all_props_dict)
+    print(all_props_dict)
     return all_props_dict
 
 
 def getBestProps():
     prop_types = [
         "player_points",
-        # "player_rebounds",
-        # "player_assists",
-        # "player_threes",
-        # "player_points_rebounds_assists",
-        # "player_points_rebounds",
-        # "player_points_assists",
-        # "player_rebounds_assists",
+        "player_rebounds",
+        "player_assists",
+        "player_threes",
+        "player_points_rebounds_assists",
+        "player_points_rebounds",
+        "player_points_assists",
+        "player_rebounds_assists",
     ]
 
     prizepicks_data = getPrizePicksData()
+    # prizepicks_data = []
     if not prizepicks_data:
-        # If no PrizePicks data, exit the program
-        return []
+        # If no PrizePicks data
+        return {"message": "No PrizePicks data available at the moment.", "data": []}
 
-    games_ids = getEvents()
+    games_today = getEvents()
     all_best_props = []
 
     # testing for one game
@@ -334,11 +335,11 @@ def getBestProps():
     """
 
     # """
-    for event_id in games_ids:
+    for game_id in games_today:
         for prop_type in prop_types:
-            player_props_odds = getPlayersPropsOddsForGame(event_id, prop_type)
+            player_props_odds_for_game = getPlayersPropsOddsForGame(game_id, prop_type)
             best_props = find_best_props(
-                player_props_odds,
+                player_props_odds_for_game,
                 prop_type,
                 prizepicks_data,
                 include_prizepicks=True,
@@ -352,7 +353,7 @@ def getBestProps():
     )
 
     # return best 20 props
-    return sorted_best_props[:20]
+    return {"message": "Success", "data": sorted_best_props[:20]}
 
 
 if __name__ == "__main__":
