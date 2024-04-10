@@ -118,46 +118,63 @@ def getPlayersPropsOddsForGame(event_id, prop_type):
 
 def getPrizePicksData():
     """
-    Gets props data currently live on PrizePicks.
+    Fetches props data currently live on PrizePicks.
     """
 
+    # PrizePicks props data API
     URL = "https://partner-api.prizepicks.com/projections?league_id=7"
-    response = requests.get(URL)
-    prizepicks_data = response.json()
 
-    # check if 'data' is present and not empty (check if PrizePicks has props live)
-    if not prizepicks_data.get("data"):
-        print("No PrizePicks Data...")
-        return
+    try:
+        response = requests.get(URL)
+        if response.status_code != 200:
+            # if the status code is not 200, return an empty dictionary
+            print(f"Failed to retrieve data: {response.status_code}, {response.text}")
+            return {}
 
-    lines = prizepicks_data["data"]
+        try:
+            prizepicks_data = response.json()
+        except ValueError as e:
+            # handle cases where the response is not in valid JSON format
+            print(f"Error parsing JSON response: {e}")
+            return {}
 
-    players_lines = {
-        player["id"]: player["attributes"]
-        for player in prizepicks_data["included"]
-        if player["type"] == "new_player"
-    }
+        if not prizepicks_data.get("data"):
+            # check if the 'data' key is present and not empty
+            print("No PrizePicks Data...")
+            return {}
 
-    # initialize lines for each player
-    for player_id in players_lines:
-        players_lines[player_id]["lines"] = {}
+        # process the PrizePicks data
+        lines = prizepicks_data["data"]
+        players_lines = {
+            player["id"]: player["attributes"]
+            for player in prizepicks_data["included"]
+            if player["type"] == "new_player"
+        }
 
-    for line in lines:
-        attributes = line["attributes"]
-        odds_type = attributes.get("odds_type")
+        # initialize lines for each player
+        for player_id in players_lines:
+            players_lines[player_id]["lines"] = {}
 
-        # skip lines with odds_type 'demon' or 'goblin'
-        if odds_type in ["demon", "goblin"]:
-            continue
+        for line in lines:
+            attributes = line["attributes"]
+            odds_type = attributes.get("odds_type")
 
-        player_id = line["relationships"]["new_player"]["data"]["id"]
-        stat_type = attributes["stat_type"]
-        stat_line = attributes["line_score"]
+            # skip demon and goblin props
+            if odds_type in ["demon", "goblin"]:
+                continue
 
-        if player_id in players_lines:
-            players_lines[player_id]["lines"][stat_type] = stat_line
+            player_id = line["relationships"]["new_player"]["data"]["id"]
+            stat_type = attributes["stat_type"]
+            stat_line = attributes["line_score"]
 
-    return players_lines
+            if player_id in players_lines:
+                players_lines[player_id]["lines"][stat_type] = stat_line
+
+        return players_lines
+
+    except requests.RequestException as e:
+        print(f"Request failed: {e}")
+        return {}
 
 
 def calculate_implied_probability(odds):
@@ -181,14 +198,14 @@ def find_best_props(
     players_data, prop_type, prizepicks_data=None, include_prizepicks=False
 ):
     prop_type_mapping = {
-        # "player_points": "Points",
+        "player_points": "Points",
         "player_assists": "Assists",
-        # "player_rebounds": "Rebounds",
-        # "player_threes": "3-PT Made",
-        # "player_points_rebounds_assists": "Pts+Rebs+Asts",
-        # "player_points_rebounds": "Pts+Rebs",
-        # "player_points_assists": "Pts+Asts",
-        # "player_rebounds_assists": "Rebs+Asts",
+        "player_rebounds": "Rebounds",
+        "player_threes": "3-PT Made",
+        "player_points_rebounds_assists": "Pts+Rebs+Asts",
+        "player_points_rebounds": "Pts+Rebs",
+        "player_points_assists": "Pts+Asts",
+        "player_rebounds_assists": "Rebs+Asts",
     }
 
     readable_prop_type = prop_type_mapping.get(prop_type, prop_type)
@@ -219,7 +236,6 @@ def find_best_props(
                         "underProbability": under_prob_vig_adjusted,
                     }
                 )
-            # print(player, player_props)
 
         # process for PrizePicks data
         if include_prizepicks and prizepicks_data:
@@ -301,9 +317,9 @@ def find_best_props(
 
 def getBestProps():
     prop_types = [
-        # "player_points",
+        "player_points",
         # "player_rebounds",
-        "player_assists",
+        # "player_assists",
         # "player_threes",
         # "player_points_rebounds_assists",
         # "player_points_rebounds",
@@ -311,11 +327,11 @@ def getBestProps():
         # "player_rebounds_assists",
     ]
 
+    # prizepicks_data = [] # empty list for testing
     prizepicks_data = getPrizePicksData()
-    # prizepicks_data = []
     if not prizepicks_data:
-        # If no PrizePicks data
-        return {"message": "No PrizePicks data available at the moment.", "data": []}
+        # Return a message if no PrizePicks data is available
+        return {"message": "No Props available at the moment.", "data": []}
 
     games_today = getEvents()
     all_best_props = []
@@ -343,7 +359,7 @@ def getBestProps():
                 player_props_odds_for_game,
                 prop_type,
                 prizepicks_data,
-                include_prizepicks=True,
+                include_prizepicks=False,
             )
             all_best_props.extend(best_props.values())
     # """
@@ -352,12 +368,10 @@ def getBestProps():
     sorted_best_props = sorted(
         all_best_props, key=lambda x: x["bestBetProbability"], reverse=True
     )
-    print(sorted_best_props)
 
     # return best 20 props
     return {"message": "Success", "data": sorted_best_props[:20]}
 
 
 if __name__ == "__main__":
-    # best_props = getBestProps()
     pass
