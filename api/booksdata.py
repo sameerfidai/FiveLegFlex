@@ -1,6 +1,6 @@
 import requests
 
-API_KEY = "998135dc50e00fc5eb81336f5c7652ea"
+API_KEY = "6cb9ddf171f311b797704995917f6a8f"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -219,8 +219,9 @@ def find_best_props(
                         "underProbability": under_prob_vig_adjusted,
                     }
                 )
+            # print(player, player_props)
 
-        # Process for PrizePicks data
+        # process for PrizePicks data
         if include_prizepicks and prizepicks_data:
             for pp_player in prizepicks_data.values():
                 if (
@@ -262,10 +263,10 @@ def find_best_props(
                                 best_bet["underProbability"],
                             ),
                         }
-                        # Assuming you want to stop after finding the first matching prop
+                        # stop after finding the first matching prop
                         break
         else:
-            # If not including PrizePicks data
+            # if not including PrizePicks data
             if player_props:
                 best_bet = max(
                     player_props,
@@ -293,19 +294,20 @@ def find_best_props(
                     ),
                 }
 
+    # print(all_props_dict)
     return all_props_dict
 
 
 def getBestProps():
     prop_types = [
         "player_points",
-        "player_rebounds",
-        "player_assists",
-        "player_threes",
-        "player_points_rebounds_assists",
-        "player_points_rebounds",
-        "player_points_assists",
-        "player_rebounds_assists",
+        # "player_rebounds",
+        # "player_assists",
+        # "player_threes",
+        # "player_points_rebounds_assists",
+        # "player_points_rebounds",
+        # "player_points_assists",
+        # "player_rebounds_assists",
     ]
 
     prizepicks_data = getPrizePicksData()
@@ -316,6 +318,22 @@ def getBestProps():
     games_ids = getEvents()
     all_best_props = []
 
+    # testing for one game
+    """
+    game = games_ids[len(games_ids) - 1]
+    print(game)
+    for prop_type in prop_types:
+        player_props_odds = getPlayersPropsOddsForGame(game, prop_type)
+        best_props = find_best_props(
+            player_props_odds,
+            prop_type,
+            prizepicks_data,
+            include_prizepicks=True,
+        )
+        all_best_props.extend(best_props.values())
+    """
+
+    # """
     for event_id in games_ids:
         for prop_type in prop_types:
             player_props_odds = getPlayersPropsOddsForGame(event_id, prop_type)
@@ -326,6 +344,7 @@ def getBestProps():
                 include_prizepicks=True,
             )
             all_best_props.extend(best_props.values())
+    # """
 
     # sort the all_best_props list by bestBetProbability in descending order (best bet on top)
     sorted_best_props = sorted(
@@ -337,9 +356,5 @@ def getBestProps():
 
 
 if __name__ == "__main__":
-    best_props = getBestProps()
-    for prop in best_props:
-        probability_percentage = round(prop["bestBetProbability"] * 100, 2)
-        print(
-            f"{prop['home_team']} vs {prop['away_team']}: {prop['player']}, {prop['prop_type']} {prop['bestBet']} at {prop['line']} ({probability_percentage}%)"
-        )
+    # best_props = getBestProps()
+    pass
