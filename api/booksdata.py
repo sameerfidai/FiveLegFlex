@@ -1,6 +1,6 @@
 import requests
 
-API_KEY = "5a689a479794ca6f7e45f09bbf781f63"
+API_KEY = "e3a35040be255b9e1a1c69ee8424be14"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -181,14 +181,14 @@ def find_best_props(
     players_data, prop_type, prizepicks_data=None, include_prizepicks=False
 ):
     prop_type_mapping = {
-        "player_points": "Points",
+        # "player_points": "Points",
         "player_assists": "Assists",
-        "player_rebounds": "Rebounds",
-        "player_threes": "3-PT Made",
-        "player_points_rebounds_assists": "Pts+Rebs+Asts",
-        "player_points_rebounds": "Pts+Rebs",
-        "player_points_assists": "Pts+Asts",
-        "player_rebounds_assists": "Rebs+Asts",
+        # "player_rebounds": "Rebounds",
+        # "player_threes": "3-PT Made",
+        # "player_points_rebounds_assists": "Pts+Rebs+Asts",
+        # "player_points_rebounds": "Pts+Rebs",
+        # "player_points_assists": "Pts+Asts",
+        # "player_rebounds_assists": "Rebs+Asts",
     }
 
     readable_prop_type = prop_type_mapping.get(prop_type, prop_type)
@@ -258,6 +258,7 @@ def find_best_props(
                                 > best_bet["underProbability"]
                                 else best_bet["underOdds"]
                             ),
+                            "bestBook": best_bet["book"],
                             "bestBetProbability": max(
                                 best_bet["overProbability"],
                                 best_bet["underProbability"],
@@ -289,25 +290,25 @@ def find_best_props(
                         if best_bet["overProbability"] > best_bet["underProbability"]
                         else best_bet["underOdds"]
                     ),
+                    "bestBook": best_bet["book"],
                     "bestBetProbability": max(
                         best_bet["overProbability"], best_bet["underProbability"]
                     ),
                 }
 
-    print(all_props_dict)
     return all_props_dict
 
 
 def getBestProps():
     prop_types = [
-        "player_points",
-        "player_rebounds",
+        # "player_points",
+        # "player_rebounds",
         "player_assists",
-        "player_threes",
-        "player_points_rebounds_assists",
-        "player_points_rebounds",
-        "player_points_assists",
-        "player_rebounds_assists",
+        # "player_threes",
+        # "player_points_rebounds_assists",
+        # "player_points_rebounds",
+        # "player_points_assists",
+        # "player_rebounds_assists",
     ]
 
     prizepicks_data = getPrizePicksData()
@@ -351,6 +352,7 @@ def getBestProps():
     sorted_best_props = sorted(
         all_best_props, key=lambda x: x["bestBetProbability"], reverse=True
     )
+    print(sorted_best_props)
 
     # return best 20 props
     return {"message": "Success", "data": sorted_best_props[:20]}
