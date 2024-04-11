@@ -1,5 +1,6 @@
 import React from "react";
 import "../app/globals.css";
+
 /*
 import fs from "fs";
 import path from "path";
@@ -9,23 +10,23 @@ export default function Home({ bettingProps }) {
   const hasProps = bettingProps && bettingProps.data && bettingProps.data.length > 0;
 
   return (
-    <div className="min-h-screen bg-black2 text-white p-5">
+    <div className="min-h-screen bg-fullblack text-white p-6">
       {hasProps ? (
         <>
           <div className="flex justify-center mb-8">
-            <h1 className="text-5xl font-bold text-teal">FiveLegFlex</h1>
+            <h1 className="text-5xl font-bold text-white">FiveLegFlex</h1>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {bettingProps.data.map((prop, index) => (
-              <div key={index} className="bg-black shadow-xl rounded-xl p-6 flex flex-col justify-between h-full">
+              <div key={index} className="bg-black shadow-xl rounded-xl p-6 flex flex-col justify-between h-full hover:scale-105 hover:shadow-2xl hover:bg-fullblack hover:border transition-transform duration-400">
                 <div>
                   <h2 className="text-2xl font-semibold text-teal mb-2">{prop.player}</h2>
-                  <p className="text-gold mb-1">
-                    {prop.prop_type} - {prop.home_team} vs {prop.away_team}
+                  <p className="text-white mb-1">
+                    <span className="text-gold">{prop.prop_type}</span> - {prop.home_team} vs {prop.away_team}
                   </p>
-                  <p className="mb-4">
-                    Line: <span className="font-bold">{prop.line}</span>
+                  <p className="text-2xl mb-4">
+                    Line: <span className="font-bold text-gold underline">{prop.line}</span>
                   </p>
                 </div>
 
@@ -77,7 +78,7 @@ export async function getStaticProps() {
       console.error("Failed to read from the cache file:", err);
     }
   }
-  */
+  //*/
 
   // Initialize default props with a message
   let bettingProps = { data: [], message: "Initializing props..." };
@@ -100,10 +101,10 @@ export async function getStaticProps() {
         console.error("Failed to write to the cache file:", err);
       }
     }
-    */
+    //*/
   } catch (error) {
     console.error("Error fetching data:", error);
-    bettingProps.message = "Error fetching data.";
+    bettingProps.message = "Error fetching data";
   }
 
   // Return the props to the component

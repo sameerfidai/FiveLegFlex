@@ -5,6 +5,7 @@ module.exports = {
     colors: {
       transparent: "transparent",
       current: "currentColor",
+      fullblack: "#000000",
       black: "#222831",
       black2: "#31363F",
       teal: "#76ACAE",
