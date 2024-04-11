@@ -8,7 +8,6 @@ import path from "path";
 
 export default function Home({ bettingProps }) {
   const hasProps = bettingProps && bettingProps.data && bettingProps.data.length > 0;
-  console.log(bettingProps.data);
 
   return (
     <div className="min-h-screen bg-fullblack text-white p-6">
@@ -38,7 +37,7 @@ export default function Home({ bettingProps }) {
                     <div className={`flex-1 mr-2 p-2 rounded-lg text-center font-bold ${prop.bestBet === "over" ? "bg-green bg-opacity-50" : "bg-red bg-opacity-50"}`}>
                       Best Bet: {prop.bestBet} ({prop.bestBetOdds})
                     </div>
-                    <div className={`flex-1 ml-2 p-2 rounded-lg text-center font-bold ${prop.bestBetProbability >= 0.6 ? "bg-green bg-oapcity-50" : prop.bestBetProbability >= 0.55 ? "bg-lightgreen bg-opacity-50" : "bg-gold bg-opacity-50"}`}>
+                    <div className={`flex-1 ml-2 p-2 rounded-lg text-center font-bold ${prop.bestBetProbability >= 0.6 ? "bg-green bg-opacity-50" : prop.bestBetProbability >= 0.55 ? "bg-lightgreen bg-opacity-50" : "bg-gold bg-opacity-50"}`}>
                       Probability: {(prop.bestBetProbability * 100).toFixed(2)}%
                     </div>
                   </div>

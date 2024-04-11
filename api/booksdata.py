@@ -1,6 +1,6 @@
 import requests
 
-API_KEY = "d261206586e4ced00e1505cb8a4e256d"
+API_KEY = "6b10371539cc6217c959a425da64f99b"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -321,13 +321,13 @@ def find_best_props(
 def getBestProps():
     prop_types = [
         "player_points",
-        # "player_rebounds",
-        # "player_assists",
-        # "player_threes",
-        # "player_points_rebounds_assists",
-        # "player_points_rebounds",
-        # "player_points_assists",
-        # "player_rebounds_assists",
+        "player_rebounds",
+        "player_assists",
+        "player_threes",
+        "player_points_rebounds_assists",
+        "player_points_rebounds",
+        "player_points_assists",
+        "player_rebounds_assists",
     ]
 
     # prizepicks_data = [] # empty list for testing
