@@ -197,6 +197,7 @@ def calculate_implied_probability(odds):
 def find_best_props(
     players_data, prop_type, prizepicks_data=None, include_prizepicks=False
 ):
+
     prop_type_mapping = {
         "player_points": "Points",
         "player_assists": "Assists",
@@ -245,6 +246,7 @@ def find_best_props(
                     and readable_prop_type in pp_player["lines"]
                 ):
                     prizepicks_line = pp_player["lines"][readable_prop_type]
+                    img_url = pp_player["image_url"]
                     matching_props = [
                         prop for prop in player_props if prop["line"] == prizepicks_line
                     ]
@@ -262,6 +264,7 @@ def find_best_props(
                             "home_team": home_team,
                             "away_team": away_team,
                             "line": prizepicks_line,
+                            "img_url": img_url,
                             "bestBet": (
                                 "over"
                                 if best_bet["overProbability"]
@@ -359,7 +362,7 @@ def getBestProps():
                 player_props_odds_for_game,
                 prop_type,
                 prizepicks_data,
-                include_prizepicks=False,
+                include_prizepicks=True,
             )
             all_best_props.extend(best_props.values())
     # """
