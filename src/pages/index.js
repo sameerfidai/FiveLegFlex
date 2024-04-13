@@ -11,7 +11,7 @@ export default function Home({ bettingProps }) {
   const hasProps = bettingProps && bettingProps.data && bettingProps.data.length > 0;
 
   return (
-    <div className="min-h-screen bg-fullblack text-white p-6">
+    <div className="min-h-screen bg-fullblack text-white p-10">
       {hasProps ? (
         <>
           <div className="flex justify-center mb-8">

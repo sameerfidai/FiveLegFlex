@@ -1,6 +1,6 @@
 import requests
 
-API_KEY = "2493a71ae327d68702c75c03d250e91a"
+API_KEY = "5859f63b208a521aa755beefdec8f7c1"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"

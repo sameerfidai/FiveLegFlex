@@ -2,7 +2,7 @@ import React from "react";
 
 const BettingProp = ({ prop }) => {
   return (
-    <div className="bg-black2 shadow-xl rounded-xl p-5 flex flex-col justify-between h-full hover:bg-fullblack hover:scale-105 hover:shadow-2xl transition-transform duration-300 ease-in-out">
+    <div className="bg-fullblack border-2 border-white shadow-xl rounded-xl p-5 flex flex-col justify-between h-full hover:bg-black2 hover:scale-105 hover:shadow-2xl transition-transform duration-300 ease-in-out hover:cursor-pointer">
       <div className="space-y-4">
         <img className="w-32 h-32 rounded-full mx-auto border border-white" src={prop.img_url} alt={prop.player} />
         <div>
@@ -11,7 +11,7 @@ const BettingProp = ({ prop }) => {
             <span className="text-gold">{prop.prop_type}</span> - {prop.home_team} vs {prop.away_team}
           </p>
           <p className="text-xl text-center">
-            Line: <span className="font-bold text-gold italic underline">{prop.line}</span>
+            Line: <span className="font-bold text-2xl text-gold underline">{prop.line}</span>
           </p>
         </div>
       </div>
