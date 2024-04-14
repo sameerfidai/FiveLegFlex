@@ -78,7 +78,7 @@ export async function getStaticProps() {
     //*/
   } catch (error) {
     console.error("Error fetching data:", error);
-    bettingProps.message = "Error fetching data";
+    bettingProps.message = "Error fetching data: " + error;
   }
 
   // Return the props to the component

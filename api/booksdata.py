@@ -479,10 +479,13 @@ def getBestProps():
     # prizepicks_data = [] # empty list for testing
     prizepicks_data = getPrizePicksData()
     if not prizepicks_data:
-        return {"message": "No Props available at the moment.", "data": []}
+        return {"message": "No Props available on PrizePicks.", "data": []}
 
-    # get todays game
+    # get todays NBA games
     games_today = getEvents()
+    if not games_today:
+        return {"message": "No NBA games.", "data": []}
+
     all_best_props = []
 
     # """
