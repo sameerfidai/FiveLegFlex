@@ -8,7 +8,7 @@ ODDS_FORMAT = "american"
 
 def getEvents():
     """
-    Fetches a list of event IDs for today's NBA games using The Odds API.
+    Fetches a list of event IDs for today's NBA games.
 
     Returns:
         list: A list containing the IDs of today's NBA games. Returns an empty list if no games are found or an error occurs.
@@ -44,7 +44,7 @@ def getPlayersPropsOddsForGame(event_id, prop_type):
         prop_type (str): The type of player prop to retrieve odds for (e.g., "player_points", "player_assists", "player_rebounds").
 
     Returns:
-        dict: A dictionary mapping player names to their odds information from different bookmakers.
+        dict: A dictionary mapping player names to their odds information from different bookmakers for one game.
     """
 
     EVENT_ID = event_id
@@ -121,6 +121,9 @@ def getPlayersPropsOddsForGame(event_id, prop_type):
 def getPrizePicksData():
     """
     Gets props data currently live on PrizePicks.
+
+    Returns:
+        dict: A dictionary mapping player ID to player data (name, lines, team, etc).
     """
 
     # PrizePicks props data API
@@ -172,9 +175,6 @@ def getPrizePicksData():
             if player_id in players_lines:
                 players_lines[player_id]["lines"][stat_type] = stat_line
 
-        print("getPrizePicksData():\n\n\n")
-        print(players_lines)
-        print("\n\n\n")
         return players_lines
 
     except requests.RequestException as e:
@@ -343,11 +343,25 @@ def find_best_props(
 def find_best_props(
     players_data, prop_type, prizepicks_data=None, include_prizepicks=False
 ):
+    """
+    Determines the best betting props for players based on bookmaker and optional PrizePicks data.
+
+    Parameters:
+        players_data (dict): Player names with odds data from bookmakers.
+        prop_type (str): Type of player prop (e.g., "player_points").
+        prizepicks_data (dict, optional): Data from PrizePicks matching players and props.
+        include_prizepicks (bool): Flag to decide if PrizePicks data should be matched.
+
+    Returns:
+        dict: Compiled best bets with details on odds, line, and probability.
+    """
+
     prizepicks_index = {}
     if include_prizepicks:
         prizepicks_index = {pp["name"]: pp for pp in prizepicks_data.values()}
 
     all_props_dict = {}
+
     prop_type_mapping = {
         "player_points": "Points",
         "player_assists": "Assists",
@@ -358,6 +372,7 @@ def find_best_props(
         "player_points_assists": "Pts+Asts",
         "player_rebounds_assists": "Rebs+Asts",
     }
+
     readable_prop_type = prop_type_mapping.get(prop_type, prop_type)
 
     for player, data in players_data.items():
@@ -427,7 +442,7 @@ def find_best_props(
                     ),
                 }
         elif not include_prizepicks:
-            # Choose the best bets based solely on bookmaker data
+            # Choose the best bets based solely on bookmaker data and don't consider props live on PrizePicks
             if player_props:
                 best_bet = max(
                     player_props,
@@ -498,7 +513,7 @@ def getBestProps():
                 player_props_odds_for_game,
                 prop_type,
                 prizepicks_data,
-                include_prizepicks=True,
+                include_prizepicks=False,
             )
             all_best_props.extend(best_props.values())
     # """
