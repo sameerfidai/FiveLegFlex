@@ -1,6 +1,6 @@
 import requests
 
-API_KEY = "567aaf51d6342223fcb773f075ceaf6d"
+API_KEY = "4baf040c8df3d052c4ebf7257ae673af"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -193,10 +193,11 @@ def calculate_implied_probability(odds):
         float: The implied probability as a decimal. For example, 0.5 represents a 50% chance.
     """
 
+    if odds is None:
+        return None  # Return None if odds are not provided
     if odds < 0:
         return -odds / (-odds + 100)
-    else:
-        return 100 / (odds + 100)
+    return 100 / (odds + 100)
 
 
 """
@@ -386,6 +387,9 @@ def find_best_props(
                 continue
             over_prob = calculate_implied_probability(odds["overOdds"])
             under_prob = calculate_implied_probability(odds["underOdds"])
+            # skip the current iteration if either probability is None
+            if over_prob is None or under_prob is None:
+                continue
             total_prob = over_prob + under_prob
             over_prob_vig_adjusted = over_prob / total_prob
             under_prob_vig_adjusted = under_prob / total_prob
@@ -442,7 +446,7 @@ def find_best_props(
                     ),
                 }
         elif not include_prizepicks:
-            # Choose the best bets based solely on bookmaker data and don't consider props live on PrizePicks
+            # choose the best bets based solely on bookmaker data and don't consider props live on PrizePicks
             if player_props:
                 best_bet = max(
                     player_props,
@@ -488,7 +492,7 @@ def getBestProps():
 
     """
     # one prop for testing
-    prop_types = ["player_threes"]
+    prop_types = ["player_points"]
     """
 
     # prizepicks_data = [] # empty list for testing
@@ -513,7 +517,7 @@ def getBestProps():
                 player_props_odds_for_game,
                 prop_type,
                 prizepicks_data,
-                include_prizepicks=False,
+                include_prizepicks=True,
             )
             all_best_props.extend(best_props.values())
     # """
