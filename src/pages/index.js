@@ -25,9 +25,14 @@ export default function Home({ bettingProps }) {
           </div>
         </>
       ) : (
-        <div className="text-center mt-20">
-          <h2 className="text-2xl font-semibold">{bettingProps.message || "No NBA props live at this time."}</h2>
-        </div>
+        <>
+          <div className="flex justify-center mb-8">
+            <h1 className="text-5xl font-bold text-white">FiveLegFlex</h1>
+          </div>
+          <div className="text-center mt-20">
+            <h2 className="text-2xl font-semibold">{bettingProps.message || "No NBA props live at this time."}</h2>
+          </div>
+        </>
       )}
     </div>
   );
