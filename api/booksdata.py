@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 import requests
 
-API_KEY = "61158e376f8ae7137f22c4c015a8cbe9"
+API_KEY = "dbaee06863f73a9728e2ab94d2d28e3d"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -76,6 +76,10 @@ def getPlayersPropsOddsForGame(event_id, prop_type):
 
     if response.status_code == 200:
         odds_data = response.json()
+
+        # check if bookmakers data is present, if not exit early
+        if not odds_data.get("bookmakers"):
+            return {}
 
         # Extract home and away team names
         home_team = odds_data.get("home_team")

@@ -2,11 +2,6 @@ import React from "react";
 import BettingProp from "@/components/BettingProp";
 import "../app/globals.css";
 
-/*
-import fs from "fs";
-import path from "path";
-//*/
-
 export default function Home({ bettingProps }) {
   const hasProps = bettingProps && bettingProps.data && bettingProps.data.length > 0;
 
@@ -42,18 +37,20 @@ export default function Home({ bettingProps }) {
 
 // fetching props at build time in Next.js
 export async function getStaticProps() {
-  /* Uncomment below if caching to a file is desired
+  // only require fs and path inside getStaticProps to avoid including them in the client bundle
+  const fs = require("fs");
+  const path = require("path");
+
   const filePath = path.join(process.cwd(), "cachedData.json");
 
+  let bettingProps = { data: [], message: "Initializing props..." };
+
+  /*
   if (process.env.NODE_ENV !== "production") {
     try {
       if (fs.existsSync(filePath)) {
         const jsonData = fs.readFileSync(filePath, "utf8");
-        return {
-          props: {
-            bettingProps: JSON.parse(jsonData),
-          },
-        };
+        bettingProps = JSON.parse(jsonData);
       }
     } catch (err) {
       console.error("Failed to read from the cache file:", err);
@@ -61,37 +58,30 @@ export async function getStaticProps() {
   }
   //*/
 
-  // Initialize default props with a message
-  let bettingProps = { data: [], message: "Initializing props..." };
-  try {
-    // Fetching data from the backend API
-    const res = await fetch("http://localhost:8000/api/best-props");
-    if (res.ok) {
-      // If the response is OK, parse it as JSON
-      bettingProps = await res.json();
-    } else {
-      console.error("Backend response was not ok.");
-      bettingProps.message = "Failed to get data from backend.";
-    }
+  if (bettingProps.data.length === 0) {
+    try {
+      const res = await fetch("http://localhost:8000/api/best-props");
+      if (res.ok) {
+        bettingProps = await res.json();
 
-    /* Uncomment below if caching to a file is desired
-    if (process.env.NODE_ENV !== "production") {
-      try {
-        fs.writeFileSync(filePath, JSON.stringify(bettingProps), "utf8");
-      } catch (err) {
-        console.error("Failed to write to the cache file:", err);
+        /*
+        if (process.env.NODE_ENV !== "production") {
+          fs.writeFileSync(filePath, JSON.stringify(bettingProps), "utf8");
+        }
+        //*/
+      } else {
+        bettingProps.message = "Failed to get data from backend.";
       }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      bettingProps.message = "Error fetching data: " + error.message;
     }
-    //*/
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    bettingProps.message = "Error fetching data: " + error;
   }
 
-  // Return the props to the component
   return {
     props: {
       bettingProps,
     },
+    // revalidate: 10, // In seconds
   };
 }
