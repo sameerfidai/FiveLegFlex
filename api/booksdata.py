@@ -566,8 +566,8 @@ def getBestProps():
         all_best_props, key=lambda x: x["bestBetProbability"], reverse=True
     )
 
-    # return best 21 props
-    return {"message": "Success", "data": sorted_best_props[:21]}
+    # return 10 best props
+    return {"message": "Success", "data": sorted_best_props[:10]}
 
 
 if __name__ == "__main__":

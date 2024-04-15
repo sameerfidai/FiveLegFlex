@@ -18,9 +18,11 @@ export default function Home({ bettingProps }) {
             <h1 className="text-5xl font-bold text-white">FiveLegFlex</h1>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 place-items-center">
             {bettingProps.data.map((prop, index) => (
-              <BettingProp key={index} prop={prop} />
+              <div className="max-w-lg w-full">
+                <BettingProp key={index} prop={prop} />
+              </div>
             ))}
           </div>
         </>
