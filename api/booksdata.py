@@ -1,13 +1,13 @@
 from datetime import datetime, timezone
 import requests
 
-API_KEY = "dbaee06863f73a9728e2ab94d2d28e3d"
+API_KEY = "e2d19d6ee1b04d69ba437e1486ce26b2"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
 
 
-def getEvents():
+def getGames():
     """
     Fetches a list of event IDs for upcoming NBA games.
 
@@ -545,6 +545,12 @@ def getBestProps():
     prop_types = ["player_points"]
     """
 
+    # get todays NBA games
+    games_today = getGames()
+    print(games_today)
+    if not games_today:
+        return {"message": "No NBA games.", "data": []}
+
     # prizepicks_data = [] # empty list for testing
     prizepicks_data = getPrizePicksData()
     if not prizepicks_data:
@@ -553,11 +559,7 @@ def getBestProps():
     # buld prizepicks index
     prizepicks_index = build_prizepicks_index(prizepicks_data)
 
-    # get todays NBA games
-    games_today = getEvents()
-    if not games_today:
-        return {"message": "No NBA games.", "data": []}
-
+    # list to hold all player props
     all_best_props = []
 
     for game_id in games_today:
@@ -578,8 +580,8 @@ def getBestProps():
         all_best_props, key=lambda x: x["bestBetProbability"], reverse=True
     )
 
-    # return 10 best props
-    return {"message": "Success", "data": sorted_best_props[:10]}
+    # return 20 best props
+    return {"message": "Success", "data": sorted_best_props[:20]}
 
 
 if __name__ == "__main__":
