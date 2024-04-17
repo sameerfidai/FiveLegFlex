@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 import requests
 
-API_KEY = "e2d19d6ee1b04d69ba437e1486ce26b2"
+API_KEY = "05928b1662d55e4ec108ec95671acc75"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -41,93 +41,6 @@ def getGames():
         print(f"An error occurred while fetching events: {e}")
 
     return event_ids
-
-
-def getPlayersPropsOddsForGame(event_id, prop_type):
-    """
-    Retrieves betting odds for specified player propositions (e.g., points, assists, rebounds) from different bookmakers for a specific game.
-
-    Parameters:
-        event_id (str): The unique ID for the game.
-        prop_type (str): The type of player prop to retrieve odds for (e.g., "player_points", "player_assists", "player_rebounds").
-
-    Returns:
-        dict: A dictionary mapping player names to their odds information from different bookmakers for one game.
-    """
-
-    EVENT_ID = event_id
-    MARKETS = prop_type
-
-    request_url = (
-        f"https://api.the-odds-api.com/v4/sports/{SPORT}/events/{EVENT_ID}/odds"
-    )
-
-    params = {
-        "apiKey": API_KEY,
-        "regions": REGIONS,
-        "markets": MARKETS,
-        "oddsFormat": ODDS_FORMAT,
-    }
-
-    response = requests.get(request_url, params=params)
-
-    # Initialize a dictionary to hold player odds from all bookmakers
-    players_odds_all_books = {}
-
-    if response.status_code == 200:
-        odds_data = response.json()
-
-        # check if bookmakers data is present, if not exit early
-        if not odds_data.get("bookmakers"):
-            return {}
-
-        # Extract home and away team names
-        home_team = odds_data.get("home_team")
-        away_team = odds_data.get("away_team")
-
-        # Iterate over all bookmakers in the response
-        for bookmaker in odds_data["bookmakers"]:
-            bookmaker_name = bookmaker["key"]
-            # Skip these 2 books (weird odds)
-            if bookmaker_name in ["betrivers", "unibet_us"]:
-                continue
-
-            for market in bookmaker["markets"]:
-                if market["key"] == MARKETS:
-                    for outcome in market["outcomes"]:
-                        player_name = outcome["description"]
-                        if player_name not in players_odds_all_books:
-                            players_odds_all_books[player_name] = {
-                                "home_team": home_team,
-                                "away_team": away_team,
-                            }
-
-                        if bookmaker_name not in players_odds_all_books[player_name]:
-                            players_odds_all_books[player_name][bookmaker_name] = {
-                                "points": outcome["point"],
-                                "overOdds": None,
-                                "underOdds": None,
-                            }
-
-                        # assign overOdds and underOdds
-                        if "over" in outcome["name"].lower():
-                            players_odds_all_books[player_name][bookmaker_name][
-                                "overOdds"
-                            ] = outcome["price"]
-                        elif "under" in outcome["name"].lower():
-                            players_odds_all_books[player_name][bookmaker_name][
-                                "underOdds"
-                            ] = outcome["price"]
-    else:
-        print(f"Failed to retrieve data: {response.status_code}, {response.text}")
-
-    # Print the remaining and used request counts
-    # print("Remaining requests:", response.headers.get("x-requests-remaining"))
-    # print("Used requests:", response.headers.get("x-requests-used"))
-    # print("getPlayersPropsOddsForGame():\n\n\n")
-    # print(players_odds_all_books)
-
-    return players_odds_all_books
 
 
 def getPrizePicksData():
@@ -392,6 +305,94 @@ def find_best_props(
 """
 
 
+def getPlayersPropsOddsForGame(event_id, prop_type):
+    """
+    Retrieves betting odds for specified player propositions (e.g., points, assists, rebounds) from different bookmakers for a specific game.
+
+    Parameters:
+        event_id (str): The unique ID for the game.
+        prop_type (str): The type of player prop to retrieve odds for (e.g., "player_points", "player_assists", "player_rebounds").
+
+    Returns:
+        dict: A dictionary mapping player names to their odds information from different bookmakers for one game.
+    """
+
+    EVENT_ID = event_id
+    MARKETS = prop_type
+
+    request_url = (
+        f"https://api.the-odds-api.com/v4/sports/{SPORT}/events/{EVENT_ID}/odds"
+    )
+
+    params = {
+        "apiKey": API_KEY,
+        "regions": REGIONS,
+        "markets": MARKETS,
+        "oddsFormat": ODDS_FORMAT,
+    }
+
+    response = requests.get(request_url, params=params)
+
+    # Initialize a dictionary to hold player odds from all bookmakers
+    players_odds_all_books = {}
+
+    if response.status_code == 200:
+        odds_data = response.json()
+
+        # check if bookmakers data is present, if not exit early
+        if not odds_data.get("bookmakers"):
+            return {}
+
+        # Extract home and away team names
+        home_team = odds_data.get("home_team")
+        away_team = odds_data.get("away_team")
+
+        # Iterate over all bookmakers in the response
+        for bookmaker in odds_data["bookmakers"]:
+            bookmaker_name = bookmaker["key"]
+            # Skip these 2 books (weird odds)
+            if bookmaker_name in ["betrivers", "unibet_us", "mybookieag"]:
+                continue
+
+            for market in bookmaker["markets"]:
+                if market["key"] == MARKETS:
+                    for outcome in market["outcomes"]:
+                        player_name = outcome["description"]
+                        if player_name not in players_odds_all_books:
+                            players_odds_all_books[player_name] = {
+                                "home_team": home_team,
+                                "away_team": away_team,
+                            }
+
+                        if bookmaker_name not in players_odds_all_books[player_name]:
+                            players_odds_all_books[player_name][bookmaker_name] = {
+                                "points": outcome["point"],
+                                "overOdds": None,
+                                "underOdds": None,
+                            }
+
+                        # assign overOdds and underOdds
+                        if "over" in outcome["name"].lower():
+                            players_odds_all_books[player_name][bookmaker_name][
+                                "overOdds"
+                            ] = outcome["price"]
+                        elif "under" in outcome["name"].lower():
+                            players_odds_all_books[player_name][bookmaker_name][
+                                "underOdds"
+                            ] = outcome["price"]
+    else:
+        print(f"Failed to retrieve data: {response.status_code}, {response.text}")
+
+    # Print the remaining and used request counts
+    # print("Remaining requests:", response.headers.get("x-requests-remaining"))
+    # print("Used requests:", response.headers.get("x-requests-used"))
+    # print("getPlayersPropsOddsForGame():\n\n\n")
+    # print(players_odds_all_books)
+
+    # print(players_odds_all_books)
+    return players_odds_all_books
+
+
 def find_best_props(players_data, prop_type, prizepicks_index, include_prizepicks):
     """
     Determines the best betting props for players based on bookmaker and optionally PrizePicks data.
@@ -430,7 +431,7 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
         away_team = data.get("away_team", "N/A")
         player_props = []
 
-        # collect all bookmaker odds for the player
+        # Collect all bookmaker odds for the player
         for book, odds in data.items():
             if book in ["home_team", "away_team"]:
                 continue
@@ -452,15 +453,15 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
                 }
             )
 
-        # check if PrizePicks data should be included and is available for matching
         if include_prizepicks and normalized_player in prizepicks_index:
             pp_player = prizepicks_index[normalized_player]
             if readable_prop_type in pp_player["lines"]:
                 prizepicks_line = pp_player["lines"][readable_prop_type]
-                img_url = pp_player["image_url"]
+                img_url = pp_player.get("image_url", "")
                 matching_props = [
                     prop for prop in player_props if prop["line"] == prizepicks_line
                 ]
+
                 if matching_props:
                     best_bet = max(
                         matching_props,
@@ -474,52 +475,42 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
                         "away_team": away_team,
                         "line": prizepicks_line,
                         "img_url": img_url,
-                        "bestBet": (
-                            "over"
-                            if best_bet["overProbability"]
-                            > best_bet["underProbability"]
-                            else "under"
-                        ),
-                        "bestBetOdds": (
-                            best_bet["overOdds"]
-                            if best_bet["overProbability"]
-                            > best_bet["underProbability"]
-                            else best_bet["underOdds"]
-                        ),
+                        "bestBet": "over"
+                        if best_bet["overProbability"] > best_bet["underProbability"]
+                        else "under",
+                        "bestBetOdds": best_bet["overOdds"]
+                        if best_bet["overProbability"] > best_bet["underProbability"]
+                        else best_bet["underOdds"],
                         "bestBook": best_bet["book"],
                         "bestBetProbability": max(
                             best_bet["overProbability"], best_bet["underProbability"]
                         ),
+                        "allBookOdds": player_props,  # Include all bookmakers' odds here
                     }
-        elif not include_prizepicks:
-            # choose the best bets based solely on bookmaker data
-            if player_props:
-                best_bet = max(
-                    player_props,
-                    key=lambda x: max(x["overProbability"], x["underProbability"]),
-                )
-                composite_key = f"{player}_{readable_prop_type}"
-                all_props_dict[composite_key] = {
-                    "player": player,
-                    "prop_type": readable_prop_type,
-                    "home_team": home_team,
-                    "away_team": away_team,
-                    "line": best_bet["line"],
-                    "bestBet": (
-                        "over"
-                        if best_bet["overProbability"] > best_bet["underProbability"]
-                        else "under"
-                    ),
-                    "bestBetOdds": (
-                        best_bet["overOdds"]
-                        if best_bet["overProbability"] > best_bet["underProbability"]
-                        else best_bet["underOdds"]
-                    ),
-                    "bestBook": best_bet["book"],
-                    "bestBetProbability": max(
-                        best_bet["overProbability"], best_bet["underProbability"]
-                    ),
-                }
+        elif not include_prizepicks and player_props:
+            best_bet = max(
+                player_props,
+                key=lambda x: max(x["overProbability"], x["underProbability"]),
+            )
+            composite_key = f"{player}_{readable_prop_type}"
+            all_props_dict[composite_key] = {
+                "player": player,
+                "prop_type": readable_prop_type,
+                "home_team": home_team,
+                "away_team": away_team,
+                "line": best_bet["line"],
+                "bestBet": "over"
+                if best_bet["overProbability"] > best_bet["underProbability"]
+                else "under",
+                "bestBetOdds": best_bet["overOdds"]
+                if best_bet["overProbability"] > best_bet["underProbability"]
+                else best_bet["underOdds"],
+                "bestBook": best_bet["book"],
+                "bestBetProbability": max(
+                    best_bet["overProbability"], best_bet["underProbability"]
+                ),
+                "allBookOdds": player_props,  # Include all bookmakers' odds here
+            }
 
     return all_props_dict
 
@@ -547,7 +538,6 @@ def getBestProps():
 
     # get todays NBA games
     games_today = getGames()
-    print(games_today)
     if not games_today:
         return {"message": "No NBA games.", "data": []}
 
