@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 import requests
 
-API_KEY = "28feb23fd7fd198527288cbdd4a5bd5e"
+API_KEY = "4c95bce6c2b204087b2be2f7ef0caf23"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -100,6 +100,9 @@ def getPrizePicksData():
             if player_id in players_lines:
                 players_lines[player_id]["lines"][stat_type] = stat_line
 
+        # print("getPrizePicksData():\n\n\n")
+        # print(players_lines)
+        # print("\n\n\n")
         return players_lines
 
     except requests.RequestException as e:
@@ -161,6 +164,10 @@ def build_prizepicks_index(prizepicks_data):
         for pp in prizepicks_data.values():
             normalized_name = normalize_name(pp["name"])
             prizepicks_index[normalized_name] = pp
+
+    # print("PrizePicksIndex:\n\n\n")
+    # print(prizepicks_index)
+    # print("\n\n\n")
     return prizepicks_index
 
 
@@ -245,10 +252,10 @@ def getPlayersPropsOddsForGame(event_id, prop_type):
     # Print the remaining and used request counts
     # print("Remaining requests:", response.headers.get("x-requests-remaining"))
     # print("Used requests:", response.headers.get("x-requests-used"))
-    # print("getPlayersPropsOddsForGame():\n\n\n")
+
+    # print("getPlayersPropsOddsForGame(): " + prop_type + " \n\n\n")
     # print(players_odds_all_books)
 
-    # print(players_odds_all_books)
     return players_odds_all_books
 
 
@@ -439,9 +446,14 @@ def getBestProps():
     # list to hold all player props
     all_best_props = []
 
+    # test for specific games
+    specific_games = [
+        "63ee1b0647d6811b27076ac51f0278c4",
+        "fbfa8d9d77468594cb8519b1f5a26d36",
+    ]
+
     for game_id in games_today:
-        # test for specific game
-        # if game_id == "fbfa8d9d77468594cb8519b1f5a26d36":
+        # if game_id in specific_games:
         for prop_type in prop_types:
             player_props_odds_for_game = getPlayersPropsOddsForGame(game_id, prop_type)
             best_props = find_best_props(
