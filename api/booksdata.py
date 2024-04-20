@@ -453,16 +453,18 @@ def getBestProps():
     ]
 
     for game_id in games_today:
-        # if game_id in specific_games:
-        for prop_type in prop_types:
-            player_props_odds_for_game = getPlayersPropsOddsForGame(game_id, prop_type)
-            best_props = find_best_props(
-                player_props_odds_for_game,
-                prop_type,
-                prizepicks_index,
-                include_prizepicks=True,
-            )
-            all_best_props.extend(best_props.values())
+        if game_id in specific_games:
+            for prop_type in prop_types:
+                player_props_odds_for_game = getPlayersPropsOddsForGame(
+                    game_id, prop_type
+                )
+                best_props = find_best_props(
+                    player_props_odds_for_game,
+                    prop_type,
+                    prizepicks_index,
+                    include_prizepicks=True,
+                )
+                all_best_props.extend(best_props.values())
 
     # sort the all_best_props list by bestBetProbability in descending order (best bet on top)
     sorted_best_props = sorted(

@@ -7,15 +7,14 @@ export default function Home({ bettingProps }) {
 
   return (
     <div className="min-h-screen bg-fullblack text-white p-10">
+      <div className="flex justify-center mb-8">
+        <h1 className="text-5xl font-bold text-white">FiveLegFlex</h1>
+      </div>
       {hasProps ? (
         <>
-          <div className="flex justify-center mb-8">
-            <h1 className="text-5xl font-bold text-white">FiveLegFlex</h1>
-          </div>
-
           <div className="grid grid-cols-1 gap-6 place-items-center">
             {bettingProps.data.map((prop, index) => (
-              <div className="max-w-lg w-full">
+              <div className="max-w-xl w-full">
                 <BettingProp key={index} prop={prop} />
               </div>
             ))}
@@ -23,9 +22,6 @@ export default function Home({ bettingProps }) {
         </>
       ) : (
         <>
-          <div className="flex justify-center mb-8">
-            <h1 className="text-5xl font-bold text-white">FiveLegFlex</h1>
-          </div>
           <div className="text-center mt-20">
             <h2 className="text-2xl font-semibold">{bettingProps.message || "No NBA props live at this time."}</h2>
           </div>
