@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 import requests
 
-API_KEY = "4c95bce6c2b204087b2be2f7ef0caf23"
+API_KEY = "920d4f975609e3c1dd30639b0160ed60"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -24,6 +24,7 @@ def getGames():
         response = requests.get(events_url, params=params)
         response.raise_for_status()
         events_data = response.json()
+        # print(events_data)
 
         if events_data:
             print(f"Retrieved {len(events_data)} events for {SPORT}.")
@@ -347,15 +348,29 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
                         matching_props,
                         key=lambda x: max(x["overProbability"], x["underProbability"]),
                     )
+                    best_bet["bestBet"] = (
+                        "over"
+                        if best_bet["overProbability"] > best_bet["underProbability"]
+                        else "under"
+                    )
+
                     # calculate the weighted average best bet probability
                     weighted_sum = 0
                     total_weight = 0
                     for book_odds in matching_props:
-                        weighted_sum += book_odds["underProbability"] * (
-                            1 / abs(best_bet["underOdds"])
-                        )
-                        total_weight += 1 / abs(best_bet["underOdds"])
-                    best_bet_probability = weighted_sum / total_weight
+                        if best_bet["bestBet"] == "over":
+                            weighted_sum += book_odds["overProbability"] * (
+                                1 / abs(best_bet["overOdds"])
+                            )
+                            total_weight += 1 / abs(best_bet["overOdds"])
+                        else:
+                            weighted_sum += book_odds["underProbability"] * (
+                                1 / abs(best_bet["underOdds"])
+                            )
+                            total_weight += 1 / abs(best_bet["underOdds"])
+                    best_bet_probability = (
+                        weighted_sum / total_weight if total_weight != 0 else None
+                    )
 
                     composite_key = f"{player}_{readable_prop_type}"
                     all_props_dict[composite_key] = {
@@ -365,11 +380,9 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
                         "away_team": away_team,
                         "line": prizepicks_line,
                         "img_url": img_url,
-                        "bestBet": "over"
-                        if best_bet["overProbability"] > best_bet["underProbability"]
-                        else "under",
+                        "bestBet": best_bet["bestBet"],
                         "bestBetOdds": best_bet["overOdds"]
-                        if best_bet["overProbability"] > best_bet["underProbability"]
+                        if best_bet["bestBet"] == "over"
                         else best_bet["underOdds"],
                         "bestBook": best_bet["book"],
                         "bestBetProbability": best_bet_probability,
@@ -386,6 +399,11 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
                         else 0,
                     ),
                 )
+                best_bet["bestBet"] = (
+                    "over"
+                    if best_bet["overProbability"] > best_bet["underProbability"]
+                    else "under"
+                )
                 composite_key = f"{player}_{readable_prop_type}"
                 all_props_dict[composite_key] = {
                     "player": player,
@@ -393,11 +411,9 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
                     "home_team": home_team,
                     "away_team": away_team,
                     "line": best_bet["line"],
-                    "bestBet": "over"
-                    if best_bet["overProbability"] > best_bet["underProbability"]
-                    else "under",
+                    "bestBet": best_bet["bestBet"],
                     "bestBetOdds": best_bet["overOdds"]
-                    if best_bet["overProbability"] > best_bet["underProbability"]
+                    if best_bet["bestBet"] == "over"
                     else best_bet["underOdds"],
                     "bestBook": best_bet["book"],
                     "bestBetProbability": avg_over_prob
@@ -447,24 +463,19 @@ def getBestProps():
     all_best_props = []
 
     # test for specific games
-    specific_games = [
-        "63ee1b0647d6811b27076ac51f0278c4",
-        "fbfa8d9d77468594cb8519b1f5a26d36",
-    ]
+    # specific_games = ["e2e87311dafcaaad6d55913b4e518c1d"]
 
     for game_id in games_today:
-        if game_id in specific_games:
-            for prop_type in prop_types:
-                player_props_odds_for_game = getPlayersPropsOddsForGame(
-                    game_id, prop_type
-                )
-                best_props = find_best_props(
-                    player_props_odds_for_game,
-                    prop_type,
-                    prizepicks_index,
-                    include_prizepicks=True,
-                )
-                all_best_props.extend(best_props.values())
+        # if game_id in specific_games:
+        for prop_type in prop_types:
+            player_props_odds_for_game = getPlayersPropsOddsForGame(game_id, prop_type)
+            best_props = find_best_props(
+                player_props_odds_for_game,
+                prop_type,
+                prizepicks_index,
+                include_prizepicks=True,
+            )
+            all_best_props.extend(best_props.values())
 
     # sort the all_best_props list by bestBetProbability in descending order (best bet on top)
     sorted_best_props = sorted(
