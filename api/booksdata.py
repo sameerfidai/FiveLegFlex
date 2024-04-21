@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 import requests
 
-API_KEY = "8025c0b9e48772ef0b42bfbfa1a8916d"
+API_KEY = "7d2d64f6975b20a28c0f9955341ba1e8"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -463,7 +463,7 @@ def getBestProps():
     all_best_props = []
 
     # test for specific games
-    # specific_games = ["e2e87311dafcaaad6d55913b4e518c1d"]
+    specific_games = ["e2e87311dafcaaad6d55913b4e518c1d"]
 
     for game_id in games_today:
         # if game_id in specific_games:

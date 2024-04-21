@@ -15,14 +15,14 @@ const BettingProp = ({ prop }) => {
     draftkings: "DraftKings",
     fanduel: "Fanduel",
     williamhill_us: "William Hill US",
-    bovada: "Boavada",
+    bovada: "Bovada",
     pointsbetus: "PointsBet",
     betonlineag: "BetOnline",
     betmgm: "BetMGM",
   };
 
   return (
-    <div className="bg-fullblack border-2 border-white shadow-xl rounded-xl p-5 flex flex-col justify-between h-full hover:bg-black2 hover:scale-105 hover:shadow-2xl transition-transform duration-300 ease-in-out hover:cursor-pointer">
+    <div className="bg-fullblack border-2 border-white shadow-xl rounded-xl p-5 flex flex-col justify-between h-full hover:bg-black2 hover:scale-105 hover:shadow-2xl transition-transform duration-300 ease-in-out">
       <div className="">
         <img className="w-32 h-32 rounded-full mx-auto border border-white" src={prop.img_url} alt={prop.player} />
         <div className="mt-2 mb-2">
@@ -47,10 +47,10 @@ const BettingProp = ({ prop }) => {
 
         <div className="flex justify-around items-center bg-black p-4 rounded-lg mt-4 shadow-lg">
           {prop.allBookOdds.map((book, idx) => (
-            <div key={idx} className="text-center text-white p-2">
+            <div key={idx} className="text-center text-white p-2 relative tooltip">
               <img src={bookLogos[book.book]} alt={bookNames[book.book]} className="mx-auto h-11 mb-2" />
+              <div className="tooltip-text">{bookNames[book.book]}</div>
               <div className="text-sm mb-1">{book.line}</div>
-              {/* Display overOdds or underOdds based on bestBet */}
               <div className="font-bold">{prop.bestBet === "over" ? book.overOdds : book.underOdds}</div>
             </div>
           ))}

@@ -41,7 +41,7 @@ export async function getStaticProps() {
 
   let bettingProps = { data: [], message: "Initializing props..." };
 
-  /*
+  //*
   if (process.env.NODE_ENV !== "production") {
     try {
       if (fs.existsSync(filePath)) {
@@ -60,7 +60,7 @@ export async function getStaticProps() {
       if (res.ok) {
         bettingProps = await res.json();
 
-        /*
+        //*
         if (process.env.NODE_ENV !== "production") {
           fs.writeFileSync(filePath, JSON.stringify(bettingProps), "utf8");
         }
