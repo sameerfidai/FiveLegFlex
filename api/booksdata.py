@@ -318,18 +318,6 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
                     }
                 )
 
-        # Calculate average probabilities
-        over_probs = [
-            prop["overProbability"]
-            for prop in player_props
-            if prop["overProbability"] is not None
-        ]
-        under_probs = [
-            prop["underProbability"]
-            for prop in player_props
-            if prop["underProbability"] is not None
-        ]
-
         if include_prizepicks and normalized_player in prizepicks_index:
             pp_player = prizepicks_index[normalized_player]
             if readable_prop_type in pp_player["lines"]:
@@ -447,11 +435,11 @@ def getBestProps():
         "player_points",
         "player_rebounds",
         "player_assists",
-        # "player_threes",
-        # "player_blocks",
-        # "player_steals",
-        # "player_blocks_steals",
-        # "player_turnovers",
+        "player_threes",
+        "player_blocks",
+        "player_steals",
+        "player_blocks_steals",
+        "player_turnovers",
         "player_points_rebounds_assists",
         "player_points_rebounds",
         "player_points_assists",
