@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 import requests
 
-API_KEY = "7d2d64f6975b20a28c0f9955341ba1e8"
+API_KEY = "55d832b250fa79743e142d44a4029618"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -329,8 +329,6 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
             for prop in player_props
             if prop["underProbability"] is not None
         ]
-        avg_over_prob = sum(over_probs) / len(over_probs) if over_probs else None
-        avg_under_prob = sum(under_probs) / len(under_probs) if under_probs else None
 
         if include_prizepicks and normalized_player in prizepicks_index:
             pp_player = prizepicks_index[normalized_player]
@@ -404,6 +402,26 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
                     if best_bet["overProbability"] > best_bet["underProbability"]
                     else "under"
                 )
+
+                # Calculate the weighted average best bet probability
+                weighted_sum = 0
+                total_weight = 0
+                for book_odds in player_props:
+                    if best_bet["bestBet"] == "over":
+                        weighted_sum += book_odds["overProbability"] * (
+                            1 / abs(book_odds["overOdds"])
+                        )
+                        total_weight += 1 / abs(book_odds["overOdds"])
+                    else:
+                        weighted_sum += book_odds["underProbability"] * (
+                            1 / abs(book_odds["underOdds"])
+                        )
+                        total_weight += 1 / abs(book_odds["underOdds"])
+
+                best_bet_probability = (
+                    (weighted_sum / total_weight) if total_weight != 0 else None
+                )
+
                 composite_key = f"{player}_{readable_prop_type}"
                 all_props_dict[composite_key] = {
                     "player": player,
@@ -412,13 +430,12 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
                     "away_team": away_team,
                     "line": best_bet["line"],
                     "bestBet": best_bet["bestBet"],
+                    "img_url": "https://pbs.twimg.com/profile_images/1263811030/LeBron_Crying_400x400.jpg",
                     "bestBetOdds": best_bet["overOdds"]
                     if best_bet["bestBet"] == "over"
                     else best_bet["underOdds"],
                     "bestBook": best_bet["book"],
-                    "bestBetProbability": avg_over_prob
-                    if best_bet["bestBet"] == "over"
-                    else avg_under_prob,
+                    "bestBetProbability": best_bet_probability,
                     "allBookOdds": player_props,
                 }
 
@@ -430,11 +447,11 @@ def getBestProps():
         "player_points",
         "player_rebounds",
         "player_assists",
-        "player_threes",
-        "player_blocks",
-        "player_steals",
-        "player_blocks_steals",
-        "player_turnovers",
+        # "player_threes",
+        # "player_blocks",
+        # "player_steals",
+        # "player_blocks_steals",
+        # "player_turnovers",
         "player_points_rebounds_assists",
         "player_points_rebounds",
         "player_points_assists",
