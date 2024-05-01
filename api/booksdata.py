@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 import requests
 
-API_KEY = "ea6de2a6b2d211d9dfacdf92684114b0"
+API_KEY = "b0c60ab231ef31975fd27d97e2d46da5"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -468,7 +468,9 @@ def getBestProps():
     all_best_props = []
 
     # test for specific games
-    specific_games = ["e2e87311dafcaaad6d55913b4e518c1d"]
+    specific_games = [
+        "d0a2bbf7c26026c4008203a62b2cb077",
+    ]
 
     for game_id in games_today:
         # if game_id in specific_games:
@@ -487,8 +489,8 @@ def getBestProps():
         all_best_props, key=lambda x: x["bestBetProbability"], reverse=True
     )
 
-    # return 20 best props
-    return {"message": "Success", "data": sorted_best_props[:20]}
+    # return best 21 props
+    return {"message": "Success", "data": sorted_best_props[:21]}
 
 
 if __name__ == "__main__":
