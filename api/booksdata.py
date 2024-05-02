@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 import requests
 
-API_KEY = "b0c60ab231ef31975fd27d97e2d46da5"
+API_KEY = "ec573a2f583cff3f19b1632e960e83e9"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"

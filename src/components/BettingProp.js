@@ -39,7 +39,7 @@ const BettingProp = ({ prop }) => {
       <div className="">
         <div className="flex justify-between items-center mb-4">
           <div className={`flex-1 mr-2 p-2 rounded-lg text-center font-bold ${prop.bestBet === "over" ? "bg-green bg-opacity-50" : "bg-red bg-opacity-50"}`}>
-            Best Bet: {prop.bestBet.toUpperCase()} ({prop.bestBetOdds})
+            Bet: {prop.bestBet.toUpperCase()} ({prop.bestBetOdds})
           </div>
           <div className={`flex-1 ml-2 p-2 rounded-lg text-center font-bold ${prop.bestBetProbability >= 0.6 ? "bg-green bg-opacity-50" : prop.bestBetProbability >= 0.55 ? "bg-lightgreen bg-opacity-50" : "bg-gold bg-opacity-50"}`}>Probability: {(prop.bestBetProbability * 100).toFixed(2)}%</div>
         </div>
