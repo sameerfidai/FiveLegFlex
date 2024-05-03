@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 import requests
 
-API_KEY = "ec573a2f583cff3f19b1632e960e83e9"
+API_KEY = "42b7aedb4da16d8e36bfc5b74c9df4ed"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -24,7 +24,7 @@ def getGames():
         response = requests.get(events_url, params=params)
         response.raise_for_status()
         events_data = response.json()
-        # print(events_data)
+        print(events_data)
 
         if events_data:
             print(f"Retrieved {len(events_data)} events for {SPORT}.")
@@ -433,17 +433,17 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
 def getBestProps():
     prop_types = [
         "player_points",
-        "player_rebounds",
-        "player_assists",
-        "player_threes",
-        "player_blocks",
-        "player_steals",
-        "player_blocks_steals",
-        "player_turnovers",
-        "player_points_rebounds_assists",
-        "player_points_rebounds",
-        "player_points_assists",
-        "player_rebounds_assists",
+        # "player_rebounds",
+        # "player_assists",
+        # "player_threes",
+        # "player_blocks",
+        # "player_steals",
+        # "player_blocks_steals",
+        # "player_turnovers",
+        # "player_points_rebounds_assists",
+        # "player_points_rebounds",
+        # "player_points_assists",
+        # "player_rebounds_assists",
     ]
 
     """
@@ -469,20 +469,23 @@ def getBestProps():
 
     # test for specific games
     specific_games = [
-        "d0a2bbf7c26026c4008203a62b2cb077",
+        "f1d4ae0a09f9764cb570c55e10493d4d",
+        "3aa59d27bcd44984d6eecaf3f4ab6068",
     ]
 
     for game_id in games_today:
-        # if game_id in specific_games:
-        for prop_type in prop_types:
-            player_props_odds_for_game = getPlayersPropsOddsForGame(game_id, prop_type)
-            best_props = find_best_props(
-                player_props_odds_for_game,
-                prop_type,
-                prizepicks_index,
-                include_prizepicks=True,
-            )
-            all_best_props.extend(best_props.values())
+        if game_id in specific_games:
+            for prop_type in prop_types:
+                player_props_odds_for_game = getPlayersPropsOddsForGame(
+                    game_id, prop_type
+                )
+                best_props = find_best_props(
+                    player_props_odds_for_game,
+                    prop_type,
+                    prizepicks_index,
+                    include_prizepicks=True,
+                )
+                all_best_props.extend(best_props.values())
 
     # sort the all_best_props list by bestBetProbability in descending order (best bet on top)
     sorted_best_props = sorted(
