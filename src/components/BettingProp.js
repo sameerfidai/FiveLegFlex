@@ -48,10 +48,10 @@ const BettingProp = ({ prop }) => {
         <div className="flex justify-around items-center bg-black p-4 rounded-lg mt-4 shadow-lg">
           {prop.allBookOdds.map((book, idx) => (
             <div key={idx} className="text-center text-white p-2 relative tooltip">
-              <img src={bookLogos[book.book]} alt={bookNames[book.book]} className="mx-auto h-11 mb-2" />
+              <img src={bookLogos[book.book]} alt={bookNames[book.book]} className="mx-auto h-8 mb-2" />
               <div className="tooltip-text">{bookNames[book.book]}</div>
               <div className="text-sm mb-1">{book.line}</div>
-              <div className="font-bold">{prop.bestBet === "over" ? book.overOdds : book.underOdds}</div>
+              <div className="text-sm font-bold">{prop.bestBet === "over" ? book.overOdds : book.underOdds}</div>
             </div>
           ))}
         </div>
