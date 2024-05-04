@@ -1,9 +1,35 @@
-import React from "react";
-import BettingProp from "@/components/BettingProp";
+import React, { useEffect, useState } from "react";
 import Layout from "@/components/Layout";
-import "../app/globals.css";
+import NProgress from "nprogress";
+import BettingProp from "@/components/BettingProp";
+import "nprogress/nprogress.css";
 
-export default function Home({ bettingProps }) {
+// Initial props are fetched at build time and passed to the Home component
+export default function Home({ initialBettingProps }) {
+  const [bettingProps, setBettingProps] = useState(initialBettingProps);
+
+  useEffect(() => {
+    const fetchProps = async () => {
+      NProgress.start(); // Start the progress bar when the fetch begins
+      try {
+        const res = await fetch("http://localhost:8000/api/best-props");
+        if (!res.ok) throw new Error("Failed to fetch data");
+        const data = await res.json();
+        setBettingProps(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setBettingProps((prevProps) => ({ ...prevProps, message: error.toString() }));
+      }
+      NProgress.done(); // Stop the progress bar regardless of fetch success or failure
+    };
+
+    // Optionally, set an interval or trigger based on user actions
+    // const fetchInterval = setInterval(fetchProps, 10000); // For example, fetch every 10 seconds
+
+    // Uncomment to enable periodic fetching
+    // return () => clearInterval(fetchInterval); // Clean up the interval on component unmount
+  }, []);
+
   const hasProps = bettingProps && bettingProps.data && bettingProps.data.length > 0;
 
   return (
@@ -25,53 +51,25 @@ export default function Home({ bettingProps }) {
   );
 }
 
-// fetching props at build time in Next.js
+// Fetch initial props using getStaticProps
 export async function getStaticProps() {
-  // only require fs and path inside getStaticProps to avoid including them in the client bundle
-  const fs = require("fs");
-  const path = require("path");
-
-  const filePath = path.join(process.cwd(), "cachedData.json");
-
-  let bettingProps = { data: [], message: "Initializing props..." };
-
-  //*
-  if (process.env.NODE_ENV !== "production") {
-    try {
-      if (fs.existsSync(filePath)) {
-        const jsonData = fs.readFileSync(filePath, "utf8");
-        bettingProps = JSON.parse(jsonData);
-      }
-    } catch (err) {
-      console.error("Failed to read from the cache file:", err);
-    }
-  }
-  //*/
-
-  if (bettingProps.data.length === 0) {
-    try {
-      const res = await fetch("http://localhost:8000/api/best-props");
-      if (res.ok) {
-        bettingProps = await res.json();
-
-        //*
-        if (process.env.NODE_ENV !== "production") {
-          fs.writeFileSync(filePath, JSON.stringify(bettingProps), "utf8");
-        }
-        //*/
-      } else {
-        bettingProps.message = "Failed to get data from backend.";
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      bettingProps.message = "Error fetching data: " + error.message;
-    }
-  }
-
+  // Simulate fetching data as you would in your existing getStaticProps
+  const props = await fetchInitialProps(); // This should contain the logic to fetch data similar to your previous getStaticProps
   return {
     props: {
-      bettingProps,
+      initialBettingProps: props,
     },
-    // revalidate: 10, // In seconds
+    // revalidate: 10,
   };
+}
+
+// Placeholder function to simulate fetching data for initial props
+async function fetchInitialProps() {
+  try {
+    const res = await fetch("http://localhost:8000/api/best-props");
+    if (!res.ok) throw new Error("Failed to load the initial props.");
+    return await res.json();
+  } catch (error) {
+    return { data: [], message: "Error loading initial props: " + error.message };
+  }
 }

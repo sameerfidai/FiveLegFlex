@@ -18,12 +18,7 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
 
 .tooltip-text {
@@ -48,9 +43,48 @@ body {
   opacity: 1;
 }
 
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+/* Enhanced custom styles for nprogress */
+#nprogress .bar {
+  height: 4px !important;
+  background: gold !important;
+  z-index: 1031 !important;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px gold, 0 0 5px gold !important;
+}
+
+/* Optionally increase the spinner size and style if used */
+#nprogress .spinner {
+  display: block;
+  position: fixed;
+  z-index: 1031 !important;
+  top: 15px;
+  right: 15px;
+}
+
+#nprogress .spinner-icon {
+  width: 36px !important;
+  height: 36px !important;
+  box-sizing: border-box;
+  border: solid 2px transparent;
+  border-top-color: gold !important;
+  border-left-color: gold !important;
+  border-radius: 50%;
+  animation: nprogress-spinner 400ms linear infinite;
+}
+
+@keyframes nprogress-spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
