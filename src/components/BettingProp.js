@@ -28,11 +28,14 @@ const BettingProp = ({ prop }) => {
   };
 
   return (
-    <div className={`bg-fullblack border-2 ${isSelected ? "border-green bg-black2 shadow-2xl" : "border-white bg-fullblack shadow-xl"} rounded-xl p-5 flex flex-col justify-between h-full hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer`} onClick={toggleSelection}>
+    <div
+      className={`border-2 ${isSelected ? "bg-gold bg-opacity-30 border-green shadow-2xl" : "border-white bg-fullblack shadow-xl"} rounded-xl p-5 flex flex-col justify-between h-full hover:bg-opacity-30 hover:bg-gold hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer`}
+      onClick={toggleSelection}
+    >
       <div>
         <img className="w-32 h-32 rounded-full mx-auto border border-white" src={prop.img_url} alt={`Image of ${prop.player}`} />
         <div className="mt-2 mb-2">
-          <h2 className={`text-3xl font-semibold ${isSelected ? "text-green" : "text-white"} text-center`}>{prop.player}</h2>
+          <h2 className={`text-3xl font-semibold text-center`}>{prop.player}</h2>
           <p className="text-teal text-center">
             {prop.home_team} vs {prop.away_team}
           </p>
@@ -44,12 +47,14 @@ const BettingProp = ({ prop }) => {
       </div>
       <div>
         <div className="flex justify-between items-center mb-4">
-          <div className={`flex-1 mr-2 p-2 rounded-lg text-center font-bold ${prop.bestBet === "over" ? "bg-green bg-opacity-70" : "bg-red bg-opacity-70"}`}>
+          <div className={`flex-1 mr-2 p-2 rounded-lg text-center font-bold shadow-md ${prop.bestBet === "over" ? "bg-green bg-opacity-70" : "bg-red bg-opacity-70"}`}>
             Bet: {prop.bestBet.toUpperCase()} ({prop.bestBetOdds})
           </div>
-          <div className={`flex-1 ml-2 p-2 rounded-lg text-center font-bold ${prop.bestBetProbability >= 0.6 ? "bg-green bg-opacity-70" : prop.bestBetProbability >= 0.55 ? "bg-lightgreen bg-opacity-70" : "bg-gold bg-opacity-70"}`}>Probability: {(prop.bestBetProbability * 100).toFixed(2)}%</div>
+          <div className={`flex-1 ml-2 p-2 rounded-lg shadow-lg text-center font-bold ${prop.bestBetProbability >= 0.6 ? "bg-green bg-opacity-50" : prop.bestBetProbability >= 0.55 ? "bg-lightgreen bg-opacity-70" : "bg-gold bg-opacity-70"}`}>
+            Probability: {(prop.bestBetProbability * 100).toFixed(2)}%
+          </div>
         </div>
-        <p className={`bg-black p-2 rounded-lg text-center font-bold ${isSelected ? "text-green" : "text-white"}`}>Best Book: {bookNames[prop.bestBook] || "N/A"}</p>
+        {/* <p className={`bg-black p-2 rounded-lg text-center font-bold ${isSelected ? "text-green" : "text-white"}`}>Best Book: {bookNames[prop.bestBook] || "N/A"}</p> */}
         <div className="flex justify-around items-center bg-black p-4 rounded-lg mt-4 shadow-lg">
           {prop.allBookOdds.map((book, idx) => (
             <div key={idx} className="text-center text-white p-2 relative tooltip">

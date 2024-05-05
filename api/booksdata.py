@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 import requests
 
-API_KEY = "00ac750cc70857dbbfdf6ce00107220e"
+API_KEY = "bfe6623c3d9c4ce8153241a6b47edca6"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -24,7 +24,7 @@ def getGames():
         response = requests.get(events_url, params=params)
         response.raise_for_status()
         events_data = response.json()
-        # print(events_data)
+        print(events_data)
 
         if events_data:
             print(f"Retrieved {len(events_data)} events for {SPORT}.")
@@ -464,7 +464,7 @@ def getBestProps():
 
     # test for specific games
     specific_games = [
-        "b308ed60cbb2d1324946c7289190cc88",
+        "3b6b51e8f40c2d76be4d907339eaa27b",
     ]
 
     for game_id in games_today:
