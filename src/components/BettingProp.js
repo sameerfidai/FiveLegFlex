@@ -7,6 +7,7 @@ const BettingProp = ({ prop }) => {
     draftkings: "/draftkings.png",
     fanduel: "/fanduel.png",
     williamhill_us: "/williamhill.png",
+    mybookieag: "/mybookie.png",
     bovada: "/bovada.png",
     pointsbetus: "/pointsbet.png",
     betonlineag: "/betonlineag.png",
@@ -17,11 +18,17 @@ const BettingProp = ({ prop }) => {
     draftkings: "DraftKings",
     fanduel: "Fanduel",
     williamhill_us: "William Hill US",
+    mybookieag: "MyBookie",
     bovada: "Bovada",
     pointsbetus: "PointsBet",
     betonlineag: "BetOnline",
     betmgm: "BetMGM",
   };
+
+  const sortedBookOdds = prop.allBookOdds.sort((a, b) => {
+    const order = ["draftkings", "fanduel", "williamhill_us", "mybookieag", "bovada", "pointsbetus", "betonlineag", "betmgm"];
+    return order.indexOf(a.book) - order.indexOf(b.book);
+  });
 
   const toggleSelection = () => {
     setIsSelected(!isSelected);
@@ -29,11 +36,11 @@ const BettingProp = ({ prop }) => {
 
   return (
     <div
-      className={`border-2 ${isSelected ? "bg-gold bg-opacity-30 border-green shadow-2xl" : "border-white bg-fullblack shadow-xl"} rounded-xl p-5 flex flex-col justify-between h-full hover:bg-opacity-30 hover:bg-gold hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer`}
+      className={`border-2 ${isSelected ? "bg-gold bg-opacity-30 shadow-2xl" : "border-white bg-fullblack shadow-xl"} rounded-xl p-5 flex flex-col justify-between h-full hover:bg-gold hover:bg-opacity-30 hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer`}
       onClick={toggleSelection}
     >
       <div>
-        <img className="w-32 h-32 rounded-full mx-auto border border-white" src={prop.img_url} alt={`Image of ${prop.player}`} />
+        <img className={`w-32 h-32 rounded-full mx-auto border-4 border-white mb-4 ${isSelected ? "animate-spin" : ""}`} src={prop.img_url} alt={`Image of ${prop.player}`} />
         <div className="mt-2 mb-2">
           <h2 className={`text-3xl font-semibold text-center`}>{prop.player}</h2>
           <p className="text-teal text-center">
@@ -48,18 +55,15 @@ const BettingProp = ({ prop }) => {
       <div>
         <div className="flex justify-between items-center mb-4">
           <div className={`flex-1 mr-2 p-2 rounded-lg text-center font-bold shadow-md ${prop.bestBet === "over" ? "bg-green bg-opacity-70" : "bg-red bg-opacity-70"}`}>
-            Bet: {prop.bestBet.toUpperCase()} ({prop.bestBetOdds})
+            {prop.bestBet.toUpperCase()} ({prop.bestBetOdds})
           </div>
-          <div className={`flex-1 ml-2 p-2 rounded-lg shadow-lg text-center font-bold ${prop.bestBetProbability >= 0.6 ? "bg-green bg-opacity-50" : prop.bestBetProbability >= 0.55 ? "bg-lightgreen bg-opacity-70" : "bg-gold bg-opacity-70"}`}>
-            Probability: {(prop.bestBetProbability * 100).toFixed(2)}%
-          </div>
+          <div className={`flex-1 ml-2 p-2 rounded-lg shadow-lg text-center font-bold ${prop.bestBetProbability >= 0.6 ? "bg-green bg-opacity-50" : prop.bestBetProbability >= 0.55 ? "bg-lightgreen bg-opacity-70" : "bg-gold bg-opacity-70"}`}>{(prop.bestBetProbability * 100).toFixed(2)}%</div>
         </div>
-        {/* <p className={`bg-black p-2 rounded-lg text-center font-bold ${isSelected ? "text-green" : "text-white"}`}>Best Book: {bookNames[prop.bestBook] || "N/A"}</p> */}
-        <div className="flex justify-around items-center bg-black p-4 rounded-lg mt-4 shadow-lg">
-          {prop.allBookOdds.map((book, idx) => (
-            <div key={idx} className="text-center text-white p-2 relative tooltip">
-              <img src={bookLogos[book.book]} alt={bookNames[book.book]} className="mx-auto h-8 mb-2" />
-              <div className="tooltip-text">{bookNames[book.book]}</div>
+        <div className="flex justify-around items-center bg-black p-3 rounded-lg shadow-lg">
+          {sortedBookOdds.map((book, idx) => (
+            <div key={idx} className="text-center text-white p-2 relative group">
+              <img src={bookLogos[book.book]} alt={bookNames[book.book]} className="mx-auto h-6 mb-2 transition-transform transform group-hover:scale-125" />
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block bg-black text-white text-xs rounded-lg py-1 px-2 shadow-lg">{bookNames[book.book]}</div>
               <div className="text-sm mb-1">{book.line}</div>
               <div className="text-sm font-bold">{prop.bestBet === "over" ? book.overOdds : book.underOdds}</div>
             </div>

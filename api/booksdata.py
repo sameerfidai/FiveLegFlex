@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 import requests
 
-API_KEY = "bfe6623c3d9c4ce8153241a6b47edca6"
+API_KEY = "79ef64966e7257649a38439863e25ed1"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -24,11 +24,11 @@ def getGames():
         response = requests.get(events_url, params=params)
         response.raise_for_status()
         events_data = response.json()
-        print(events_data)
+        # print(events_data)
 
         if events_data:
             print(f"Retrieved {len(events_data)} events for {SPORT}.")
-            # Filter events to include only those that have not yet started
+            # filter games to include only those that have not yet started
             event_ids = [
                 event["id"]
                 for event in events_data
@@ -218,7 +218,7 @@ def getPlayersPropsOddsForGame(event_id, prop_type):
         for bookmaker in odds_data["bookmakers"]:
             bookmaker_name = bookmaker["key"]
             # Skip these 2 books (weird odds)
-            if bookmaker_name in ["betrivers", "unibet_us", "mybookieag"]:
+            if bookmaker_name in ["betrivers", "unibet_us"]:
                 continue
 
             for market in bookmaker["markets"]:
@@ -484,8 +484,8 @@ def getBestProps():
         all_best_props, key=lambda x: x["bestBetProbability"], reverse=True
     )
 
-    # return best 21 props
-    return {"message": "Success", "data": sorted_best_props[:21]}
+    # return best x number props
+    return {"message": "Success", "data": sorted_best_props[:27]}
 
 
 if __name__ == "__main__":
