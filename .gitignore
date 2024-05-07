@@ -1,7 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Ignore virtual environment
+# Ignore virtual environment and pycache
 /api/venv/
+/api/__pycache__
 
 # dependencies
 /node_modules
