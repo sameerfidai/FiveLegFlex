@@ -5,6 +5,7 @@ import BettingProp from "@/components/BettingProp";
 import "nprogress/nprogress.css";
 
 const API_URL = "https://fivelegflex-backend.onrender.com";
+const LOCAL_URL = "http://localhost:8000/api/best-props";
 
 export default function Home({ initialBettingProps }) {
   const [bettingProps, setBettingProps] = useState(initialBettingProps);
@@ -14,6 +15,7 @@ export default function Home({ initialBettingProps }) {
       NProgress.start(); // Start the progress bar when the fetch begins
       try {
         const res = await fetch(`${API_URL}/api/best-props`);
+        //const res = await fetch(LOCAL_URL); // local
         if (!res.ok) throw new Error("Failed to fetch data");
         const data = await res.json();
         setBettingProps(data);
@@ -33,7 +35,7 @@ export default function Home({ initialBettingProps }) {
     <Layout>
       <div className="bg-fullblack text-white p-4 md:p-6 lg:p-8">
         {hasProps ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 place-items-stretch">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-12 place-items-stretch">
             {bettingProps.data.map((prop, index) => (
               <BettingProp key={index} prop={prop} />
             ))}
@@ -62,6 +64,7 @@ export async function getStaticProps() {
 async function fetchInitialProps() {
   try {
     const res = await fetch(`${API_URL}/api/best-props`);
+    // const res = await fetch(LOCAL_URL); // local
     if (!res.ok) throw new Error("Failed to load the initial props.");
     return await res.json();
   } catch (error) {

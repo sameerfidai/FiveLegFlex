@@ -36,13 +36,13 @@ const BettingProp = ({ prop }) => {
 
   return (
     <div
-      className={`border-2 ${isSelected ? "bg-gold bg-opacity-30 shadow-2xl" : "border-white bg-fullblack shadow-xl"} rounded-xl p-5 flex flex-col justify-between h-full hover:bg-gold hover:bg-opacity-30 hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer`}
+      className={`max-w-sm border-2 ${isSelected ? "bg-gold bg-opacity-30 shadow-2xl" : "border-white bg-fullblack shadow-xl"} rounded-xl p-5 flex flex-col justify-between h-full hover:bg-gold hover:bg-opacity-30 hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer`}
       onClick={toggleSelection}
     >
       <div>
         <img className={`w-32 h-32 rounded-full mx-auto border-4 border-white mb-4 ${isSelected ? "animate-spin" : ""}`} src={prop.img_url} alt={`Image of ${prop.player}`} />
         <div className="mt-2 mb-2">
-          <h2 className={`text-3xl font-semibold text-center`}>{prop.player}</h2>
+          <h2 className={`text-2xl font-semibold text-center`}>{prop.player}</h2>
           <p className="text-teal text-center">
             {prop.home_team} vs {prop.away_team}
           </p>
@@ -59,9 +59,11 @@ const BettingProp = ({ prop }) => {
           </div>
           <div className={`flex-1 ml-2 p-2 rounded-lg shadow-lg text-center font-bold ${prop.bestBetProbability >= 0.6 ? "bg-green bg-opacity-50" : prop.bestBetProbability >= 0.55 ? "bg-lightgreen bg-opacity-70" : "bg-gold bg-opacity-70"}`}>{(prop.bestBetProbability * 100).toFixed(2)}%</div>
         </div>
-        <div className="flex justify-around items-center bg-black p-3 rounded-lg shadow-lg">
+
+        {/* Odds Section with Always Visible and Smaller Scrollbar */}
+        <div className="flex overflow-x-scroll custom-scrollbar bg-black p-3 rounded-lg shadow-lg space-x-3">
           {sortedBookOdds.map((book, idx) => (
-            <div key={idx} className="text-center text-white p-2 relative group">
+            <div key={idx} className="text-center text-white p-2 relative group min-w-[70px] flex-shrink-0">
               <img src={bookLogos[book.book]} alt={bookNames[book.book]} className="mx-auto h-6 mb-2 transition-transform transform group-hover:scale-125" />
               <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block bg-black text-white text-xs rounded-lg py-1 px-2 shadow-lg">{bookNames[book.book]}</div>
               <div className="text-sm mb-1">{book.line}</div>

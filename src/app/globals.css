@@ -21,6 +21,19 @@ body {
   background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
 
+.custom-scrollbar::-webkit-scrollbar {
+  height: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #2d2d2d;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #888888;
+  border-radius: 4px;
+}
+
 .tooltip-text {
   visibility: hidden;
   width: max-content;
@@ -49,7 +62,6 @@ body {
   }
 }
 
-/* Enhanced custom styles for nprogress */
 #nprogress .bar {
   height: 4px !important;
   background: gold !important;
@@ -60,7 +72,6 @@ body {
   box-shadow: 0 0 10px gold, 0 0 5px gold !important;
 }
 
-/* Optionally increase the spinner size and style if used */
 #nprogress .spinner {
   display: block;
   position: fixed;
