@@ -5,8 +5,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 First, run the API server in `/api`:
 
 ```bash
-# activate python virtual environment
-source <venv_name>/bin/activate
+# create and activate python virtual environment
+python -m venv venv
+source venv/bin/activate
 
 # install dependencies
 pip install -r requirements.txt
@@ -18,6 +19,10 @@ uvicorn main:app --reload
 Second, run the development server:
 
 ```bash
+# install dependencies
+npm install
+
+# run development server
 npm run dev
 # or
 yarn dev
