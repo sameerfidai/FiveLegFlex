@@ -7,7 +7,7 @@ app = FastAPI()
 # Configure allowed origins
 origins = [
     "http://localhost:3000",  # For local development
-    "https://five-leg-flex.vercel.app/",  # Replace with your deployed frontend URL
+    "https://five-leg-flex.vercel.app",
 ]
 
 app.add_middleware(

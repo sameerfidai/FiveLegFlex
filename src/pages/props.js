@@ -3,21 +3,30 @@ import Layout from "@/components/Layout";
 import BettingProp from "@/components/BettingProp";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
-const API_URL = "https://fivelegflex-backend.onrender.com"; // For local testing
+const API_URL = "https://fivelegflex-backend.onrender.com/api/best-props";
 
 export default function PropsPage() {
   const [bettingProps, setBettingProps] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchProps = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/best-props`);
-        if (!res.ok) throw new Error("Failed to fetch data");
+        const res = await fetch(API_URL, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!res.ok) {
+          throw new Error(`Failed to fetch data: ${res.status} ${res.statusText}`);
+        }
         const data = await res.json();
         setBettingProps(data);
       } catch (error) {
         console.error("Error fetching data:", error);
+        setError(error.message);
         setBettingProps({ message: error.toString() });
       } finally {
         setLoading(false);
@@ -28,6 +37,7 @@ export default function PropsPage() {
   }, []);
 
   if (loading) return <LoadingSpinner />;
+  if (error) return <div>Error: {error}</div>;
 
   const hasProps = bettingProps && bettingProps.data && bettingProps.data.length > 0;
 
