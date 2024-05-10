@@ -1,17 +1,21 @@
+// pages/PropsPage.js
 import React, { useState, useEffect } from "react";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 import Layout from "@/components/Layout";
 import BettingProp from "@/components/BettingProp";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
 const API_URL = "https://fivelegflex-backend.onrender.com/api/best-props";
 
-export default function PropsPage() {
+const PropsPage = () => {
   const [bettingProps, setBettingProps] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchProps = async () => {
+      NProgress.start(); // Start progress bar
       try {
         const res = await fetch(API_URL, {
           method: "GET",
@@ -29,6 +33,7 @@ export default function PropsPage() {
         setError(error.message);
         setBettingProps({ message: error.toString() });
       } finally {
+        NProgress.done(); // Finish progress bar
         setLoading(false);
       }
     };
@@ -58,4 +63,6 @@ export default function PropsPage() {
       </div>
     </Layout>
   );
-}
+};
+
+export default PropsPage;
