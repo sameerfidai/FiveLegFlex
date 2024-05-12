@@ -14,7 +14,7 @@ const PropsPage = () => {
   useEffect(() => {
     const fetchProps = async () => {
       try {
-        const res = await fetch(LOCAL_URL, {
+        const res = await fetch(API_URL, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
