@@ -5,7 +5,7 @@ import BettingProp from "@/components/BettingProp";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
 const LOCAL_URL = "http://localhost:8000/api/best-props";
-const API_URL = "https://fivelegflex-backend.onrender.com/api/best-props";
+const API_URL = "https://fivelegflex-backend.fly.dev/api/best-props";
 
 const PropsPage = () => {
   const [bettingProps, setBettingProps] = useState(null);
