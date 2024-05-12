@@ -1,8 +1,9 @@
 import Router from "next/router";
 import NProgress from "nprogress";
 import "../app/globals.css";
-import "nprogress/nprogress.css"; // Styles of nprogress
+import "nprogress/nprogress.css";
 
+// Styles of nprogress
 NProgress.configure({ showSpinner: false });
 
 Router.events.on("routeChangeStart", () => NProgress.start());

@@ -1,23 +1,20 @@
-// pages/PropsPage.js
 import React, { useState, useEffect } from "react";
-import NProgress from "nprogress";
-import "nprogress/nprogress.css";
+import NProgress from "nprogress"; // Import NProgress here
 import Layout from "@/components/Layout";
 import BettingProp from "@/components/BettingProp";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
+const LOCAL_URL = "http://localhost:8000/api/best-props";
 const API_URL = "https://fivelegflex-backend.onrender.com/api/best-props";
 
 const PropsPage = () => {
   const [bettingProps, setBettingProps] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchProps = async () => {
-      NProgress.start(); // Start progress bar
       try {
-        const res = await fetch(API_URL, {
+        const res = await fetch(LOCAL_URL, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -28,23 +25,20 @@ const PropsPage = () => {
         }
         const data = await res.json();
         setBettingProps(data);
+        NProgress.done(); // NProgress is now available
       } catch (error) {
         console.error("Error fetching data:", error);
         setError(error.message);
-        setBettingProps({ message: error.toString() });
-      } finally {
-        NProgress.done(); // Finish progress bar
-        setLoading(false);
+        NProgress.done(); // NProgress is now available
       }
     };
-
     fetchProps();
   }, []);
 
-  if (loading) return <LoadingSpinner />;
   if (error) return <div>Error: {error}</div>;
+  if (!bettingProps) return <LoadingSpinner />;
 
-  const hasProps = bettingProps && bettingProps.data && bettingProps.data.length > 0;
+  const hasProps = bettingProps.data && bettingProps.data.length > 0;
 
   return (
     <Layout>
@@ -57,7 +51,7 @@ const PropsPage = () => {
           </div>
         ) : (
           <div className="text-center mt-20">
-            <h2 className="text-2xl font-semibold">{bettingProps.message || "No NBA props live at this time."}</h2>
+            <h2 className="text-2xl font-semibold">No NBA props live at this time.</h2>
           </div>
         )}
       </div>
