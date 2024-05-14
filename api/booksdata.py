@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 import requests
 
-API_KEY = "cd2e9ff08563d4cc936cbf977a5bf2b6"
+API_KEY = "265868733b5921edc06f4c1a85f95fbe"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -451,7 +451,7 @@ def getBestProps():
     if not games_today:
         return {"message": "No NBA games.", "data": []}
 
-    # prizepicks_data = [] # empty list for testing
+    # get prizepicks data
     prizepicks_data = getPrizePicksData()
     if not prizepicks_data:
         return {"message": "No Props available on PrizePicks.", "data": []}
@@ -479,12 +479,12 @@ def getBestProps():
             )
             all_best_props.extend(best_props.values())
 
-    # sort the all_best_props list by bestBetProbability in descending order (best bet on top)
+    # sort props list by bestBetProbability in descending order (best bet on top)
     sorted_best_props = sorted(
         all_best_props, key=lambda x: x["bestBetProbability"], reverse=True
     )
 
-    # return best x number props
+    # return best x props
     return {"message": "Success", "data": sorted_best_props[:27]}
 
 
