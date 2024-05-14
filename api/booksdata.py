@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 import requests
 
-API_KEY = "265868733b5921edc06f4c1a85f95fbe"
+API_KEY = "917eeafc14e938bb43ab513e5e997981"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -433,17 +433,17 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
 def getBestProps():
     prop_types = [
         "player_points",
-        # "player_rebounds",
-        # "player_assists",
-        # "player_threes",
-        # "player_blocks",
-        # "player_steals",
-        # "player_blocks_steals",
-        # "player_turnovers",
-        # "player_points_rebounds_assists",
-        # "player_points_rebounds",
-        # "player_points_assists",
-        # "player_rebounds_assists",
+        "player_rebounds",
+        "player_assists",
+        "player_threes",
+        "player_blocks",
+        "player_steals",
+        "player_blocks_steals",
+        "player_turnovers",
+        "player_points_rebounds_assists",
+        "player_points_rebounds",
+        "player_points_assists",
+        "player_rebounds_assists",
     ]
 
     # get todays NBA games
