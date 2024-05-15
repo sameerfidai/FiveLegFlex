@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 import requests
 from cachetools import TTLCache, cached
 
-API_KEY = "ff1d310c402ceb35517b12717c3b9faf"
+API_KEY = "8b00119fc9399bb6dcb94f90142d08b9"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
