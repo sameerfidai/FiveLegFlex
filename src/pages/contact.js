@@ -6,11 +6,13 @@ const Contact = () => {
   return (
     <Layout>
       <Head>
-        <title>Contact Us</title>
+        <title>Contact Us | FiveLegFlex</title>
       </Head>
-      <div className="bg-fullblack text-white p-4 md:p-6 lg:p-8">
-        <h1 className="text-center text-4xl font-bold mb-4">Contact Us</h1>
-        <p className="text-center text-xl mb-4">Have questions or need support? Get in touch with us.</p>
+      <div className="text-white p-4 md:p-10 lg:p-12">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-center text-5xl font-bold mb-6">Contact Us</h1>
+          <p className="text-center text-xl mb-4">Have questions or need support? Get in touch with us.</p>
+        </div>
       </div>
     </Layout>
   );

@@ -48,7 +48,7 @@ const PropsPage = () => {
   return (
     <Layout>
       <Head>
-        <title>Props</title>
+        <title>Props | FiveLegFlex</title>
       </Head>
       <div className="bg-fullblack text-white p-4 md:p-6 lg:p-8">
         {hasProps && !error ? (
