@@ -24,7 +24,7 @@ const Layout = ({ children }) => {
             <Link href="/about" className="whitespace-nowrap text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
               About
             </Link>
-            <a href="https://twitter.com/FiveLegFlex" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-gold transition duration-300 ease-in-out">
+            <a href="https://x.com/fiveLegFlex" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-gold transition duration-300 ease-in-out">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M23.953 4.57a10 10 0 01-2.825.775 4.933 4.933 0 002.163-2.724 10.14 10.14 0 01-3.127 1.184 4.92 4.92 0 00-8.384 4.482 13.978 13.978 0 01-10.15-5.146 4.822 4.822 0 001.523 6.574 4.886 4.886 0 01-2.23-.616c-.053 2.281 1.581 4.415 3.949 4.89a4.904 4.904 0 01-2.224.085 4.936 4.936 0 004.604 3.417A9.867 9.867 0 010 21.543a13.94 13.94 0 007.548 2.209c9.142 0 14.307-7.721 13.995-14.646a9.86 9.86 0 002.41-2.523z" />
               </svg>
@@ -53,7 +53,7 @@ const Layout = ({ children }) => {
               </Link>
             </li>
             <li>
-              <a href="https://twitter.com/FiveLegFlex" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-gold transition duration-300 ease-in-out">
+              <a href="https://x.com/fiveLegFlex" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-gold transition duration-300 ease-in-out">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M23.953 4.57a10 10 0 01-2.825.775 4.933 4.933 0 002.163-2.724 10.14 10.14 0 01-3.127 1.184 4.92 4.92 0 00-8.384 4.482 13.978 13.978 0 01-10.15-5.146 4.822 4.822 0 001.523 6.574 4.886 4.886 0 01-2.23-.616c-.053 2.281 1.581 4.415 3.949 4.89a4.904 4.904 0 01-2.224.085 4.936 4.936 0 004.604 3.417A9.867 9.867 0 010 21.543a13.94 13.94 0 007.548 2.209c9.142 0 14.307-7.721 13.995-14.646a9.86 9.86 0 002.41-2.523z" />
                 </svg>
@@ -64,7 +64,7 @@ const Layout = ({ children }) => {
       </nav>
 
       {/* Page Content */}
-      <div className="flex-grow p-10 flex flex-col justify-center items-center">{children}</div>
+      <div className="flex-grow p-10 flex flex-col justify-center items-center mt-8 md:mt-2">{children}</div>
     </div>
   );
 };
