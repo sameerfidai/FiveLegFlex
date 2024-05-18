@@ -57,18 +57,18 @@ const FilterButtons = ({ selectedFilter, setSelectedFilter, selectedPropType, se
   return (
     <div className="flex justify-between items-center mb-4">
       <div className="flex space-x-2">
-        <button className={`px-4 py-2 font-semibold rounded-lg ${selectedFilter === "all" ? "bg-gold text-black" : "bg-black text-gray-300"}`} onClick={() => setSelectedFilter("all")}>
+        <button className={`px-4 py-2 font-semibold rounded-lg ${selectedFilter === "all" ? "bg-gold text-black" : "bg-black text-gray-300"}`} onClick={() => setSelectedFilter("all")} style={{ paddingTop: "8px", paddingBottom: "8px" }}>
           All
         </button>
-        <button className={`px-4 py-2 font-semibold rounded-lg ${selectedFilter === "over" ? "bg-gold text-black" : "bg-black text-gray-300"}`} onClick={() => setSelectedFilter("over")}>
+        <button className={`px-4 py-2 font-semibold rounded-lg ${selectedFilter === "over" ? "bg-gold text-black" : "bg-black text-gray-300"}`} onClick={() => setSelectedFilter("over")} style={{ paddingTop: "8px", paddingBottom: "8px" }}>
           Over
         </button>
-        <button className={`px-4 py-2 font-semibold rounded-lg ${selectedFilter === "under" ? "bg-gold text-black" : "bg-black text-gray-300"}`} onClick={() => setSelectedFilter("under")}>
+        <button className={`px-4 py-2 font-semibold rounded-lg ${selectedFilter === "under" ? "bg-gold text-black" : "bg-black text-gray-300"}`} onClick={() => setSelectedFilter("under")} style={{ paddingTop: "8px", paddingBottom: "8px" }}>
           Under
         </button>
       </div>
       <div className="flex items-center">
-        <select className="px-4 py-2 font-semibold rounded-lg bg-black text-gray-300" value={selectedPropType} onChange={(e) => setSelectedPropType(e.target.value)}>
+        <select className="px-4 py-2 font-semibold rounded-lg bg-black text-gray-300" value={selectedPropType} onChange={(e) => setSelectedPropType(e.target.value)} style={{ height: "40px" }}>
           <option value="all">All Prop Types</option>
           {Object.entries(propTypeMapping).map(([key, value]) => (
             <option key={key} value={key}>
