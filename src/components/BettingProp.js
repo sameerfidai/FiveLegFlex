@@ -43,7 +43,7 @@ const BettingProp = ({ prop }) => {
         <img className={`w-32 h-32 rounded-full mx-auto border-4 border-white mb-4`} src={prop.img_url} alt={`Image of ${prop.player}`} />
         <div className="mt-2 mb-2">
           <h2 className={`text-2xl font-semibold text-center`}>{prop.player}</h2>
-          <p className="text-teal text-center">
+          <p className="text-teal text-sm text-center">
             {prop.home_team} vs {prop.away_team}
           </p>
           <p className="text-xl text-center">
