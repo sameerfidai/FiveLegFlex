@@ -111,7 +111,7 @@ const PropsPage = () => {
       <Head>
         <title>Props | FiveLegFlex</title>
       </Head>
-      <div className="bg-fullblack text-white p-4 md:p-6 lg:p-8">
+      <div className="bg-fullblack text-white p-4 md:p-6 lg:p-8 min-h-screen">
         <div className="container mx-auto">
           <FilterButtons selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} selectedPropType={selectedPropType} setSelectedPropType={setSelectedPropType} />
           {hasProps && !error ? (
@@ -122,8 +122,8 @@ const PropsPage = () => {
             </div>
           ) : (
             <div className="bg-fullblack text-white p-4 md:p-6 lg:p-8">
-              <h1 className="text-center text-4xl font-bold mb-4">Please try again later.</h1>
-              <p className="text-center text-xl mb-4">Sorry.</p>
+              <h1 className="text-center text-4xl font-bold mb-4">No props available</h1>
+              <p className="text-center text-xl mb-4">Please check back later.</p>
             </div>
           )}
         </div>
