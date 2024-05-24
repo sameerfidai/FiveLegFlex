@@ -65,7 +65,6 @@ const BettingProp = ({ prop }) => {
           {sortedBookOdds.map((book, idx) => (
             <div key={idx} className="text-center text-white p-2 relative group min-w-[70px] flex-shrink-0">
               <img src={bookLogos[book.book]} alt={bookNames[book.book]} className="mx-auto h-6 mb-2 transition-transform transform group-hover:scale-125" />
-              <div className={`absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block bg-black text-white text-xs rounded-lg py-1 px-2 shadow-lg ${isSelected ? "block" : ""}`}>{bookNames[book.book]}</div>
               <div className="text-sm mb-1">{book.line}</div>
               <div className="text-sm font-bold">{prop.bestBet === "over" ? book.overOdds : book.underOdds}</div>
             </div>
