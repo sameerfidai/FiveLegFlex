@@ -1,6 +1,17 @@
 import Layout from "./Layout";
+import { useEffect } from "react";
 
 const LoadingSpinner = () => {
+  useEffect(() => {
+    // Disable scrolling when the spinner is shown
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      // Enable scrolling again when the spinner is hidden
+      document.body.style.overflow = "";
+    };
+  }, []);
+
   return (
     <Layout>
       <div className="flex flex-col justify-center items-center h-screen">
