@@ -3,7 +3,7 @@ import requests
 from cachetools import TTLCache, cached
 from typing import Optional
 
-API_KEY = "0c03bebc1ce5c38078b7e4064a8b7f9a"
+API_KEY = "da743b1ecee8d2d9dc2250a8ca8bfb6b"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -393,6 +393,10 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
                 )
 
                 composite_key = f"{player}_{readable_prop_type}"
+                img_url = prizepicks_index.get(normalized_player, {}).get(
+                    "image_url",
+                    "https://pbs.twimg.com/profile_images/1263811030/LeBron_Crying_400x400.jpg",
+                )
                 all_props_dict[composite_key] = {
                     "player": player,
                     "prop_type": readable_prop_type,
@@ -400,7 +404,7 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
                     "away_team": away_team,
                     "line": best_bet["line"],
                     "bestBet": best_bet["bestBet"],
-                    "img_url": "https://pbs.twimg.com/profile_images/1263811030/LeBron_Crying_400x400.jpg",
+                    "img_url": img_url,
                     "bestBetOdds": (
                         best_bet["overOdds"]
                         if best_bet["bestBet"] == "over"
