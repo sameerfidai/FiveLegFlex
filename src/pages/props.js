@@ -133,7 +133,7 @@ const FilterButtons = ({ selectedFilter, setSelectedFilter, selectedPropType, se
 
 const PropsPage = () => {
   const [includePrizePicks, setIncludePrizePicks] = useState(true);
-  const { data: bettingProps, error, loading } = useFetch(LOCAL_URL, includePrizePicks);
+  const { data: bettingProps, error, loading } = useFetch(API_URL, includePrizePicks);
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [selectedPropType, setSelectedPropType] = useState("all");
   const [selectedGame, setSelectedGame] = useState("all");
