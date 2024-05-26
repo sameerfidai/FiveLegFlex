@@ -1,8 +1,9 @@
 from datetime import datetime, timezone
 import requests
 from cachetools import TTLCache, cached
+from typing import Optional
 
-API_KEY = "8b92a4a7c433b55187c28c3dd401389f"
+API_KEY = "0c03bebc1ce5c38078b7e4064a8b7f9a"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -345,9 +346,11 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
                         "line": prizepicks_line,
                         "img_url": img_url,
                         "bestBet": best_bet["bestBet"],
-                        "bestBetOdds": best_bet["overOdds"]
-                        if best_bet["bestBet"] == "over"
-                        else best_bet["underOdds"],
+                        "bestBetOdds": (
+                            best_bet["overOdds"]
+                            if best_bet["bestBet"] == "over"
+                            else best_bet["underOdds"]
+                        ),
                         "bestBook": best_bet["book"],
                         "bestBetProbability": best_bet_probability,
                         "allBookOdds": player_props,
@@ -358,9 +361,11 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
                     player_props,
                     key=lambda x: max(
                         x["overProbability"] if x["overProbability"] is not None else 0,
-                        x["underProbability"]
-                        if x["underProbability"] is not None
-                        else 0,
+                        (
+                            x["underProbability"]
+                            if x["underProbability"] is not None
+                            else 0
+                        ),
                     ),
                 )
                 best_bet["bestBet"] = (
@@ -396,9 +401,11 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
                     "line": best_bet["line"],
                     "bestBet": best_bet["bestBet"],
                     "img_url": "https://pbs.twimg.com/profile_images/1263811030/LeBron_Crying_400x400.jpg",
-                    "bestBetOdds": best_bet["overOdds"]
-                    if best_bet["bestBet"] == "over"
-                    else best_bet["underOdds"],
+                    "bestBetOdds": (
+                        best_bet["overOdds"]
+                        if best_bet["bestBet"] == "over"
+                        else best_bet["underOdds"]
+                    ),
                     "bestBook": best_bet["book"],
                     "bestBetProbability": best_bet_probability,
                     "allBookOdds": player_props,
@@ -407,7 +414,7 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
     return all_props_dict
 
 
-def getBestProps():
+def getBestProps(include_prizepicks=True):
     prop_types = [
         "player_points",
         "player_rebounds",
@@ -428,16 +435,9 @@ def getBestProps():
         return {"message": "No NBA games.", "data": []}
 
     prizepicks_data = getPrizePicksData()
-    if not prizepicks_data:
-        return {"message": "No Props available on PrizePicks.", "data": []}
-
     prizepicks_index = build_prizepicks_index(prizepicks_data)
 
     all_best_props = []
-
-    specific_games = [
-        "3b6b51e8f40c2d76be4d907339eaa27b",
-    ]
 
     for game_id in games_today:
         for prop_type in prop_types:
@@ -446,7 +446,7 @@ def getBestProps():
                 player_props_odds_for_game,
                 prop_type,
                 prizepicks_index,
-                include_prizepicks=True,
+                include_prizepicks,
             )
             all_best_props.extend(best_props.values())
 
