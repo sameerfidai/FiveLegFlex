@@ -57,7 +57,7 @@ const BettingProp = ({ prop }) => {
           <div className={`flex-1 mr-2 p-2 rounded-lg text-center font-bold shadow-md ${prop.bestBet === "over" ? "bg-green bg-opacity-70" : "bg-red bg-opacity-70"}`}>
             {prop.bestBet.toUpperCase()} ({prop.bestBetOdds})
           </div>
-          <div className={`flex-1 ml-2 p-2 rounded-lg shadow-lg text-center font-bold ${prop.bestBetProbability >= 0.6 ? "bg-green bg-opacity-50" : prop.bestBetProbability >= 0.55 ? "bg-lightgreen bg-opacity-70" : "bg-gold bg-opacity-70"}`}>{(prop.bestBetProbability * 100).toFixed(2)}%</div>
+          <div className={`flex-1 ml-2 p-2 rounded-lg shadow-lg text-center font-bold ${prop.bestBetProbability >= 0.6 ? "bg-green bg-opacity-50" : prop.bestBetProbability >= 0.54 ? "bg-lightgreen bg-opacity-70" : "bg-gold bg-opacity-70"}`}>{(prop.bestBetProbability * 100).toFixed(2)}%</div>
         </div>
 
         {/* Odds Section with Always Visible and Smaller Scrollbar */}

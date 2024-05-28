@@ -19,6 +19,9 @@ const Layout = ({ children }) => {
             <Link href="/props" className="whitespace-nowrap text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
               NBA Props
             </Link>
+            <Link href="/topprojections" className="whitespace-nowrap text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
+              Projections
+            </Link>
             <Link href="/about" className="whitespace-nowrap text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
               About
             </Link>
