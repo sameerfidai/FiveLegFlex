@@ -64,7 +64,7 @@ const TopProjections = ({ projections }) => {
 export async function getServerSideProps() {
   let projections = [];
   try {
-    const { data } = await axios.get("http://localhost:3000/api/scrape");
+    const { data } = await axios.get("https://five-leg-flex.vercel.app/api/scrape");
     projections = data;
   } catch (error) {
     console.error("Error fetching projections:", error);
