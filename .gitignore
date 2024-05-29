@@ -4,9 +4,8 @@
 /api/venv/
 /api/__pycache__/
 
-
 # dependencies
-/node_modules
+/frontend/node_modules
 /.pnp
 .pnp.js
 .yarn/install-state.gz
