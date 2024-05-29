@@ -37,7 +37,11 @@ const TopProjections = ({ projections }) => {
                     <h2 className="text-3xl font-semibold text-white">{prop.player}</h2>
                   </div>
                 </div>
-                <div className="flex flex-col space-y-2 w-full sm:w-1/2">
+                <div className="flex flex-col space-y-1 w-full sm:w-1/2">
+                  <div className="flex justify-between">
+                    <span className="font-bold text-l text-gray">Prop Type:</span>
+                    <span className="font-bold text-l text-white">{prop.prop_type}</span>
+                  </div>
                   <div className="flex justify-between">
                     <span className="font-bold text-l text-gray">Projection:</span>
                     <span className="font-bold text-l text-white">{prop.projection}</span>
@@ -83,6 +87,9 @@ export async function getServerSideProps() {
       const recommendation = await content.$eval("div.flex.card__proj-container span.projection__recommendation", (el) => el.innerText.trim());
       const img_url = await content.$eval("img.player-image-card__player-image", (el) => el.src);
 
+      // Extract the prop type
+      const prop_type = await content.$eval("div.card__prop-container span.typography:nth-child(2)", (el) => el.innerText.trim());
+
       projections.push({
         player,
         ftsy_score,
@@ -90,6 +97,7 @@ export async function getServerSideProps() {
         difference: diff,
         recommendation,
         img_url,
+        prop_type, // Include the prop type in the object
       });
     }
 
