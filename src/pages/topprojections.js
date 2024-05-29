@@ -66,14 +66,13 @@ export async function getServerSideProps() {
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
   const page = await browser.newPage();
-  await page.goto("https://www.bettingpros.com/nba/picks/prop-bets/");
-
-  await page.waitForSelector("div.grouped-items-with-sticky-footer__content");
-  await new Promise((resolve) => setTimeout(resolve, 3000)); // Wait for the page to load completely
-
-  let projections = [];
 
   try {
+    await page.goto("https://www.bettingpros.com/nba/picks/prop-bets/");
+    await page.waitForSelector("div.grouped-items-with-sticky-footer__content");
+    await new Promise((resolve) => setTimeout(resolve, 3000)); // Wait for the page to load completely
+
+    let projections = [];
     const contentDivs = await page.$$("div.grouped-items-with-sticky-footer__content");
     for (let i = 0; i < Math.min(contentDivs.length, 10); i++) {
       const content = contentDivs[i];
@@ -93,13 +92,14 @@ export async function getServerSideProps() {
         img_url,
       });
     }
+
+    return { props: { projections } };
   } catch (error) {
     console.error("Error fetching projections:", error);
+    return { props: { projections: [] } };
   } finally {
     await browser.close();
   }
-
-  return { props: { projections } };
 }
 
 export default TopProjections;
