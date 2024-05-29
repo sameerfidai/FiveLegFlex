@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import Layout from "@/components/Layout";
 import Head from "next/head";
-import { Builder, By } from "selenium-webdriver";
-import chrome from "selenium-webdriver/chrome";
+import puppeteer from "puppeteer";
 
 const TopProjections = ({ projections }) => {
   const [selectedIndices, setSelectedIndices] = useState([]);
@@ -63,39 +62,41 @@ const TopProjections = ({ projections }) => {
 };
 
 export async function getServerSideProps() {
-  const options = new chrome.Options();
-  options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
-  let driver = new Builder().forBrowser("chrome").setChromeOptions(options).build();
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
+  const page = await browser.newPage();
+  await page.goto("https://www.bettingpros.com/nba/picks/prop-bets/");
+
+  await page.waitForSelector("div.grouped-items-with-sticky-footer__content");
+  await new Promise((resolve) => setTimeout(resolve, 3000)); // Wait for the page to load completely
 
   let projections = [];
 
   try {
-    await driver.get("https://www.bettingpros.com/nba/picks/prop-bets/");
-    await driver.sleep(2000); // Wait for the page to load
-
-    let contentDivs = await driver.findElements(By.css("div.grouped-items-with-sticky-footer__content"));
+    const contentDivs = await page.$$("div.grouped-items-with-sticky-footer__content");
     for (let i = 0; i < Math.min(contentDivs.length, 10); i++) {
-      let content = contentDivs[i];
-      let player = await content.findElement(By.css("a.link.pbcs__player-link")).getText();
-      let ftsy_score = await content.findElement(By.css("div.flex.card__prop-container span.typography")).getText();
-      let proj = await content.findElement(By.css("div.flex.card__proj-container span.typography")).getText();
-      let diff = await content.findElement(By.css("div.flex.card__proj-container span.typography:nth-child(2)")).getText();
-      let recommendation = await content.findElement(By.css("div.flex.card__proj-container span.projection__recommendation")).getText();
-      let img_url = await content.findElement(By.css("img.player-image-card__player-image")).getAttribute("src");
+      const content = contentDivs[i];
+      const player = await content.$eval("a.link.pbcs__player-link", (el) => el.innerText.trim());
+      const ftsy_score = await content.$eval("div.flex.card__prop-container span.typography", (el) => el.innerText.trim());
+      const proj = await content.$eval("div.flex.card__proj-container span.typography", (el) => el.innerText.trim().replace("Proj ", ""));
+      const diff = await content.$eval("div.flex.card__proj-container span.typography:nth-child(2)", (el) => el.innerText.trim().replace("Diff ", ""));
+      const recommendation = await content.$eval("div.flex.card__proj-container span.projection__recommendation", (el) => el.innerText.trim());
+      const img_url = await content.$eval("img.player-image-card__player-image", (el) => el.src);
 
       projections.push({
-        player: player.trim(),
-        ftsy_score: ftsy_score.trim(),
-        projection: proj.trim().replace("Proj ", ""),
-        difference: diff.trim().replace("Diff ", ""),
-        recommendation: recommendation.trim(),
-        img_url: img_url.trim(),
+        player,
+        ftsy_score,
+        projection: proj,
+        difference: diff,
+        recommendation,
+        img_url,
       });
     }
   } catch (error) {
     console.error("Error fetching projections:", error);
   } finally {
-    await driver.quit();
+    await browser.close();
   }
 
   return { props: { projections } };
