@@ -5,17 +5,17 @@
 /api/__pycache__/
 
 # dependencies
-/frontend/node_modules
-/.pnp
-.pnp.js
-.yarn/install-state.gz
+/frontend/node_modules/
+/frontend/.pnp
+/frontend/.pnp.js
+/frontend/.yarn/install-state.gz
 
 # testing
 /coverage
 
 # next.js
-/.next/
-/out/
+/frontend/.next/
+/frontend/out/
 
 # production
 /build
@@ -36,5 +36,25 @@ yarn-error.log*
 .vercel
 
 # typescript
-*.tsbuildinfo
-next-env.d.ts
+/frontend/*.tsbuildinfo
+/frontend/next-env.d.ts
+
+# Logs
+/frontend/logs
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
+
+# OS-specific
+Thumbs.db
+ehthumbs.db
+
+# IDEs and editors
+.vscode
+.idea
+
+# dotenv
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
