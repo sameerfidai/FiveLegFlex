@@ -3,7 +3,7 @@ import requests
 from cachetools import TTLCache, cached
 from typing import Optional
 
-API_KEY = "da743b1ecee8d2d9dc2250a8ca8bfb6b"
+API_KEY = "bffd73c98de47120e33b38c184be08fc"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
