@@ -56,7 +56,7 @@ const propTypeMapping = {
 const FilterButtons = ({ selectedFilter, setSelectedFilter, selectedPropType, setSelectedPropType, selectedGame, setSelectedGame, games, includePrizePicks, setIncludePrizePicks }) => {
   return (
     <div className="flex flex-col md:flex-row justify-between items-center mb-4 space-y-2 md:space-y-0 md:space-x-4">
-      <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 mb-2 md:mb-0">
+      <div className="flex flex-row space-x-2 mb-2 md:mb-0">
         <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "all" ? "bg-gold text-black shadow-lg transform scale-105" : "bg-black text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("all")}>
           All
         </button>
