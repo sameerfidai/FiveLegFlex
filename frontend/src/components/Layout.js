@@ -62,7 +62,7 @@ const Layout = ({ children }) => {
         </div>
       </nav>
 
-      <div className="flex-grow p-10 flex flex-col justify-center items-center mt-8 md:mt-2">{children}</div>
+      <div className="flex-grow p-10 flex flex-col justify-center items-center md:mt-2">{children}</div>
     </div>
   );
 };
