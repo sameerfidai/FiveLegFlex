@@ -216,7 +216,10 @@ def normalize_name(name):
     name_replacements = {
         "CJ": "C.J.",
         "Herbert": "Herb",
+        "Derrick Jones Jr": "Derrick Jones",
+        "PJ Washington": "P.J. Washington",
     }
+
     for key, value in name_replacements.items():
         name = name.replace(key, value)
     return name.replace(".", "")
