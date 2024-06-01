@@ -79,6 +79,7 @@ const TopProjections = ({ projections }) => {
   );
 };
 
+/*
 export async function getServerSideProps() {
   const browser = await puppeteer.launch({
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
@@ -123,5 +124,6 @@ export async function getServerSideProps() {
     await browser.close();
   }
 }
+*/
 
 export default TopProjections;
