@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Layout from "@/components/Layout";
 import Head from "next/head";
-import puppeteer from "puppeteer";
+//import puppeteer from "puppeteer";
 
 const TopProjections = ({ projections }) => {
   const [selectedIndices, setSelectedIndices] = useState([]);
