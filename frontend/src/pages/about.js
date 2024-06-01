@@ -6,7 +6,7 @@ const About = () => {
   return (
     <Layout>
       <Head>
-        <title>About | FiveLegFlex</title>
+        <title>About</title>
       </Head>
       <div className="text-white p-6 md:p-10 lg:p-12">
         <div className="max-w-4xl mx-auto">

@@ -154,7 +154,7 @@ const PropsPage = () => {
   return (
     <Layout>
       <Head>
-        <title>Props | FiveLegFlex</title>
+        <title>Props Optimizer</title>
       </Head>
       <div className="bg-fullblack text-white min-h-screen">
         <div className="container mx-auto">

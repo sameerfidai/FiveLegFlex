@@ -6,7 +6,7 @@ const Contact = () => {
   return (
     <Layout>
       <Head>
-        <title>Contact Us | FiveLegFlex</title>
+        <title>Contact Us</title>
       </Head>
       <div className="text-white p-6 md:p-10 lg:p-12">
         <div className="max-w-4xl mx-auto">

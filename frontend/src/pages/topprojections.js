@@ -17,6 +17,20 @@ const TopProjections = ({ projections }) => {
   return (
     <Layout>
       <Head>
+        <title>Top Projections</title>
+      </Head>
+      <div className="text-white p-6 md:p-10 lg:p-12">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-center text-5xl font-bold mb-6">Coming Soon</h1>
+          <p className="text-center text-xl mb-4">Top NBA prop projections for the day...</p>
+        </div>
+      </div>
+    </Layout>
+  );
+
+  return (
+    <Layout>
+      <Head>
         <title>Top Projections | FiveLegFlex</title>
       </Head>
       <div className="text-white min-h-screen p-6 md:p-10 lg:p-12">
