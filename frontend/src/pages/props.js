@@ -156,7 +156,7 @@ const PropsPage = () => {
       <Head>
         <title>Props | FiveLegFlex</title>
       </Head>
-      <div className="bg-fullblack text-white p-4 md:p-6 lg:p-8 min-h-screen">
+      <div className="bg-fullblack text-white min-h-screen">
         <div className="container mx-auto">
           <FilterButtons
             selectedFilter={selectedFilter}
