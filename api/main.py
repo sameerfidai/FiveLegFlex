@@ -10,6 +10,7 @@ app = FastAPI()
 origins = [
     "http://localhost:3000",  # For local development
     "https://five-leg-flex.vercel.app",
+    "https://www.fivelegflex.com/",
 ]
 
 app.add_middleware(
