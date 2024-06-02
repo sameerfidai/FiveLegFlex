@@ -156,7 +156,7 @@ const PropsPage = () => {
       <Head>
         <title>Props Optimizer</title>
       </Head>
-      <div className="bg-fullblack text-white min-h-screen">
+      <div className="bg-fullblack text-white min-h-screen min-w-full">
         <div className="container mx-auto">
           <FilterButtons
             selectedFilter={selectedFilter}
