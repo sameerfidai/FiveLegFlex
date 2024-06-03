@@ -421,7 +421,7 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
     return all_props_dict
 
 
-def getBestProps(include_prizepicks=True):
+def getBestPropsNBA(include_prizepicks=True):
     prop_types = [
         "player_points",
         "player_rebounds",

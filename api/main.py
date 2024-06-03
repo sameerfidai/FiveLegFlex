@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
-from booksdata import getBestProps
+from api.nba_booksdata import getBestPropsNBA
 
 # from scrape_props_selenium import get_top_projections
 
@@ -23,8 +23,8 @@ app.add_middleware(
 
 
 @app.get("/api/best-props")
-async def read_best_props(include_prizepicks: bool = Query(True)):
-    return getBestProps(include_prizepicks)
+async def read_best_props_nba(include_prizepicks: bool = Query(True)):
+    return getBestPropsNBA(include_prizepicks)
 
 
 # @app.get("/api/top-projections")

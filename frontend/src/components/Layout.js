@@ -4,6 +4,11 @@ import "../app/globals.css";
 
 const Layout = ({ children }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const handleDropdownToggle = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-fullblack text-white">
@@ -16,9 +21,21 @@ const Layout = ({ children }) => {
           </div>
 
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0 space-x-6">
-            <Link href="/props" className="whitespace-nowrap text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
-              NBA Props
-            </Link>
+            <div className="relative">
+              <button onClick={handleDropdownToggle} className="whitespace-nowrap text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
+                Sports
+              </button>
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-fullblack bg-opacity-90 border border-black2 rounded-md shadow-lg py-1 z-20">
+                  <Link href="/props/nba" className="block px-4 py-2 text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
+                    NBA
+                  </Link>
+                  <Link href="/props/mls" className="block px-4 py-2 text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
+                    MLS
+                  </Link>
+                </div>
+              )}
+            </div>
             <Link href="/topprojections" className="whitespace-nowrap text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
               Projections
             </Link>
@@ -42,8 +59,13 @@ const Layout = ({ children }) => {
         <div className={`md:hidden absolute top-16 left-0 w-full bg-fullblack bg-opacity-90 border-t border-black2 px-5 py-4 transition-transform duration-300 ease-in-out ${mobileMenuOpen ? "block" : "hidden"}`}>
           <ul className="flex flex-col space-y-4">
             <li>
-              <Link href="/props" className="text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
-                NBA Props
+              <Link href="/props/nba" className="text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
+                NBA
+              </Link>
+            </li>
+            <li>
+              <Link href="/props/mls" className="text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
+                MLS
               </Link>
             </li>
             <li>
