@@ -17,10 +17,41 @@ def getPrizePicksData():
     Returns:
         dict: A dictionary mapping player ID to player data (name, lines, team, etc).
     """
+    mls_teams = [
+        "Atlanta United FC",
+        "Austin FC",
+        "CF Montréal",
+        "Charlotte FC",
+        "Chicago Fire FC",
+        "FC Cincinnati",
+        "Colorado Rapids",
+        "Columbus Crew",
+        "D.C. United",
+        "FC Dallas",
+        "Houston Dynamo FC",
+        "Inter Miami CF",
+        "LA Galaxy",
+        "Los Angeles FC",
+        "Minnesota United FC",
+        "Nashville SC",
+        "New England Revolution",
+        "New York City FC",
+        "New York Red Bulls",
+        "Orlando City SC",
+        "Philadelphia Union",
+        "Portland Timbers",
+        "Real Salt Lake",
+        "San Jose Earthquakes",
+        "Seattle Sounders FC",
+        "Sporting Kansas City",
+        "St. Louis City SC",
+        "Toronto FC",
+        "Vancouver Whitecaps FC",
+    ]
 
     # TO DO:
     # change this URL to MLS props
-    URL = "https://partner-api.prizepicks.com/projections?league_id=7"
+    URL = "https://partner-api.prizepicks.com/projections?league_id=82"
 
     try:
         response = requests.get(URL)
@@ -43,7 +74,17 @@ def getPrizePicksData():
             player["id"]: player["attributes"]
             for player in prizepicks_data["included"]
             if player["type"] == "new_player"
+            and player["attributes"]["market"] in mls_teams
         }
+
+        # for player in prizepicks_data["included"]:
+        #     if player["type"] == "new_player":
+        #         team = player["attributes"]["market"]
+        #         player_name = player["attributes"]["name"]
+        #         is_in_mls_teams = team in mls_teams
+        #         print(
+        #             f"Team: {team}, In MLS Teams: {is_in_mls_teams}, Player Name: {player_name}"
+        #         )
 
         for player_id in players_lines:
             players_lines[player_id]["lines"] = {}
@@ -180,7 +221,9 @@ def getPlayersPropsOddsForGame(event_id, prop_type):
     return players_odds_all_books
 
 
-games = getGames()
-for game_id in games[:2]:
-    player_props_odds_for_game = getPlayersPropsOddsForGame(game_id, "player_shots")
-    print(player_props_odds_for_game)
+# games = getGames()
+# for game_id in games[:2]:
+#     player_props_odds_for_game = getPlayersPropsOddsForGame(game_id, "player_shots")
+#     print("props:", player_props_odds_for_game)
+
+print(getPrizePicksData())
