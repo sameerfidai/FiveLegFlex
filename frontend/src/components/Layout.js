@@ -36,9 +36,9 @@ const Layout = ({ children }) => {
                 </div>
               )}
             </div>
-            <Link href="/topprojections" className="whitespace-nowrap text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
+            {/* <Link href="/topprojections" className="whitespace-nowrap text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
               Projections
-            </Link>
+            </Link> */}
             <Link href="/about" className="whitespace-nowrap text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
               About
             </Link>

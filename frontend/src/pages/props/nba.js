@@ -154,7 +154,7 @@ const NBAPropsPage = () => {
   return (
     <Layout>
       <Head>
-        <title>Props Optimizer</title>
+        <title>NBA Props</title>
       </Head>
       <div className="bg-fullblack text-white min-h-screen min-w-full">
         <div className="container mx-auto">

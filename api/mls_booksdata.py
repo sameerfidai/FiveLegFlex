@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 from cachetools import TTLCache, cached
-from nba_booksdata import calculate_implied_probability
+from nba_booksdata import calculate_implied_probability, build_prizepicks_index
 import requests
 from typing import Optional
 
@@ -17,6 +17,7 @@ def getPrizePicksData():
     Returns:
         dict: A dictionary mapping player ID to player data (name, lines, team, etc).
     """
+
     mls_teams = [
         "Atlanta United FC",
         "Austin FC",
@@ -49,8 +50,6 @@ def getPrizePicksData():
         "Vancouver Whitecaps FC",
     ]
 
-    # TO DO:
-    # change this URL to MLS props
     URL = "https://partner-api.prizepicks.com/projections?league_id=82"
 
     try:
@@ -221,7 +220,62 @@ def getPlayersPropsOddsForGame(event_id, prop_type):
     return players_odds_all_books
 
 
-# games = getGames()
+def normalize_name(name):
+    """
+    Normalizes player names to ensure consistency across data sources.
+
+    Parameters:
+        name (str): The player name to normalize.
+
+    Returns:
+        str: The normalized player name.
+    """
+
+    name_replacements = {
+        "CJ": "C.J.",
+        "Herbert": "Herb",
+        "Derrick Jones Jr": "Derrick Jones",
+        "PJ Washington": "P.J. Washington",
+    }
+
+    for key, value in name_replacements.items():
+        name = name.replace(key, value)
+    return name.replace(".", "")
+
+
+def getBestPropsMLS():
+    prop_types = [
+        "player_shots",
+        "player_assists",
+    ]
+
+    games_today = getGames()
+    if not games_today:
+        return {"message": "No MLS games.", "data": []}
+
+    prizepicks_data = getPrizePicksData()
+    prizepicks_index = build_prizepicks_index(prizepicks_data)
+
+    all_best_props = []
+
+    for game_id in games_today:
+        for prop_type in prop_types:
+            player_props_odds_for_game = getPlayersPropsOddsForGame(game_id, prop_type)
+            best_props = find_best_props(
+                player_props_odds_for_game,
+                prop_type,
+                prizepicks_index,
+            )
+            all_best_props.extend(best_props.values())
+
+    sorted_best_props = sorted(
+        all_best_props, key=lambda x: x["bestBetProbability"], reverse=True
+    )
+
+    return {"message": "Success", "data": sorted_best_props}
+
+
+games = getGames()
 # for game_id in games[:2]:
 #     player_props_odds_for_game = getPlayersPropsOddsForGame(game_id, "player_shots")
 #     print("props:", player_props_odds_for_game)
