@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 from cachetools import TTLCache, cached
-from nba_booksdata import calculate_implied_probability, build_prizepicks_index
+from nba_booksdata import build_prizepicks_index
 import requests
 from typing import Optional
 
@@ -171,7 +171,7 @@ def getPlayersPropsOddsForGame(event_id, prop_type):
     }
 
     response = requests.get(request_url, params=params)
-    print(response.json())
+    # print("Response: ", response.json())
 
     players_odds_all_books = {}
 
@@ -243,10 +243,200 @@ def normalize_name(name):
     return name.replace(".", "")
 
 
+def calculate_implied_probability(odds):
+    """
+    Calculate the implied probability from American odds.
+
+    Parameters:
+        odds (int): The American odds.
+
+    Returns:
+        float: The implied probability.
+    """
+    if odds > 0:
+        probability = 100 / (odds + 100)
+    elif odds < 0:
+        probability = abs(odds) / (abs(odds) + 100)
+    else:
+        return None
+
+    return probability
+
+
+def find_best_props(players_data, prop_type, prizepicks_index):
+    """
+    Determines the best betting props for players based on bookmaker and optionally PrizePicks data.
+
+    Parameters:
+        players_data (dict): Player names with odds data from bookmakers.
+        prop_type (str): Type of player prop (e.g., "player_points").
+        prizepicks_index (dict): Indexed PrizePicks data with normalized player names.
+
+    Returns:
+        dict: Compiled best bets with details on odds, line, probability, etc.
+    """
+
+    all_props_dict = {}
+
+    # Map prop types to readable format
+    prop_type_mapping = {
+        "player_shots": "Shots",
+        "player_shots_on_target": "Shots On Target",
+    }
+
+    readable_prop_type = prop_type_mapping.get(prop_type, prop_type)
+
+    for player, data in players_data.items():
+        # print(f"Processing player: {player}")
+        normalized_player = normalize_name(player)
+        home_team = data.get("home_team", "N/A")
+        away_team = data.get("away_team", "N/A")
+        player_props = []
+
+        for book, odds in data.items():
+            if book in ["home_team", "away_team"]:
+                continue
+
+            over_odds = odds.get("overOdds")
+            under_odds = odds.get("underOdds")
+
+            # Correcting the odds format
+            if isinstance(over_odds, int) and over_odds > 0:
+                over_odds = -over_odds
+            if under_odds == "None":
+                under_odds = None
+            elif isinstance(under_odds, int) and under_odds > 0:
+                under_odds = -under_odds
+
+            # print(f"Book: {book}, Over Odds: {over_odds}, Under Odds: {under_odds}")
+
+            if over_odds is not None or under_odds is not None:
+                if over_odds is not None:
+                    over_prob = calculate_implied_probability(over_odds)
+                    # print(f"Over Odds: {over_odds}, Over Probability: {over_prob}")
+                else:
+                    over_prob = None
+
+                if under_odds is not None:
+                    under_prob = calculate_implied_probability(under_odds)
+                    # print(f"Under Odds: {under_odds}, Under Probability: {under_prob}")
+                else:
+                    under_prob = None
+
+                if under_odds is None and over_odds is not None:
+                    player_props.append(
+                        {
+                            "book": book,
+                            "line": odds["points"],
+                            "overOdds": over_odds,
+                            "underOdds": under_odds,
+                            "overProbability": over_prob,
+                            "underProbability": under_prob,
+                            "bestBet": "over",
+                        }
+                    )
+                elif over_prob is not None or under_prob is not None:
+                    total_prob = (over_prob or 0) + (under_prob or 0)
+                    over_prob_vig_adjusted = (
+                        (over_prob / total_prob) if over_prob else None
+                    )
+                    under_prob_vig_adjusted = (
+                        (under_prob / total_prob) if under_prob else None
+                    )
+
+                    player_props.append(
+                        {
+                            "book": book,
+                            "line": odds["points"],
+                            "overOdds": over_odds,
+                            "underOdds": under_odds,
+                            "overProbability": over_prob_vig_adjusted,
+                            "underProbability": under_prob_vig_adjusted,
+                        }
+                    )
+
+        # print(f"Player Props for {player}: {player_props}")
+
+        if normalized_player in prizepicks_index:
+            # print(f"{player} in : PrizePicks Index")
+            pp_player = prizepicks_index[normalized_player]
+            if readable_prop_type in pp_player["lines"]:
+                prizepicks_line = pp_player["lines"][readable_prop_type]
+                img_url = pp_player.get(
+                    "image_url",
+                    "https://cdn-icons-png.flaticon.com/512/2748/2748558.png",
+                )
+
+                matching_props = [
+                    prop for prop in player_props if prop["line"] == prizepicks_line
+                ]
+
+                if matching_props:
+                    best_bet = max(
+                        matching_props,
+                        key=lambda x: max(
+                            x["overProbability"] or 0, x["underProbability"] or 0
+                        ),
+                    )
+                    best_bet["bestBet"] = (
+                        "over"
+                        if (best_bet["overProbability"] or 0)
+                        > (best_bet["underProbability"] or 0)
+                        else "under"
+                    )
+
+                    weighted_sum = 0
+                    total_weight = 0
+                    for book_odds in matching_props:
+                        if (
+                            best_bet["bestBet"] == "over"
+                            and book_odds["overProbability"] is not None
+                        ):
+                            weighted_sum += book_odds["overProbability"] * (
+                                1 / abs(book_odds["overOdds"])
+                            )
+                            total_weight += 1 / abs(book_odds["overOdds"])
+                        elif (
+                            best_bet["bestBet"] == "under"
+                            and book_odds["underProbability"] is not None
+                        ):
+                            weighted_sum += book_odds["underProbability"] * (
+                                1 / abs(book_odds["underOdds"])
+                            )
+                            total_weight += 1 / abs(book_odds["underOdds"])
+
+                    best_bet_probability = (
+                        weighted_sum / total_weight if total_weight != 0 else None
+                    )
+
+                    composite_key = f"{player}_{readable_prop_type}"
+                    all_props_dict[composite_key] = {
+                        "player": player,
+                        "prop_type": readable_prop_type,
+                        "home_team": home_team,
+                        "away_team": away_team,
+                        "line": prizepicks_line,
+                        "img_url": img_url,
+                        "bestBet": best_bet["bestBet"],
+                        "bestBetOdds": (
+                            best_bet["overOdds"]
+                            if best_bet["bestBet"] == "over"
+                            else best_bet["underOdds"]
+                        ),
+                        "bestBook": best_bet["book"],
+                        "bestBetProbability": best_bet_probability,
+                        "allBookOdds": player_props,
+                    }
+
+                    # print(f"Best Bet for {player}: {all_props_dict[composite_key]}")
+
+    return all_props_dict
+
+
 def getBestPropsMLS():
     prop_types = [
         "player_shots",
-        "player_assists",
+        "player_shots_on_target",
     ]
 
     games_today = getGames()
@@ -275,9 +465,5 @@ def getBestPropsMLS():
     return {"message": "Success", "data": sorted_best_props}
 
 
-games = getGames()
-# for game_id in games[:2]:
-#     player_props_odds_for_game = getPlayersPropsOddsForGame(game_id, "player_shots")
-#     print("props:", player_props_odds_for_game)
-
-print(getPrizePicksData())
+if __name__ == "__main__":
+    pass

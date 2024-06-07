@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
-from api.nba_booksdata import getBestPropsNBA
-from api.mls_booksdata import getBestPropsMLS
+from nba_booksdata import getBestPropsNBA
+from mls_booksdata import getBestPropsMLS
 
 # from scrape_props_selenium import get_top_projections
 
