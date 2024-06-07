@@ -3,15 +3,15 @@ import requests
 from cachetools import TTLCache, cached
 from typing import Optional
 
-API_KEY = "bffd73c98de47120e33b38c184be08fc"
+API_KEY = "6f89165d6f383b19a4001313db28dc4c"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
 
-# create caches with a time-to-live (TTL) of 5 minutes (300 seconds)
-prizepicks_cache = TTLCache(maxsize=100, ttl=300)
-odds_cache = TTLCache(maxsize=100, ttl=300)
-games_cache = TTLCache(maxsize=100, ttl=300)
+# create caches with a time-to-live (TTL) of 10 minutes (600 seconds)
+prizepicks_cache = TTLCache(maxsize=100, ttl=600)
+odds_cache = TTLCache(maxsize=100, ttl=600)
+games_cache = TTLCache(maxsize=100, ttl=600)
 
 
 @cached(prizepicks_cache)

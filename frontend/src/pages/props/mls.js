@@ -102,7 +102,7 @@ const FilterButtons = ({ selectedFilter, setSelectedFilter, selectedPropType, se
 };
 
 const MLSPropsPage = () => {
-  const { data: bettingProps, error, loading } = useFetch(LOCAL_URL);
+  const { data: bettingProps, error, loading } = useFetch(API_URL);
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [selectedPropType, setSelectedPropType] = useState("all");
   const [selectedGame, setSelectedGame] = useState("all");

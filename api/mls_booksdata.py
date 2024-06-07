@@ -4,10 +4,14 @@ from nba_booksdata import build_prizepicks_index
 import requests
 from typing import Optional
 
-API_KEY = "bffd73c98de47120e33b38c184be08fc"
+API_KEY = "6f89165d6f383b19a4001313db28dc4c"
 SPORT = "soccer_usa_mls"
 REGIONS = "us"
 ODDS_FORMAT = "american"
+
+# create caches with a time-to-live (TTL) of 10 minutes (600 seconds)
+odds_cache = TTLCache(maxsize=100, ttl=600)
+games_cache = TTLCache(maxsize=100, ttl=600)
 
 
 def getPrizePicksData():
@@ -109,6 +113,7 @@ def getPrizePicksData():
         return {}
 
 
+@cached(games_cache)
 def getGames():
     """
     Fetches a list of event IDs for upcoming MLS games.
@@ -144,6 +149,7 @@ def getGames():
     return event_ids
 
 
+@cached(odds_cache)
 def getPlayersPropsOddsForGame(event_id, prop_type):
     """
     Retrieves betting odds for specified player propositions from different bookmakers for a specific game.
@@ -445,6 +451,9 @@ def getBestPropsMLS():
 
     prizepicks_data = getPrizePicksData()
     prizepicks_index = build_prizepicks_index(prizepicks_data)
+
+    if not prizepicks_data or not prizepicks_index:
+        return {"message": "No MLS Data.", "data": []}
 
     all_best_props = []
 
