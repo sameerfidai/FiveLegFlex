@@ -10,10 +10,12 @@ REGIONS = "us"
 ODDS_FORMAT = "american"
 
 # create caches with a time-to-live (TTL) of 10 minutes (600 seconds)
+prizepicks_cache = TTLCache(maxsize=100, ttl=600)
 odds_cache = TTLCache(maxsize=100, ttl=600)
 games_cache = TTLCache(maxsize=100, ttl=600)
 
 
+@cached(prizepicks_cache)
 def getPrizePicksData():
     """
     Gets props data currently live on PrizePicks.

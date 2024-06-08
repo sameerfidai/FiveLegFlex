@@ -68,11 +68,11 @@ const Layout = ({ children }) => {
                 MLS
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link href="/topprojections" className="text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
                 Top Projections
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link href="/about" className="text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
                 About
