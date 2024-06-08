@@ -462,7 +462,3 @@ def getBestPropsNBA(include_prizepicks=True):
     )
 
     return {"message": "Success", "data": sorted_best_props}
-
-
-if __name__ == "__main__":
-    pass
