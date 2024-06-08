@@ -328,16 +328,7 @@ def find_best_props(players_data, prop_type, prizepicks_index):
                         key=lambda x: x["probability"],
                     )
 
-                    weighted_sum = 0
-                    total_weight = 0
-                    for book_odds in matching_props:
-                        weighted_sum += book_odds["probability"] * (
-                            1 / abs(book_odds["odds"])
-                        )
-                        total_weight += 1 / abs(book_odds["odds"])
-                    best_bet_probability = (
-                        weighted_sum / total_weight if total_weight != 0 else None
-                    )
+                    best_bet_probability = best_bet["probability"]
 
                     composite_key = f"{player}_{readable_prop_type}"
                     all_props_dict[composite_key] = {
@@ -389,9 +380,4 @@ def getBestPropsMLS():
         all_best_props, key=lambda x: x["bestBetProbability"], reverse=True
     )
 
-    print(sorted_best_props)
-
     return {"message": "Success", "data": sorted_best_props}
-
-
-getBestPropsMLS()
