@@ -157,7 +157,7 @@ const NBAPropsPage = () => {
         <title>NBA Props</title>
       </Head>
       <div className="bg-fullblack text-white min-h-screen min-w-full">
-        <div className="container mx-auto">
+        <div className="container mx-auto text-center">
           <FilterButtons
             selectedFilter={selectedFilter}
             setSelectedFilter={setSelectedFilter}
@@ -170,7 +170,7 @@ const NBAPropsPage = () => {
             setIncludePrizePicks={setIncludePrizePicks}
           />
           {hasProps && !error ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 place-items-stretch">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 justify-items-center">
               {filteredProps.map((prop, index) => (
                 <BettingProp key={index} prop={prop} />
               ))}
