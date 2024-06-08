@@ -295,22 +295,6 @@ def find_best_props(players_data, prop_type, prizepicks_index):
         away_team = data.get("away_team", "N/A")
         player_props = []
 
-        for book, odds_list in data.items():
-            if book in ["home_team", "away_team"]:
-                continue
-
-            for odds in odds_list:
-                over_prob = calculate_implied_probability(odds["odds"])
-                if over_prob is not None:
-                    player_props.append(
-                        {
-                            "book": book,
-                            "line": odds["points"],
-                            "odds": odds["odds"],
-                            "probability": over_prob,
-                        }
-                    )
-
         if normalized_player in prizepicks_index:
             pp_player = prizepicks_index[normalized_player]
             if readable_prop_type in pp_player["lines"]:
@@ -319,12 +303,28 @@ def find_best_props(players_data, prop_type, prizepicks_index):
                     "image_url",
                     "https://cdn-icons-png.flaticon.com/512/2748/2748558.png",
                 )
-                matching_props = [
-                    prop for prop in player_props if prop["line"] == prizepicks_line
-                ]
-                if matching_props:
+
+                # Filter odds to only include those that match the PrizePicks line
+                for book, odds_list in data.items():
+                    if book in ["home_team", "away_team"]:
+                        continue
+
+                    for odds in odds_list:
+                        if odds["points"] == prizepicks_line:
+                            over_prob = calculate_implied_probability(odds["odds"])
+                            if over_prob is not None:
+                                player_props.append(
+                                    {
+                                        "book": book,
+                                        "line": odds["points"],
+                                        "odds": odds["odds"],
+                                        "probability": over_prob,
+                                    }
+                                )
+
+                if player_props:
                     best_bet = max(
-                        matching_props,
+                        player_props,
                         key=lambda x: x["probability"],
                     )
 
