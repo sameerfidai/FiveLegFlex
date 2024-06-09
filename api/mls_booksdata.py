@@ -354,15 +354,15 @@ def getBestPropsMLS():
         "player_shots_on_target",
     ]
 
-    games_today = getGames()
-    if not games_today:
-        return {"message": "No MLS games.", "data": []}
-
     prizepicks_data = getPrizePicksData()
     prizepicks_index = build_prizepicks_index(prizepicks_data)
 
     if not prizepicks_data or not prizepicks_index:
-        return {"message": "No MLS Data.", "data": []}
+        return {"message": "No MLS Props Data.", "data": []}
+
+    games_today = getGames()
+    if not games_today:
+        return {"message": "No MLS games.", "data": []}
 
     all_best_props = []
 

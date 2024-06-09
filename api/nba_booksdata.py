@@ -437,12 +437,15 @@ def getBestPropsNBA(include_prizepicks=True):
         "player_rebounds_assists",
     ]
 
+    prizepicks_data = getPrizePicksData()
+    prizepicks_index = build_prizepicks_index(prizepicks_data)
+
+    if not prizepicks_data or not prizepicks_index:
+        return {"message": "No NBA Props Data.", "data": []}
+
     games_today = getGames()
     if not games_today:
         return {"message": "No NBA games.", "data": []}
-
-    prizepicks_data = getPrizePicksData()
-    prizepicks_index = build_prizepicks_index(prizepicks_data)
 
     all_best_props = []
 
