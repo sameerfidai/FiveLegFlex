@@ -170,10 +170,12 @@ const NBAPropsPage = () => {
             setIncludePrizePicks={setIncludePrizePicks}
           />
           {hasProps && !error ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 justify-items-center">
-              {filteredProps.map((prop, index) => (
-                <BettingProp key={index} prop={prop} />
-              ))}
+            <div className="flex justify-center items-center">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                {filteredProps.map((prop, index) => (
+                  <BettingProp key={index} prop={prop} />
+                ))}
+              </div>
             </div>
           ) : (
             <div className="bg-fullblack text-white p-4 md:p-6 lg:p-8">
