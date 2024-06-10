@@ -1,14 +1,28 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../app/globals.css";
 
 const Layout = ({ children }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const handleDropdownToggle = () => {
     setDropdownOpen(!dropdownOpen);
   };
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen bg-fullblack text-white">
@@ -21,7 +35,7 @@ const Layout = ({ children }) => {
           </div>
 
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0 space-x-6">
-            <div className="relative">
+            <div className="relative" ref={dropdownRef}>
               <button onClick={handleDropdownToggle} className="whitespace-nowrap text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out flex items-center">
                 Sports
                 <svg className={`w-4 h-4 ml-1 transition-transform duration-300 ease-in-out ${dropdownOpen ? "transform rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
