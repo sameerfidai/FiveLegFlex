@@ -22,23 +22,23 @@ const Layout = ({ children }) => {
 
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0 space-x-6">
             <div className="relative">
-              <button onClick={handleDropdownToggle} className="whitespace-nowrap text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
+              <button onClick={handleDropdownToggle} className="whitespace-nowrap text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out flex items-center">
                 Sports
+                <svg className={`w-4 h-4 ml-1 transition-transform duration-300 ease-in-out ${dropdownOpen ? "transform rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
               </button>
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-fullblack bg-opacity-90 border border-black2 rounded-md shadow-lg py-1 z-20">
-                  <Link href="/props/nba" className="block px-4 py-2 text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
+                  <Link href="/props/nba" className="block px-4 py-2 text-base font-medium text-white hover:text-gold hover:bg-black transition duration-300 ease-in-out rounded-t-md">
                     NBA
                   </Link>
-                  <Link href="/props/mls" className="block px-4 py-2 text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
+                  <Link href="/props/mls" className="block px-4 py-2 text-base font-medium text-white hover:text-gold hover:bg-black transition duration-300 ease-in-out rounded-b-md">
                     MLS
                   </Link>
                 </div>
               )}
             </div>
-            {/* <Link href="/topprojections" className="whitespace-nowrap text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
-              Projections
-            </Link> */}
             <Link href="/about" className="whitespace-nowrap text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
               About
             </Link>
@@ -68,11 +68,6 @@ const Layout = ({ children }) => {
                 MLS
               </Link>
             </li>
-            {/* <li>
-              <Link href="/topprojections" className="text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
-                Top Projections
-              </Link>
-            </li> */}
             <li>
               <Link href="/about" className="text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
                 About
