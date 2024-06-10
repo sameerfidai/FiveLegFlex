@@ -55,7 +55,7 @@ const propTypeMapping = {
 
 const FilterButtons = ({ selectedFilter, setSelectedFilter, selectedPropType, setSelectedPropType, selectedGame, setSelectedGame, games, includePrizePicks, setIncludePrizePicks }) => {
   return (
-    <div className="flex flex-col md:flex-row justify-between items-center mb-4 space-y-2 md:space-y-0 md:space-x-4">
+    <div className="flex flex-col md:flex-row justify-between items-center mb-4 space-y-2 md:space-y-0 md:space-x-4 w-full">
       <div className="flex flex-row space-x-2 mb-2 md:mb-0">
         <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "all" ? "bg-gold text-black shadow-lg transform scale-105" : "bg-black text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("all")}>
           All
@@ -158,31 +158,31 @@ const NBAPropsPage = () => {
       </Head>
       <div className="bg-fullblack text-white min-h-screen min-w-full">
         <div className="container mx-auto text-center">
-          <FilterButtons
-            selectedFilter={selectedFilter}
-            setSelectedFilter={setSelectedFilter}
-            selectedPropType={selectedPropType}
-            setSelectedPropType={setSelectedPropType}
-            selectedGame={selectedGame}
-            setSelectedGame={setSelectedGame}
-            games={uniqueGames}
-            includePrizePicks={includePrizePicks}
-            setIncludePrizePicks={setIncludePrizePicks}
-          />
-          {hasProps && !error ? (
-            <div className="flex justify-center items-center">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          <div className="flex flex-col items-center w-full px-4">
+            <FilterButtons
+              selectedFilter={selectedFilter}
+              setSelectedFilter={setSelectedFilter}
+              selectedPropType={selectedPropType}
+              setSelectedPropType={setSelectedPropType}
+              selectedGame={selectedGame}
+              setSelectedGame={setSelectedGame}
+              games={uniqueGames}
+              includePrizePicks={includePrizePicks}
+              setIncludePrizePicks={setIncludePrizePicks}
+            />
+            {hasProps && !error ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 w-full">
                 {filteredProps.map((prop, index) => (
                   <BettingProp key={index} prop={prop} />
                 ))}
               </div>
-            </div>
-          ) : (
-            <div className="bg-fullblack text-white p-4 md:p-6 lg:p-8">
-              <h1 className="text-center text-4xl font-bold mb-4">No props available</h1>
-              <p className="text-center text-xl mb-4">Please check back later.</p>
-            </div>
-          )}
+            ) : (
+              <div className="bg-fullblack text-white p-4 md:p-6 lg:p-8 w-full">
+                <h1 className="text-center text-4xl font-bold mb-4">No props available</h1>
+                <p className="text-center text-xl mb-4">Please check back later.</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </Layout>
