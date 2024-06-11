@@ -27,7 +27,7 @@ const Layout = ({ children }) => {
   return (
     <div className="flex flex-col min-h-screen bg-fullblack text-white">
       <nav className="bg-fullblack bg-opacity-60 backdrop-blur-lg w-full sticky top-0 z-50 py-4 border-b border-black2">
-        <div className="container mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center px-10 w-full">
           <div className="flex justify-start">
             <Link href="/" className="text-xl font-bold text-white hover:text-gold transition duration-300 ease-in-out">
               FiveLegFlex
@@ -99,7 +99,7 @@ const Layout = ({ children }) => {
           </ul>
         </div>
       </nav>
-      <div className="flex-grow p-10 flex flex-col justify-center items-center">{children}</div>
+      <div className="flex-grow p-6 flex flex-col justify-center items-center">{children}</div>
     </div>
   );
 };

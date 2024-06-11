@@ -38,7 +38,7 @@ const BettingProp = ({ prop }) => {
     <div
       className={`bg-fullblack border-2 ${
         isSelected ? "bg-gold bg-opacity-30 shadow-2xl" : "border-white bg-fullblack shadow-xl"
-      } rounded-lg p-4 flex flex-col justify-between h-full transition-transform duration-300 ease-in-out cursor-pointer hover:bg-gold hover:bg-opacity-30 hover:scale-105 w-full max-w-sm mx-auto`}
+      } rounded-lg p-4 flex flex-col justify-between h-full transition-transform duration-300 ease-in-out cursor-pointer hover:bg-gold hover:bg-opacity-30 hover:scale-105 w-full`}
       onClick={toggleSelection}
     >
       <div className="flex flex-col items-center mb-4">
