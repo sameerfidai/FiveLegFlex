@@ -4,7 +4,6 @@ import BettingProp from "@/components/BettingProp";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Head from "next/head";
 
-const LOCAL_URL = "http://0.0.0.0:8080/api/best-props-nba";
 const API_URL = "https://fivelegflex-backend.fly.dev/api/best-props-nba";
 
 const useFetch = (url, includePrizePicks) => {
@@ -57,13 +56,13 @@ const FilterButtons = ({ selectedFilter, setSelectedFilter, selectedPropType, se
   return (
     <div className="flex flex-col md:flex-row justify-between items-center mb-4 space-y-2 md:space-y-0 md:space-x-4 w-full">
       <div className="flex flex-row space-x-2 mb-2 md:mb-0">
-        <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "all" ? "bg-gold text-black shadow-lg transform scale-105" : "bg-black text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("all")}>
+        <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "all" ? "bg-gold text-black shadow-lg" : "bg-black text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("all")}>
           All
         </button>
-        <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "over" ? "bg-green text-black shadow-lg transform scale-105" : "bg-black text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("over")}>
+        <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "over" ? "bg-green text-black shadow-lg" : "bg-black text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("over")}>
           Over
         </button>
-        <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "under" ? "bg-red text-black shadow-lg transform scale-105" : "bg-black text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("under")}>
+        <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "under" ? "bg-red text-black shadow-lg" : "bg-black text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("under")}>
           Under
         </button>
       </div>
@@ -171,15 +170,19 @@ const NBAPropsPage = () => {
               setIncludePrizePicks={setIncludePrizePicks}
             />
             {hasProps && !error ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 w-full">
+              <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {filteredProps.map((prop, index) => (
-                  <BettingProp key={index} prop={prop} />
+                  <div key={index} className="flex justify-center">
+                    <BettingProp prop={prop} />
+                  </div>
                 ))}
               </div>
             ) : (
-              <div className="bg-fullblack text-white p-4 md:p-6 lg:p-8 w-full">
-                <h1 className="text-center text-4xl font-bold mb-4">No props available</h1>
-                <p className="text-center text-xl mb-4">Please check back later.</p>
+              <div className="flex justify-center items-center min-h-[60vh] w-full">
+                <div className="bg-fullblack text-white p-4 md:p-6 lg:p-8 w-full max-w-2xl text-center">
+                  <h1 className="text-center text-4xl font-bold mb-4">No props available</h1>
+                  <p className="text-center text-xl mb-4">Please check back later.</p>
+                </div>
               </div>
             )}
           </div>
