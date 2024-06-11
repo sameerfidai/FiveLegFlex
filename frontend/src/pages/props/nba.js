@@ -156,36 +156,32 @@ const NBAPropsPage = () => {
         <title>NBA Props</title>
       </Head>
       <div className="bg-fullblack text-white min-h-screen min-w-full">
-        <div className="container mx-auto text-center">
-          <div className="flex flex-col items-center w-full px-4">
-            <FilterButtons
-              selectedFilter={selectedFilter}
-              setSelectedFilter={setSelectedFilter}
-              selectedPropType={selectedPropType}
-              setSelectedPropType={setSelectedPropType}
-              selectedGame={selectedGame}
-              setSelectedGame={setSelectedGame}
-              games={uniqueGames}
-              includePrizePicks={includePrizePicks}
-              setIncludePrizePicks={setIncludePrizePicks}
-            />
-            {hasProps && !error ? (
-              <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                {filteredProps.map((prop, index) => (
-                  <div key={index} className="flex justify-center">
-                    <BettingProp prop={prop} />
-                  </div>
-                ))}
+        <div className="container mx-auto px-4 text-center">
+          <FilterButtons
+            selectedFilter={selectedFilter}
+            setSelectedFilter={setSelectedFilter}
+            selectedPropType={selectedPropType}
+            setSelectedPropType={setSelectedPropType}
+            selectedGame={selectedGame}
+            setSelectedGame={setSelectedGame}
+            games={uniqueGames}
+            includePrizePicks={includePrizePicks}
+            setIncludePrizePicks={setIncludePrizePicks}
+          />
+          {hasProps && !error ? (
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+              {filteredProps.map((prop, index) => (
+                <BettingProp key={index} prop={prop} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex justify-center items-center w-full">
+              <div className="bg-fullblack text-white p-4 md:p-6 lg:p-8 w-full max-w-2xl text-center">
+                <h1 className="text-center text-4xl font-bold mb-4">No props available</h1>
+                <p className="text-center text-xl mb-4">Please check back later.</p>
               </div>
-            ) : (
-              <div className="flex justify-center items-center min-h-[60vh] w-full">
-                <div className="bg-fullblack text-white p-4 md:p-6 lg:p-8 w-full max-w-2xl text-center">
-                  <h1 className="text-center text-4xl font-bold mb-4">No props available</h1>
-                  <p className="text-center text-xl mb-4">Please check back later.</p>
-                </div>
-              </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </Layout>

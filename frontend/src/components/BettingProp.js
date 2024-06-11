@@ -36,40 +36,39 @@ const BettingProp = ({ prop }) => {
 
   return (
     <div
-      className={`max-w-sm border-2 ${isSelected ? "bg-gold bg-opacity-30 shadow-2xl" : "border-white bg-fullblack shadow-xl"} rounded-xl p-5 flex flex-col justify-between h-full transition-transform duration-300 ease-in-out cursor-pointer hover:bg-gold hover:bg-opacity-30 hover:scale-105`}
+      className={`bg-fullblack border-2 ${
+        isSelected ? "bg-gold bg-opacity-30 shadow-2xl" : "border-white bg-fullblack shadow-xl"
+      } rounded-lg p-4 flex flex-col justify-between h-full transition-transform duration-300 ease-in-out cursor-pointer hover:bg-gold hover:bg-opacity-30 hover:scale-105 w-full max-w-sm mx-auto`}
       onClick={toggleSelection}
     >
-      <div>
-        <img className={`w-32 h-32 rounded-full mx-auto border-4 border-white mb-4`} src={prop.img_url} alt={`Image of ${prop.player}`} />
-        <div className="mt-2 mb-2">
-          <h2 className={`text-2xl font-semibold text-center`}>{prop.player}</h2>
-          <p className="text-teal text-sm text-center">
-            {prop.home_team} vs {prop.away_team}
-          </p>
-          <p className="text-xl text-center">
-            <span className="text-gold">{prop.prop_type.toUpperCase()}: </span>
-            <span className="font-bold text-gold">{prop.line}</span>
-          </p>
-        </div>
+      <div className="flex flex-col items-center mb-4">
+        <img className="w-32 h-32 rounded-full border-4 border-white mb-2" src={prop.img_url} alt={`Image of ${prop.player}`} />
+        <h2 className="text-2xl font-semibold text-center mb-1">{prop.player}</h2>
+        <p className="text-teal text-sm text-center mb-1">
+          {prop.home_team} vs {prop.away_team}
+        </p>
+        <p className="text-lg text-center">
+          <span className="text-gold font-bold">
+            {prop.prop_type.toUpperCase()}: {prop.line}
+          </span>
+        </p>
       </div>
-      <div>
-        <div className="flex justify-between items-center mb-4">
-          <div className={`flex-1 mr-2 p-2 rounded-lg text-center font-bold shadow-md ${prop.bestBet === "over" ? "bg-green bg-opacity-70" : "bg-red bg-opacity-70"}`}>
-            {prop.bestBet.toUpperCase()} ({prop.bestBetOdds})
-          </div>
-          <div className={`flex-1 ml-2 p-2 rounded-lg shadow-lg text-center font-bold ${prop.bestBetProbability >= 0.6 ? "bg-green bg-opacity-50" : prop.bestBetProbability >= 0.54 ? "bg-lightgreen bg-opacity-70" : "bg-gold bg-opacity-70"}`}>{(prop.bestBetProbability * 100).toFixed(2)}%</div>
+      <div className="flex justify-between items-center mb-4 w-full space-x-2">
+        <div className={`flex-1 p-2 rounded-lg text-center font-bold shadow-md ${prop.bestBet === "over" ? "bg-green" : "bg-red"} bg-opacity-70`}>
+          {prop.bestBet.toUpperCase()} ({prop.bestBetOdds})
         </div>
-
-        {/* Odds Section with Always Visible and Smaller Scrollbar */}
-        <div className="flex overflow-x-scroll custom-scrollbar bg-black p-3 rounded-lg shadow-lg space-x-3">
-          {sortedBookOdds.map((book, idx) => (
-            <div key={idx} className="text-center text-white p-2 relative group min-w-[70px] flex-shrink-0">
-              <img src={bookLogos[book.book]} alt={bookNames[book.book]} className="mx-auto h-6 mb-2 transition-transform transform group-hover:scale-125" />
-              <div className="text-sm mb-1">{book.line}</div>
-              <div className="text-sm font-bold">{prop.bestBet === "over" ? book.overOdds : book.underOdds}</div>
+        <div className={`flex-1 p-2 rounded-lg shadow-lg text-center font-bold ${prop.bestBetProbability >= 0.6 ? "bg-green bg-opacity-50" : prop.bestBetProbability >= 0.54 ? "bg-lightgreen bg-opacity-70" : "bg-gold bg-opacity-70"}`}>{(prop.bestBetProbability * 100).toFixed(2)}%</div>
+      </div>
+      <div className="flex flex-col space-y-2 w-full min-h-[8rem] max-h-32 overflow-auto custom-scrollbar">
+        {sortedBookOdds.map((book, idx) => (
+          <div key={idx} className="flex justify-between items-center bg-black rounded-lg p-2">
+            <div className="flex items-center space-x-2">
+              <img src={bookLogos[book.book]} alt={bookNames[book.book]} className="h-6 transition-transform transform group-hover:scale-125" />
+              <span className="text-sm text-white">{bookNames[book.book]}</span>
             </div>
-          ))}
-        </div>
+            <div className="text-sm font-bold text-white">{prop.bestBet === "over" ? book.overOdds : book.underOdds}</div>
+          </div>
+        ))}
       </div>
     </div>
   );
