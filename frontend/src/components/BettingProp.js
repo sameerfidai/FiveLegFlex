@@ -72,7 +72,7 @@ const BettingProp = ({ prop }) => {
                 <span className="text-sm text-white ml-2">{bookNames[book.book]}</span>
               </div>
               <div className="flex">
-                <span className="text-sm font-bold text-white">Line: {prop.line}</span>
+                <span className="text-sm font-bold text-white">Line: {book.line}</span>
               </div>
             </div>
 
