@@ -176,9 +176,8 @@ const NBAPropsPage = () => {
             </div>
           ) : (
             <div className="flex justify-center items-center w-full">
-              <div className="bg-fullblack text-white p-4 md:p-6 lg:p-8 w-full max-w-2xl text-center">
-                <h1 className="text-center text-4xl font-bold mb-4">No props available</h1>
-                <p className="text-center text-xl mb-4">Please check back later.</p>
+              <div className="bg-fullblack text-white p-4 md:p-6 lg:p-8">
+                <h1 className="text-center text-4xl font-bold mb-4">{bettingProps?.message || "No props available"}</h1>
               </div>
             </div>
           )}

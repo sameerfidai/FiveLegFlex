@@ -136,8 +136,7 @@ const MLSPropsPage = () => {
             </div>
           ) : (
             <div className="bg-fullblack text-white p-4 md:p-6 lg:p-8">
-              <h1 className="text-center text-4xl font-bold mb-4">No props available</h1>
-              <p className="text-center text-xl mb-4">Please check back later.</p>
+              <h1 className="text-center text-4xl font-bold mb-4">{bettingProps?.message || "No props available"}</h1>
             </div>
           )}
         </div>
