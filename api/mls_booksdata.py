@@ -15,6 +15,9 @@ odds_cache = TTLCache(maxsize=100, ttl=600)
 games_cache = TTLCache(maxsize=100, ttl=600)
 
 
+from functools import cache
+
+
 @cached(prizepicks_cache)
 def getPrizePicksData():
     """
@@ -24,7 +27,7 @@ def getPrizePicksData():
         dict: A dictionary mapping player ID to player data (name, lines, team, etc).
     """
 
-    mls_teams = [
+    mls_teams = {
         "Atlanta United FC",
         "Austin FC",
         "CF Montréal",
@@ -54,7 +57,7 @@ def getPrizePicksData():
         "St. Louis City SC",
         "Toronto FC",
         "Vancouver Whitecaps FC",
-    ]
+    }
 
     URL = "https://partner-api.prizepicks.com/projections?league_id=82"
 
@@ -75,38 +78,47 @@ def getPrizePicksData():
             return {}
 
         lines = prizepicks_data["data"]
-        players_lines = {
-            player["id"]: player["attributes"]
-            for player in prizepicks_data["included"]
-            if player["type"] == "new_player"
-            and player["attributes"]["market"] in mls_teams
-        }
+        players_lines = {}
 
-        # for player in prizepicks_data["included"]:
-        #     if player["type"] == "new_player":
-        #         team = player["attributes"]["market"]
-        #         player_name = player["attributes"]["name"]
-        #         is_in_mls_teams = team in mls_teams
-        #         print(
-        #             f"Team: {team}, In MLS Teams: {is_in_mls_teams}, Player Name: {player_name}"
-        #         )
-
-        for player_id in players_lines:
-            players_lines[player_id]["lines"] = {}
-
+        # Process lines and player data in one pass
         for line in lines:
             attributes = line["attributes"]
             odds_type = attributes.get("odds_type")
-
             if odds_type in ["demon", "goblin"]:
                 continue
 
-            player_id = line["relationships"]["new_player"]["data"]["id"]
+            player_data = line["relationships"]["new_player"]["data"]
+            player_id = player_data["id"]
+            player_info = next(
+                (p for p in prizepicks_data["included"] if p["id"] == player_id), None
+            )
+
+            if not player_info:
+                continue
+
+            player_attributes = player_info["attributes"]
+            team = player_attributes["market"]
+
+            if team not in mls_teams:
+                continue
+
+            if player_id not in players_lines:
+                players_lines[player_id] = {
+                    "name": player_attributes["name"],
+                    "market": player_attributes["market"],
+                    "lines": {},
+                }
+
             stat_type = attributes["stat_type"]
             stat_line = attributes["line_score"]
+            players_lines[player_id]["lines"][stat_type] = stat_line
 
-            if player_id in players_lines:
-                players_lines[player_id]["lines"][stat_type] = stat_line
+        # Filter out players with only demon and goblin lines
+        players_lines = {
+            player_id: data
+            for player_id, data in players_lines.items()
+            if data["lines"]
+        }
 
         return players_lines
 
