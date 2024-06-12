@@ -34,6 +34,10 @@ const BettingProp = ({ prop }) => {
     setIsSelected(!isSelected);
   };
 
+  const formatOdds = (odds) => {
+    return odds >= 0 ? `+${odds}` : odds;
+  };
+
   return (
     <div
       className={`bg-fullblack border-2 ${
@@ -61,12 +65,20 @@ const BettingProp = ({ prop }) => {
       </div>
       <div className="flex flex-col space-y-2 w-full min-h-[8rem] max-h-32 overflow-auto custom-scrollbar">
         {sortedBookOdds.map((book, idx) => (
-          <div key={idx} className="flex justify-between items-center bg-black rounded-lg p-2">
-            <div className="flex items-center space-x-2">
-              <img src={bookLogos[book.book]} alt={bookNames[book.book]} className="h-6 transition-transform transform group-hover:scale-125" />
-              <span className="text-sm text-white">{bookNames[book.book]}</span>
+          <div key={idx} className="flex items-center space-x-2">
+            <div className="flex items-center bg-black rounded-lg p-2 w-4/5 justify-between">
+              <div className="flex items-center">
+                <img src={bookLogos[book.book]} alt={bookNames[book.book]} className="h-6 transition-transform transform group-hover:scale-125" />
+                <span className="text-sm text-white ml-2">{bookNames[book.book]}</span>
+              </div>
+              <div className="flex">
+                <span className="text-sm font-bold text-white">Line: {prop.line}</span>
+              </div>
             </div>
-            <div className="text-sm font-bold text-white">{prop.bestBet === "over" ? book.overOdds : book.underOdds}</div>
+
+            <div className="flex justify-end items-center bg-black rounded-lg p-2 w-1/3 ml-2">
+              <span className="text-sm font-bold text-white">Odds: {formatOdds(prop.bestBet === "over" ? book.overOdds : book.underOdds)}</span>
+            </div>
           </div>
         ))}
       </div>
