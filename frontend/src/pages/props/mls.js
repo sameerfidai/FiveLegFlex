@@ -4,7 +4,6 @@ import BettingProp from "@/components/BettingProp";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Head from "next/head";
 
-const LOCAL_URL = "http://0.0.0.0:8080/api/best-props-mls";
 const API_URL = "https://fivelegflex-backend.fly.dev/api/best-props-mls";
 
 const useFetch = (url) => {
@@ -15,7 +14,7 @@ const useFetch = (url) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`${url}`, {
+        const res = await fetch(url, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -45,15 +44,15 @@ const propTypeMapping = {
 
 const FilterButtons = ({ selectedFilter, setSelectedFilter, selectedPropType, setSelectedPropType, selectedGame, setSelectedGame, games }) => {
   return (
-    <div className="flex flex-col md:flex-row justify-between items-center mb-4 space-y-2 md:space-y-0 md:space-x-4">
+    <div className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-2 md:space-y-0 md:space-x-4 w-full">
       <div className="flex flex-row space-x-2 mb-2 md:mb-0">
-        <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "all" ? "bg-gold text-black shadow-lg transform scale-105" : "bg-black text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("all")}>
+        <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "all" ? "bg-gold text-black shadow-lg" : "bg-black text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("all")}>
           All
         </button>
-        <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "over" ? "bg-green text-black shadow-lg transform scale-105" : "bg-black text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("over")}>
+        <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "over" ? "bg-green text-black shadow-lg" : "bg-black text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("over")}>
           Over
         </button>
-        <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "under" ? "bg-red text-black shadow-lg transform scale-105" : "bg-black text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("under")}>
+        <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "under" ? "bg-red text-black shadow-lg" : "bg-black text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("under")}>
           Under
         </button>
       </div>
@@ -126,17 +125,19 @@ const MLSPropsPage = () => {
         <title>MLS Props</title>
       </Head>
       <div className="bg-fullblack text-white min-h-screen min-w-full">
-        <div className="container mx-auto">
+        <div className="container mx-auto px-4 text-center">
           <FilterButtons selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} selectedPropType={selectedPropType} setSelectedPropType={setSelectedPropType} selectedGame={selectedGame} setSelectedGame={setSelectedGame} games={uniqueGames} />
           {hasProps && !error ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 justify-items-center">
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
               {filteredProps.map((prop, index) => (
                 <BettingProp key={index} prop={prop} />
               ))}
             </div>
           ) : (
-            <div className="bg-fullblack text-white p-4 md:p-6 lg:p-8">
-              <h1 className="text-center text-4xl font-bold mb-4">{bettingProps?.message || "No props available"}</h1>
+            <div className="flex justify-center items-center w-full">
+              <div className="bg-fullblack text-white p-4 md:p-6 lg:p-8">
+                <h1 className="text-center text-4xl font-bold mb-4">{bettingProps?.message || "No props available"}</h1>
+              </div>
             </div>
           )}
         </div>

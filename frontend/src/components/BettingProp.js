@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 const BettingProp = ({ prop }) => {
   const [isSelected, setIsSelected] = useState(false);
+  console.log(prop);
 
   const bookLogos = {
     draftkings: "/draftkings.png",
@@ -36,6 +37,13 @@ const BettingProp = ({ prop }) => {
 
   const formatOdds = (odds) => {
     return odds >= 0 ? `+${odds}` : odds;
+  };
+
+  const getOdds = (book) => {
+    if (book.hasOwnProperty("overOdds") && book.hasOwnProperty("underOdds")) {
+      return formatOdds(prop.bestBet === "over" ? book.overOdds : book.underOdds);
+    }
+    return formatOdds(book.odds);
   };
 
   return (
@@ -77,7 +85,7 @@ const BettingProp = ({ prop }) => {
             </div>
 
             <div className="flex items-center bg-black rounded-lg p-2 w-20 justify-center h-full">
-              <span className="text-sm font-bold text-white sm:max-md:text-xs">{formatOdds(prop.bestBet === "over" ? book.overOdds : book.underOdds)}</span>
+              <span className="text-sm font-bold text-white sm:max-md:text-xs">{getOdds(book)}</span>
             </div>
           </div>
         ))}

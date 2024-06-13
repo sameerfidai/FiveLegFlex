@@ -4,7 +4,7 @@ from nba_booksdata import build_prizepicks_index
 import requests
 from typing import Optional
 
-API_KEY = "30e1614aafd170d17b353f258f8403dd"
+API_KEY = "72dc951161928e6d254759eac6f4f46d"
 SPORT = "soccer_usa_mls"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -13,9 +13,6 @@ ODDS_FORMAT = "american"
 prizepicks_cache = TTLCache(maxsize=100, ttl=600)
 odds_cache = TTLCache(maxsize=100, ttl=600)
 games_cache = TTLCache(maxsize=100, ttl=600)
-
-
-from functools import cache
 
 
 @cached(prizepicks_cache)
@@ -30,13 +27,13 @@ def getPrizePicksData():
     mls_teams = {
         "Atlanta United FC",
         "Austin FC",
-        "CF Montréal",
+        "Club de Foot Montréal",
         "Charlotte FC",
         "Chicago Fire FC",
         "FC Cincinnati",
         "Colorado Rapids",
         "Columbus Crew",
-        "D.C. United",
+        "DC United",
         "FC Dallas",
         "Houston Dynamo FC",
         "Inter Miami CF",
@@ -45,7 +42,7 @@ def getPrizePicksData():
         "Minnesota United FC",
         "Nashville SC",
         "New England Revolution",
-        "New York City FC",
+        "New York City Football Club",
         "New York Red Bulls",
         "Orlando City SC",
         "Philadelphia Union",
@@ -79,6 +76,21 @@ def getPrizePicksData():
 
         lines = prizepicks_data["data"]
         players_lines = {}
+
+        # not_mls_teams = set()
+        # for player in prizepicks_data["included"]:
+        #     if player["type"] == "new_player":
+        #         team = player["attributes"]["market"]
+        #         player_name = player["attributes"]["name"]
+        #         is_in_mls_teams = team in mls_teams
+        #         if not is_in_mls_teams:
+        #             not_mls_teams.add(team)
+        #         print(
+        #             f"Team: {team}, In MLS Teams: {is_in_mls_teams}, Player Name: {player_name}"
+        #         )
+
+        # print("not mls teams")
+        # print(not_mls_teams)
 
         # Process lines and player data in one pass
         for line in lines:
@@ -362,7 +374,7 @@ def find_best_props(players_data, prop_type, prizepicks_index):
 
 def getBestPropsMLS():
     prop_types = [
-        "player_shots",
+        # "player_shots",
         "player_shots_on_target",
     ]
 
