@@ -374,7 +374,7 @@ def find_best_props(players_data, prop_type, prizepicks_index):
 
 def getBestPropsMLS():
     prop_types = [
-        # "player_shots",
+        "player_shots",
         "player_shots_on_target",
     ]
 
