@@ -7,7 +7,7 @@ const BettingProp = ({ prop }) => {
   const bookLogos = {
     draftkings: "/draftkings.png",
     fanduel: "/fanduel.png",
-    williamhill_us: "/williamhill.png",
+    williamhill_us: "/caesars.png",
     mybookieag: "/mybookie.png",
     bovada: "/bovada.png",
     pointsbetus: "/pointsbet.png",
@@ -18,7 +18,7 @@ const BettingProp = ({ prop }) => {
   const bookNames = {
     draftkings: "DraftKings",
     fanduel: "Fanduel",
-    williamhill_us: "William Hill",
+    williamhill_us: "Caesars",
     mybookieag: "MyBookie",
     bovada: "Bovada",
     pointsbetus: "PointsBet",
@@ -76,7 +76,7 @@ const BettingProp = ({ prop }) => {
           <div key={idx} className="flex space-x-2">
             <div className="flex items-center bg-black rounded-lg p-2 w-4/5 justify-between">
               <div className="flex items-center">
-                <img src={bookLogos[book.book]} alt={bookNames[book.book]} className="h-6 transition-transform transform group-hover:scale-125" />
+                <img src={bookLogos[book.book]} alt={bookNames[book.book]} className="h-5 rounded border border-gray transition-transform transform group-hover:scale-125" />
                 <span className="text-sm text-white ml-2 sm:max-md:text-xs">{bookNames[book.book]}</span>
               </div>
               <div className="flex">
