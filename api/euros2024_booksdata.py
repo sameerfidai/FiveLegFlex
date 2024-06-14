@@ -1,10 +1,11 @@
 from datetime import datetime, timezone
 from cachetools import TTLCache, cached
 from nba_booksdata import build_prizepicks_index
+from mls_booksdata import calculate_implied_probability
 import requests
 from typing import Optional
 
-API_KEY = "30e1614aafd170d17b353f258f8403dd"
+API_KEY = "72dc951161928e6d254759eac6f4f46d"
 SPORT = "soccer_uefa_european_championship"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -183,9 +184,9 @@ def getPlayersPropsOddsForGame(event_id, prop_type):
     }
 
     response = requests.get(request_url, params=params)
-    print(prop_type)
-    print("Response: \n", response.json())
-    print("\n\n\n\n")
+    # print(prop_type)
+    # print("Response: \n", response.json())
+    # print("\n\n\n\n")
 
     players_odds_all_books = {}
 
@@ -252,26 +253,6 @@ def normalize_name(name):
     return name.replace(".", "")
 
 
-def calculate_implied_probability(odds):
-    """
-    Calculate the implied probability from American odds.
-
-    Parameters:
-        odds (int): The American odds.
-
-    Returns:
-        float: The implied probability.
-    """
-    if odds > 0:
-        probability = 100 / (odds + 100)
-    elif odds < 0:
-        probability = abs(odds) / (abs(odds) + 100)
-    else:
-        return None
-
-    return probability
-
-
 def find_best_props(players_data, prop_type, prizepicks_index):
     """
     Determines the best betting props for players based on bookmaker and PrizePicks data.
@@ -305,7 +286,7 @@ def find_best_props(players_data, prop_type, prizepicks_index):
                 prizepicks_line = pp_player["lines"][readable_prop_type]
                 img_url = pp_player.get(
                     "image_url",
-                    "https://cdn-icons-png.flaticon.com/512/2748/2748558.png",
+                    "https://cdn-icons-png.flaticon.com/512/166/166344.png",
                 )
 
                 # Filter odds to only include those that match the PrizePicks line
@@ -354,7 +335,7 @@ def find_best_props(players_data, prop_type, prizepicks_index):
 
 def getBestPropsEuros():
     prop_types = [
-        # "player_shots",
+        "player_shots",
         "player_shots_on_target",
     ]
 
@@ -370,7 +351,7 @@ def getBestPropsEuros():
 
     all_best_props = []
 
-    for game_id in games_today[:1]:
+    for game_id in games_today:
         for prop_type in prop_types:
             player_props_odds_for_game = getPlayersPropsOddsForGame(game_id, prop_type)
             best_props = find_best_props(
@@ -384,10 +365,4 @@ def getBestPropsEuros():
         all_best_props, key=lambda x: x["bestBetProbability"], reverse=True
     )
 
-    print(prizepicks_index)
-    print(sorted_best_props)
-
     return {"message": "Success", "data": sorted_best_props}
-
-
-getBestPropsEuros()

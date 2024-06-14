@@ -52,6 +52,9 @@ const Layout = ({ children }) => {
                   <Link href="/props/mls" className="block px-4 py-2 text-base font-medium text-white hover:text-gold hover:bg-black transition duration-300 ease-in-out rounded-b-md">
                     MLS
                   </Link>
+                  <Link href="/props/euros" className="block px-4 py-2 text-base font-medium text-white hover:text-gold hover:bg-black transition duration-300 ease-in-out rounded-b-md">
+                    Euros 2024
+                  </Link>
                 </div>
               )}
             </div>
@@ -83,6 +86,11 @@ const Layout = ({ children }) => {
             <li>
               <Link href="/props/mls" className="text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
                 MLS
+              </Link>
+            </li>
+            <li>
+              <Link href="/props/euros" className="text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
+                Euros 2024
               </Link>
             </li>
             <li>
