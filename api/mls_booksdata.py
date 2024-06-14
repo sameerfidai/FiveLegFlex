@@ -325,7 +325,7 @@ def find_best_props(players_data, prop_type, prizepicks_index):
                 prizepicks_line = pp_player["lines"][readable_prop_type]
                 img_url = pp_player.get(
                     "image_url",
-                    "https://cdn-icons-png.flaticon.com/512/2748/2748558.png",
+                    "https://cdn-icons-png.flaticon.com/512/166/166344.png",
                 )
 
                 # Filter odds to only include those that match the PrizePicks line
