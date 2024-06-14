@@ -4,7 +4,7 @@ from nba_booksdata import build_prizepicks_index
 import requests
 from typing import Optional
 
-API_KEY = "be53e27a6ba44ce7e11e93beaef07a06"
+API_KEY = "8a8b9f36263f677421886ae4a50ff21c"
 SPORT = "soccer_usa_mls"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -118,6 +118,7 @@ def getPrizePicksData():
                 players_lines[player_id] = {
                     "name": player_attributes["name"],
                     "market": player_attributes["market"],
+                    "image_url": player_attributes.get("image_url"),  # Added image URL
                     "lines": {},
                 }
 
@@ -203,9 +204,6 @@ def getPlayersPropsOddsForGame(event_id, prop_type):
     }
 
     response = requests.get(request_url, params=params)
-    # print(prop_type)
-    # print("Response: \n", response.json())
-    # print("\n\n\n\n")
 
     players_odds_all_books = {}
 
@@ -245,7 +243,6 @@ def getPlayersPropsOddsForGame(event_id, prop_type):
     else:
         print(f"Failed to retrieve data: {response.status_code}, {response.text}")
 
-    # print(players_odds_all_books)
     return players_odds_all_books
 
 

@@ -3,7 +3,7 @@ import requests
 from cachetools import TTLCache, cached
 from typing import Optional
 
-API_KEY = "be53e27a6ba44ce7e11e93beaef07a06"
+API_KEY = "8a8b9f36263f677421886ae4a50ff21c"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -157,6 +157,9 @@ def getPlayersPropsOddsForGame(event_id, prop_type):
                 if market["key"] == MARKETS:
                     for outcome in market["outcomes"]:
                         player_name = outcome["description"]
+                        point = outcome["point"]
+                        price = outcome["price"]
+
                         if player_name not in players_odds_all_books:
                             players_odds_all_books[player_name] = {
                                 "home_team": home_team,
@@ -165,7 +168,7 @@ def getPlayersPropsOddsForGame(event_id, prop_type):
 
                         if bookmaker_name not in players_odds_all_books[player_name]:
                             players_odds_all_books[player_name][bookmaker_name] = {
-                                "points": outcome["point"],
+                                "points": point,
                                 "overOdds": None,
                                 "underOdds": None,
                             }
@@ -173,11 +176,11 @@ def getPlayersPropsOddsForGame(event_id, prop_type):
                         if "over" in outcome["name"].lower():
                             players_odds_all_books[player_name][bookmaker_name][
                                 "overOdds"
-                            ] = outcome["price"]
+                            ] = price
                         elif "under" in outcome["name"].lower():
                             players_odds_all_books[player_name][bookmaker_name][
                                 "underOdds"
-                            ] = outcome["price"]
+                            ] = price
     else:
         print(f"Failed to retrieve data: {response.status_code}, {response.text}")
 
@@ -328,14 +331,14 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
                     for book_odds in matching_props:
                         if best_bet["bestBet"] == "over":
                             weighted_sum += book_odds["overProbability"] * (
-                                1 / abs(best_bet["overOdds"])
+                                1 / abs(book_odds["overOdds"])
                             )
-                            total_weight += 1 / abs(best_bet["overOdds"])
+                            total_weight += 1 / abs(book_odds["overOdds"])
                         else:
                             weighted_sum += book_odds["underProbability"] * (
-                                1 / abs(best_bet["underOdds"])
+                                1 / abs(book_odds["underOdds"])
                             )
-                            total_weight += 1 / abs(best_bet["underOdds"])
+                            total_weight += 1 / abs(book_odds["underOdds"])
                     best_bet_probability = (
                         weighted_sum / total_weight if total_weight != 0 else None
                     )

@@ -5,7 +5,7 @@ from mls_booksdata import calculate_implied_probability
 import requests
 from typing import Optional
 
-API_KEY = "be53e27a6ba44ce7e11e93beaef07a06"
+API_KEY = "8a8b9f36263f677421886ae4a50ff21c"
 SPORT = "soccer_uefa_european_championship"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -98,6 +98,7 @@ def getPrizePicksData():
                 players_lines[player_id] = {
                     "name": player_attributes["name"],
                     "market": player_attributes["market"],
+                    "image_url": player_attributes.get("image_url"),  # Added image URL
                     "lines": {},
                 }
 

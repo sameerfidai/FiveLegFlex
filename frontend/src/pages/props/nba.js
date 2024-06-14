@@ -5,6 +5,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import Head from "next/head";
 
 const API_URL = "https://fivelegflex-backend.fly.dev/api/best-props-nba";
+const LOCAL_URL = "http://0.0.0.0:8080/api/best-props-nba";
 
 const useFetch = (url, includePrizePicks) => {
   const [data, setData] = useState(null);
