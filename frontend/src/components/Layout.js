@@ -38,7 +38,7 @@ const Layout = ({ children }) => {
 
           <div className="hidden md:flex items-center space-x-6">
             <div className="relative" ref={dropdownRef}>
-              <button onClick={handleDropdownToggle} className="whitespace-nowrap text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out flex items-center">
+              <button onClick={handleDropdownToggle} className="whitespace-nowrap text-base font-bold text-white hover:text-gold transition duration-300 ease-in-out flex items-center">
                 Sports
                 <svg className={`w-4 h-4 ml-1 transition-transform duration-300 ease-in-out ${dropdownOpen ? "transform rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
@@ -58,7 +58,7 @@ const Layout = ({ children }) => {
                 </div>
               )}
             </div>
-            <Link href="/about" className="whitespace-nowrap text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
+            <Link href="/about" className="whitespace-nowrap text-base font-bold text-white hover:text-gold transition duration-300 ease-in-out">
               About
             </Link>
             {/* Twitter Icon */}
@@ -113,7 +113,7 @@ const Layout = ({ children }) => {
       <footer className="bg-fullblack text-white py-4 mt-auto">
         <div className="">
           <div className="flex justify-center items-center">
-            <p className="text-sm">&copy; 2024 FiveLegFlex. All rights reserved.</p>
+            <p className="text-sm font-light">&copy; 2024 FiveLegFlex. All rights reserved.</p>
           </div>
         </div>
       </footer>
