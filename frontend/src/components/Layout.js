@@ -109,7 +109,9 @@ const Layout = ({ children }) => {
           </ul>
         </div>
       </nav>
+
       <div className="flex-grow p-6 flex flex-col justify-center items-center">{children}</div>
+
       <footer className="bg-fullblack text-white py-4 mt-auto">
         <div className="">
           <div className="flex justify-center items-center">

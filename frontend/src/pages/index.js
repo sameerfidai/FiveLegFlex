@@ -8,8 +8,8 @@ const HomePage = () => {
       <Head>
         <title>FiveLegFlex</title>
       </Head>
-      <div className="">
-        <div className="flex flex-col items-center justify-center h-full text-center p-4">
+      <div className="h-full flex flex-col justify-center items-center">
+        <div className="text-center p-4">
           <h1 className="text-6xl font-bold mb-4 text-white shadow">FiveLegFlex</h1>
           <p className="text-2xl text-gold animate-pulse font-light tracking-wide">Player Props Optimizer</p>
           {/* <Link href="/props">
