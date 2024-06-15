@@ -2,10 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+}
+
+* {
+  font-family: sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -16,7 +22,7 @@
   }
 }
 
-/* globals.css */
+/* Custom scrollbar styles */
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -72,6 +78,7 @@ body::-webkit-scrollbar {
   }
 }
 
+/* NProgress styles */
 #nprogress .bar {
   height: 4px !important;
   background: gold !important;
