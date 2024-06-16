@@ -405,13 +405,19 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
                     "image_url",
                     "https://pbs.twimg.com/profile_images/1263811030/LeBron_Crying_400x400.jpg",
                 )
+                player_team = prizepicks_index.get(normalized_player, {}).get(
+                    "team_name", "N/A"
+                )
+                player_position = prizepicks_index.get(normalized_player, {}).get(
+                    "position", "N/A"
+                )
                 all_props_dict[composite_key] = {
                     "player": player,
                     "prop_type": readable_prop_type,
                     "home_team": home_team,
                     "away_team": away_team,
-                    "player_team": pp_player["team_name"],
-                    "player_position": pp_player["position"],
+                    "player_team": player_team,
+                    "player_position": player_position,
                     "line": best_bet["line"],
                     "bestBet": best_bet["bestBet"],
                     "img_url": img_url,
