@@ -3,7 +3,7 @@ import requests
 from cachetools import TTLCache, cached
 from typing import Optional
 
-API_KEY = "8a8b9f36263f677421886ae4a50ff21c"
+API_KEY = "da725e3890db426433a7ffcf767d5253"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -349,6 +349,8 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
                         "prop_type": readable_prop_type,
                         "home_team": home_team,
                         "away_team": away_team,
+                        "player_team": pp_player["team_name"],
+                        "player_position": pp_player["position"],
                         "line": prizepicks_line,
                         "img_url": img_url,
                         "bestBet": best_bet["bestBet"],
@@ -408,6 +410,8 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
                     "prop_type": readable_prop_type,
                     "home_team": home_team,
                     "away_team": away_team,
+                    "player_team": pp_player["team_name"],
+                    "player_position": pp_player["position"],
                     "line": best_bet["line"],
                     "bestBet": best_bet["bestBet"],
                     "img_url": img_url,

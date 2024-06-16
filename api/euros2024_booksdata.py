@@ -5,7 +5,7 @@ from mls_booksdata import calculate_implied_probability
 import requests
 from typing import Optional
 
-API_KEY = "8a8b9f36263f677421886ae4a50ff21c"
+API_KEY = "da725e3890db426433a7ffcf767d5253"
 SPORT = "soccer_uefa_european_championship"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -95,23 +95,12 @@ def getPrizePicksData():
                 continue
 
             if player_id not in players_lines:
-                players_lines[player_id] = {
-                    "name": player_attributes["name"],
-                    "market": player_attributes["market"],
-                    "image_url": player_attributes.get("image_url"),  # Added image URL
-                    "lines": {},
-                }
+                players_lines[player_id] = player_attributes
+                players_lines[player_id]["lines"] = {}
 
             stat_type = attributes["stat_type"]
             stat_line = attributes["line_score"]
             players_lines[player_id]["lines"][stat_type] = stat_line
-
-        # Filter out players with only demon and goblin lines
-        players_lines = {
-            player_id: data
-            for player_id, data in players_lines.items()
-            if data["lines"]
-        }
 
         return players_lines
 
@@ -322,6 +311,8 @@ def find_best_props(players_data, prop_type, prizepicks_index):
                         "prop_type": readable_prop_type,
                         "home_team": home_team,
                         "away_team": away_team,
+                        "player_team": pp_player["team_name"],
+                        "player_position": pp_player["position"],
                         "line": prizepicks_line,
                         "img_url": img_url,
                         "bestBet": "over",

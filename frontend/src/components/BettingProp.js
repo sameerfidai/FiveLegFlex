@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 const BettingProp = ({ prop }) => {
   const [isSelected, setIsSelected] = useState(false);
-  console.log(prop);
 
   const bookLogos = {
     draftkings: "/draftkings.png",
@@ -58,6 +57,9 @@ const BettingProp = ({ prop }) => {
         <h2 className="text-2xl font-semibold text-center mb-1">{prop.player}</h2>
         <p className="text-teal text-sm text-center mb-1">
           {prop.home_team} vs {prop.away_team}
+        </p>
+        <p className="text-white text-sm text-center mb-1">
+          {prop.player_team} - {prop.player_position}
         </p>
         <p className="text-lg text-center">
           <span className="text-gold font-bold">
