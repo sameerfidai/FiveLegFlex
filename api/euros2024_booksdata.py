@@ -5,7 +5,7 @@ from mls_booksdata import calculate_implied_probability
 import requests
 from typing import Optional
 
-API_KEY = "da725e3890db426433a7ffcf767d5253"
+API_KEY = "7bfbc694408bc890875dedcd820eaf98"
 SPORT = "soccer_uefa_european_championship"
 REGIONS = "us"
 ODDS_FORMAT = "american"
