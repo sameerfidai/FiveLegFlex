@@ -4,7 +4,7 @@ from cachetools import TTLCache, cached
 from typing import Optional
 import pytz
 
-API_KEY = "8b2240fc32524aa618bf3e43f377db86"
+API_KEY = "eb14f3490178a522cbb7ee960742c378"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -514,8 +514,3 @@ def getBestPropsNBA(include_prizepicks=True):
     )
 
     return {"message": "Success", "data": sorted_best_props}
-
-
-# For testing purposes
-if __name__ == "__main__":
-    print(getBestPropsNBA())

@@ -66,6 +66,7 @@ const BettingProp = ({ prop }) => {
             {prop.prop_type.toUpperCase()}: {prop.line}
           </span>
         </p>
+        <p className="text-white text-sm text-center mb-1">{prop.game_time}</p>
       </div>
       <div className="flex justify-between items-center mb-4 w-full space-x-2">
         <div className={`flex-1 p-2 rounded-lg text-center font-bold shadow-md ${prop.bestBet === "over" ? "bg-green" : "bg-red"} bg-opacity-70`}>

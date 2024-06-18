@@ -5,7 +5,7 @@ import requests
 from typing import Optional
 import pytz
 
-API_KEY = "8b2240fc32524aa618bf3e43f377db86"
+API_KEY = "eb14f3490178a522cbb7ee960742c378"
 SPORT = "soccer_usa_mls"
 REGIONS = "us"
 ODDS_FORMAT = "american"
