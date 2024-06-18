@@ -5,7 +5,7 @@ from mls_booksdata import calculate_implied_probability
 import requests
 from typing import Optional
 
-API_KEY = "7bfbc694408bc890875dedcd820eaf98"
+API_KEY = "8b2240fc32524aa618bf3e43f377db86"
 SPORT = "soccer_uefa_european_championship"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -298,12 +298,16 @@ def find_best_props(players_data, prop_type, prizepicks_index):
                                 )
 
                 if player_props:
+                    # Calculate simple average probability
+                    total_probability = sum(
+                        prop["probability"] for prop in player_props
+                    )
+                    average_probability = total_probability / len(player_props)
+
                     best_bet = max(
                         player_props,
                         key=lambda x: x["probability"],
                     )
-
-                    best_bet_probability = best_bet["probability"]
 
                     composite_key = f"{player}_{readable_prop_type}"
                     all_props_dict[composite_key] = {
@@ -318,7 +322,7 @@ def find_best_props(players_data, prop_type, prizepicks_index):
                         "bestBet": "over",
                         "bestBetOdds": best_bet["odds"],
                         "bestBook": best_bet["book"],
-                        "bestBetProbability": best_bet_probability,
+                        "bestBetProbability": average_probability,
                         "allBookOdds": player_props,
                     }
 

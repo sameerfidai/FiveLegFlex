@@ -4,7 +4,7 @@ from nba_booksdata import build_prizepicks_index
 import requests
 from typing import Optional
 
-API_KEY = "7bfbc694408bc890875dedcd820eaf98"
+API_KEY = "8b2240fc32524aa618bf3e43f377db86"
 SPORT = "soccer_usa_mls"
 REGIONS = "us"
 ODDS_FORMAT = "american"
