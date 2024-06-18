@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 import requests
 from cachetools import TTLCache, cached
 from typing import Optional
+import pytz
 
 API_KEY = "8b2240fc32524aa618bf3e43f377db86"
 SPORT = "basketball_nba"
@@ -75,15 +76,15 @@ def getPrizePicksData():
 @cached(games_cache)
 def getGames():
     """
-    Fetches a list of event IDs for upcoming NBA games.
+    Fetches a list of event details for upcoming NBA games.
 
     Returns:
-        list: A list containing the IDs of upcoming NBA games. Returns an empty list if no games are found or an error occurs.
+        list: A list containing the details of upcoming NBA games. Returns an empty list if no games are found or an error occurs.
     """
 
     events_url = f"https://api.the-odds-api.com/v4/sports/{SPORT}/events"
     params = {"apiKey": API_KEY}
-    event_ids = []
+    games = []
     current_time = datetime.now(timezone.utc)
 
     try:
@@ -93,19 +94,26 @@ def getGames():
 
         if events_data:
             print(f"Retrieved {len(events_data)} events for {SPORT}.")
-            event_ids = [
-                event["id"]
-                for event in events_data
-                if datetime.fromisoformat(event["commence_time"].replace("Z", "+00:00"))
-                > current_time
-            ]
+            for event in events_data:
+                commence_time = datetime.fromisoformat(
+                    event["commence_time"].replace("Z", "+00:00")
+                )
+                if commence_time > current_time:
+                    games.append(
+                        {
+                            "id": event["id"],
+                            "commence_time": commence_time,
+                            "home_team": event["home_team"],
+                            "away_team": event["away_team"],
+                        }
+                    )
         else:
             print(f"No events found for {SPORT}.")
 
     except requests.RequestException as e:
         print(f"An error occurred while fetching events: {e}")
 
-    return event_ids
+    return games
 
 
 @cached(odds_cache)
@@ -246,7 +254,25 @@ def build_prizepicks_index(prizepicks_data):
     return prizepicks_index
 
 
-def find_best_props(players_data, prop_type, prizepicks_index, include_prizepicks):
+def format_game_time_to_est(game_time):
+    """
+    Formats the game time to Eastern Standard Time (EST) in a user-friendly format.
+
+    Parameters:
+        game_time (str): The game time in ISO format (UTC).
+
+    Returns:
+        str: The formatted game time in EST.
+    """
+    est = pytz.timezone("US/Eastern")
+    utc_time = datetime.fromisoformat(game_time.replace("Z", "+00:00"))
+    est_time = utc_time.astimezone(est)
+    return est_time.strftime("%B %d, %Y, %I:%M %p EST")
+
+
+def find_best_props(
+    players_data, prop_type, prizepicks_index, include_prizepicks, game_info
+):
     """
     Determines the best betting props for players based on bookmaker and optionally PrizePicks data.
 
@@ -255,6 +281,7 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
         prop_type (str): Type of player prop (e.g., "player_points").
         prizepicks_index (dict): Indexed PrizePicks data with normalized player names.
         include_prizepicks (bool): Flag to decide if PrizePicks data should be matched.
+        game_info (dict): Information about the game including commence time.
 
     Returns:
         dict: Compiled best bets with details on odds, line, probability, etc.
@@ -362,6 +389,9 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
                         "bestBook": best_bet["book"],
                         "bestBetProbability": best_bet_probability,
                         "allBookOdds": player_props,
+                        "game_time": format_game_time_to_est(
+                            game_info["commence_time"].isoformat()
+                        ),
                     }
         elif not include_prizepicks:
             if player_props:
@@ -429,6 +459,9 @@ def find_best_props(players_data, prop_type, prizepicks_index, include_prizepick
                     "bestBook": best_bet["book"],
                     "bestBetProbability": best_bet_probability,
                     "allBookOdds": player_props,
+                    "game_time": format_game_time_to_est(
+                        game_info["commence_time"].isoformat()
+                    ),
                 }
 
     return all_props_dict
@@ -462,14 +495,17 @@ def getBestPropsNBA(include_prizepicks=True):
 
     all_best_props = []
 
-    for game_id in games_today:
+    for game in games_today:
         for prop_type in prop_types:
-            player_props_odds_for_game = getPlayersPropsOddsForGame(game_id, prop_type)
+            player_props_odds_for_game = getPlayersPropsOddsForGame(
+                game["id"], prop_type
+            )
             best_props = find_best_props(
                 player_props_odds_for_game,
                 prop_type,
                 prizepicks_index,
                 include_prizepicks,
+                game,
             )
             all_best_props.extend(best_props.values())
 
@@ -478,3 +514,8 @@ def getBestPropsNBA(include_prizepicks=True):
     )
 
     return {"message": "Success", "data": sorted_best_props}
+
+
+# For testing purposes
+if __name__ == "__main__":
+    print(getBestPropsNBA())
