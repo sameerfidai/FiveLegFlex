@@ -6,7 +6,7 @@ import requests
 from typing import Optional
 import pytz
 
-API_KEY = "eb14f3490178a522cbb7ee960742c378"
+API_KEY = "92c24573eab4150ab5c464a9c332b62f"
 SPORT = "soccer_uefa_european_championship"
 REGIONS = "us"
 ODDS_FORMAT = "american"

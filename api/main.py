@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from nba_booksdata import getBestPropsNBA
 from mls_booksdata import getBestPropsMLS
 from euros2024_booksdata import getBestPropsEuros
+from wnba_booksdata import getBestPropsWNBA
 
 # from scrape_props_selenium import get_top_projections
 
@@ -37,6 +38,11 @@ async def read_best_props_mls():
 @app.get("/api/best-props-euros")
 async def read_best_props_euros():
     return getBestPropsEuros()
+
+
+@app.get("/api/best-props-wnba")
+async def read_best_props_wnba(include_prizepicks: bool = Query(True)):
+    return getBestPropsWNBA(include_prizepicks)
 
 
 # @app.get("/api/top-projections")
