@@ -5,9 +5,9 @@ from nba_booksdata import (
     calculate_implied_probability,
     format_game_time_to_est,
     build_prizepicks_index,
+    API_KEY,
 )
 
-API_KEY = "4d79388ca20bcaff569c8536e809a3c1"
 SPORT = "basketball_wnba"
 REGIONS = "us"
 ODDS_FORMAT = "american"

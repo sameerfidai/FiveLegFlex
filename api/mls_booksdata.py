@@ -1,10 +1,9 @@
 from datetime import datetime, timezone
 from cachetools import TTLCache, cached
-from nba_booksdata import build_prizepicks_index
+from nba_booksdata import build_prizepicks_index, API_KEY
 import requests
 import pytz
 
-API_KEY = "4d79388ca20bcaff569c8536e809a3c1"
 SPORT = "soccer_usa_mls"
 REGIONS = "us"
 ODDS_FORMAT = "american"

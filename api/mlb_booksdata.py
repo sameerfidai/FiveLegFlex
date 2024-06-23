@@ -5,10 +5,10 @@ from nba_booksdata import (
     calculate_implied_probability,
     format_game_time_to_est,
     build_prizepicks_index,
+    API_KEY,
 )
 import pytz
 
-API_KEY = "4d79388ca20bcaff569c8536e809a3c1"
 SPORT = "baseball_mlb"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -475,4 +475,4 @@ def getBestPropsMLB(include_prizepicks=True):
         all_best_props, key=lambda x: x["bestBetProbability"], reverse=True
     )
 
-    return {"message": "Success", "data": sorted_best_props}
+    return {"message": "Success", "data": sorted_best_props[:100]}
