@@ -158,17 +158,19 @@ const NBAPropsPage = () => {
       </Head>
       <div className="bg-fullblack text-white min-h-screen min-w-full">
         <div className="container mx-auto px-4 text-center">
-          <FilterButtons
-            selectedFilter={selectedFilter}
-            setSelectedFilter={setSelectedFilter}
-            selectedPropType={selectedPropType}
-            setSelectedPropType={setSelectedPropType}
-            selectedGame={selectedGame}
-            setSelectedGame={setSelectedGame}
-            games={uniqueGames}
-            includePrizePicks={includePrizePicks}
-            setIncludePrizePicks={setIncludePrizePicks}
-          />
+          {hasProps && !error && (
+            <FilterButtons
+              selectedFilter={selectedFilter}
+              setSelectedFilter={setSelectedFilter}
+              selectedPropType={selectedPropType}
+              setSelectedPropType={setSelectedPropType}
+              selectedGame={selectedGame}
+              setSelectedGame={setSelectedGame}
+              games={uniqueGames}
+              includePrizePicks={includePrizePicks}
+              setIncludePrizePicks={setIncludePrizePicks}
+            />
+          )}
           {hasProps && !error ? (
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
               {filteredProps.map((prop, index) => (
