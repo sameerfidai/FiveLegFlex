@@ -1,9 +1,12 @@
 from datetime import datetime, timezone
-from cachetools import TTLCache, cached
-from nba_booksdata import build_prizepicks_index, API_KEY
-from mls_booksdata import calculate_implied_probability
 import requests
-import pytz
+from cachetools import TTLCache, cached
+from nba_booksdata import (
+    calculate_implied_probability,
+    format_game_time_to_est,
+    build_prizepicks_index,
+    API_KEY,
+)
 
 SPORT = "soccer_uefa_european_championship"
 REGIONS = "us"
@@ -246,22 +249,6 @@ def normalize_name(name):
     for key, value in name_replacements.items():
         name = name.replace(key, value)
     return name.replace(".", "")
-
-
-def format_game_time_to_est(game_time):
-    """
-    Formats the game time to Eastern Standard Time (EST) in a user-friendly format.
-
-    Parameters:
-        game_time (str): The game time in ISO format (UTC).
-
-    Returns:
-        str: The formatted game time in EST.
-    """
-    est = pytz.timezone("US/Eastern")
-    utc_time = datetime.fromisoformat(game_time.replace("Z", "+00:00"))
-    est_time = utc_time.astimezone(est)
-    return est_time.strftime("%B %d, %Y, %I:%M %p EST")
 
 
 def find_best_props(players_data, prop_type, prizepicks_index, game_info):

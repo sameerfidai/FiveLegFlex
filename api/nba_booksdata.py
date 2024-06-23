@@ -204,12 +204,13 @@ def calculate_implied_probability(odds):
     Returns:
         float: The implied probability as a decimal. For example, 0.5 represents a 50% chance.
     """
-
     if odds is None:
         return None
-    if odds < 0:
-        return -odds / (-odds + 100)
-    return 100 / (odds + 100)
+    if odds == 0:
+        return None
+    if odds > 0:
+        return 100 / (odds + 100)
+    return abs(odds) / (abs(odds) + 100)
 
 
 def normalize_name(name):

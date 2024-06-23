@@ -7,7 +7,6 @@ from nba_booksdata import (
     build_prizepicks_index,
     API_KEY,
 )
-import pytz
 
 SPORT = "baseball_mlb"
 REGIONS = "us"
