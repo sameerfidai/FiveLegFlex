@@ -95,7 +95,6 @@ def getGames():
         response = requests.get(events_url, params=params)
         response.raise_for_status()
         events_data = response.json()
-        print(events_data)
 
         if events_data:
             print(f"Retrieved {len(events_data)} events for {SPORT}.")

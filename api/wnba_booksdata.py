@@ -465,6 +465,3 @@ def getBestPropsWNBA(include_prizepicks=True):
     )
 
     return {"message": "Success", "data": sorted_best_props}
-
-
-print(getBestPropsWNBA())
