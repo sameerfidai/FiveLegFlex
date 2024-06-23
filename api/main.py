@@ -4,6 +4,7 @@ from nba_booksdata import getBestPropsNBA
 from mls_booksdata import getBestPropsMLS
 from euros2024_booksdata import getBestPropsEuros
 from wnba_booksdata import getBestPropsWNBA
+from mlb_booksdata import getBestPropsMLB
 
 # from scrape_props_selenium import get_top_projections
 
@@ -43,6 +44,11 @@ async def read_best_props_euros():
 @app.get("/api/best-props-wnba")
 async def read_best_props_wnba(include_prizepicks: bool = Query(True)):
     return getBestPropsWNBA(include_prizepicks)
+
+
+@app.get("/api/best-props-mlb")
+async def read_best_props_mlb(include_prizepicks: bool = Query(True)):
+    return getBestPropsMLB(include_prizepicks)
 
 
 # @app.get("/api/top-projections")

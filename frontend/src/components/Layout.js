@@ -49,6 +49,9 @@ const Layout = ({ children }) => {
                   <Link href="/props/nba" className="block px-4 py-2 text-base font-medium text-white hover:text-gold hover:bg-black transition duration-300 ease-in-out rounded-t-md">
                     NBA
                   </Link>
+                  <Link href="/props/mlb" className="block px-4 py-2 text-base font-medium text-white hover:text-gold hover:bg-black transition duration-300 ease-in-out rounded-t-md">
+                    MLB
+                  </Link>
                   <Link href="/props/wnba" className="block px-4 py-2 text-base font-medium text-white hover:text-gold hover:bg-black transition duration-300 ease-in-out rounded-t-md">
                     WNBA
                   </Link>
@@ -84,6 +87,11 @@ const Layout = ({ children }) => {
             <li>
               <Link href="/props/nba" className="text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
                 NBA
+              </Link>
+            </li>
+            <li>
+              <Link href="/props/mlb" className="text-base font-medium text-white hover:text-gold transition duration-300 ease-in-out">
+                MLB
               </Link>
             </li>
             <li>

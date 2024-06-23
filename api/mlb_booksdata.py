@@ -6,9 +6,10 @@ from nba_booksdata import (
     format_game_time_to_est,
     build_prizepicks_index,
 )
+import pytz
 
 API_KEY = "4d79388ca20bcaff569c8536e809a3c1"
-SPORT = "basketball_wnba"
+SPORT = "baseball_mlb"
 REGIONS = "us"
 ODDS_FORMAT = "american"
 
@@ -27,7 +28,7 @@ def getPrizePicksData():
         dict: A dictionary mapping player ID to player data (name, lines, team, etc).
     """
 
-    URL = "https://partner-api.prizepicks.com/projections?league_id=3"
+    URL = "https://partner-api.prizepicks.com/projections?league_id=2"
 
     try:
         response = requests.get(URL)
@@ -94,6 +95,7 @@ def getGames():
         response = requests.get(events_url, params=params)
         response.raise_for_status()
         events_data = response.json()
+        print(events_data)
 
         if events_data:
             print(f"Retrieved {len(events_data)} events for {SPORT}.")
@@ -240,18 +242,23 @@ def find_best_props(
 
     all_props_dict = {}
     prop_type_mapping = {
-        "player_points": "Points",
-        "player_assists": "Assists",
-        "player_rebounds": "Rebounds",
-        "player_threes": "3-PT Made",
-        "player_blocks": "Blocked Shots",
-        "player_steals": "Steals",
-        "player_blocks_steals": "Blks+Stls",
-        "player_turnovers": "Turnovers",
-        "player_points_rebounds_assists": "Pts+Rebs+Asts",
-        "player_points_rebounds": "Pts+Rebs",
-        "player_points_assists": "Pts+Asts",
-        "player_rebounds_assists": "Rebs+Asts",
+        "batter_home_runs": "Home Runs",
+        "batter_hits": "Hits",
+        "batter_total_bases": "Total Bases",
+        "batter_rbis": "RBIs",
+        "batter_runs_scored": "Runs",
+        "batter_hits_runs_rbis": "Hits+Runs+RBIs",
+        "batter_singles": "Singles",
+        "batter_doubles": "Doubles",
+        # "batter_triples": "Triples",
+        "batter_walks": "Walks",
+        "batter_strikeouts": "Hitter Strikeouts",
+        "batter_stolen_bases": "Stolen Bases",
+        "pitcher_strikeouts": "Pitcher Strikeouts",
+        "pitcher_hits_allowed": "Hits Allowed",
+        "pitcher_walks": "Walks Allowed",
+        "pitcher_earned_runs": "Earned Runs Allowed",
+        "pitcher_outs": "Pitching Outs",
     }
 
     readable_prop_type = prop_type_mapping.get(prop_type, prop_type)
@@ -418,31 +425,36 @@ def find_best_props(
     return all_props_dict
 
 
-def getBestPropsWNBA(include_prizepicks=True):
+def getBestPropsMLB(include_prizepicks=True):
     prop_types = [
-        "player_points",
-        "player_rebounds",
-        "player_assists",
-        "player_threes",
-        "player_blocks",
-        "player_steals",
-        "player_blocks_steals",
-        "player_turnovers",
-        "player_points_rebounds_assists",
-        "player_points_rebounds",
-        "player_points_assists",
-        "player_rebounds_assists",
+        # "batter_home_runs",
+        "batter_hits",
+        "batter_total_bases",
+        "batter_rbis",
+        "batter_runs_scored",
+        "batter_hits_runs_rbis",
+        "batter_singles",
+        # "batter_doubles",
+        # "batter_triples",
+        # "batter_walks",
+        "batter_strikeouts",
+        # "batter_stolen_bases",
+        "pitcher_strikeouts",
+        "pitcher_hits_allowed",
+        "pitcher_walks",
+        "pitcher_earned_runs",
+        "pitcher_outs",
     ]
 
     prizepicks_data = getPrizePicksData()
     prizepicks_index = build_prizepicks_index(prizepicks_data)
 
     if not prizepicks_data or not prizepicks_index:
-        return {"message": "No WNBA Props Data.", "data": []}
+        return {"message": "No MLB Props Data.", "data": []}
 
     games_today = getGames()
     if not games_today:
-        return {"message": "No WNBA games.", "data": []}
+        return {"message": "No MLB games.", "data": []}
 
     all_best_props = []
 
@@ -465,6 +477,3 @@ def getBestPropsWNBA(include_prizepicks=True):
     )
 
     return {"message": "Success", "data": sorted_best_props}
-
-
-print(getBestPropsWNBA())

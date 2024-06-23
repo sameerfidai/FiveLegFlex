@@ -4,6 +4,7 @@ const BettingProp = ({ prop }) => {
   const [isSelected, setIsSelected] = useState(false);
 
   const bookLogos = {
+    superbook: "/superbook.png",
     draftkings: "/draftkings.png",
     fanduel: "/fanduel.png",
     williamhill_us: "/caesars.png",
@@ -15,6 +16,7 @@ const BettingProp = ({ prop }) => {
   };
 
   const bookNames = {
+    superbook: "Superbook",
     draftkings: "DraftKings",
     fanduel: "Fanduel",
     williamhill_us: "Caesars",
