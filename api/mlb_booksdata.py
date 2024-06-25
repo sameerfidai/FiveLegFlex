@@ -429,7 +429,7 @@ def getBestPropsMLB(include_prizepicks=True):
     prop_types = [
         # "batter_home_runs",
         "batter_hits",
-        "batter_total_bases",
+        # "batter_total_bases",
         "batter_rbis",
         "batter_runs_scored",
         "batter_hits_runs_rbis",
