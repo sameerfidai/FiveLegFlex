@@ -16,6 +16,7 @@ ODDS_FORMAT = "american"
 prizepicks_cache = TTLCache(maxsize=100, ttl=600)
 odds_cache = TTLCache(maxsize=100, ttl=600)
 games_cache = TTLCache(maxsize=100, ttl=600)
+best_props_cache = TTLCache(maxsize=100, ttl=600)
 
 
 @cached(prizepicks_cache)
@@ -79,10 +80,10 @@ def getPrizePicksData():
 @cached(games_cache)
 def getGames():
     """
-    Fetches a list of event details for upcoming NBA games.
+    Fetches a list of event details for upcoming MLB games.
 
     Returns:
-        list: A list containing the details of upcoming NBA games. Returns an empty list if no games are found or an error occurs.
+        list: A list containing the details of upcoming MLB games. Returns an empty list if no games are found or an error occurs.
     """
 
     events_url = f"https://api.the-odds-api.com/v4/sports/{SPORT}/events"
@@ -122,7 +123,7 @@ def getGames():
 @cached(odds_cache)
 def getPlayersPropsOddsForGame(event_id, prop_type):
     """
-    Retrieves betting odds for specified player propositions (e.g., points, assists, rebounds) from different bookmakers for a specific game.
+    Retrieves betting odds for specified player propositions from different bookmakers for a specific game.
 
     Parameters:
         event_id (str): The unique ID for the game.
@@ -423,6 +424,7 @@ def find_best_props(
     return all_props_dict
 
 
+@cached(best_props_cache)
 def getBestPropsMLB(include_prizepicks=True):
     prop_types = [
         # "batter_home_runs",

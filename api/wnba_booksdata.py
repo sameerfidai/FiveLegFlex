@@ -16,6 +16,7 @@ ODDS_FORMAT = "american"
 prizepicks_cache = TTLCache(maxsize=100, ttl=600)
 odds_cache = TTLCache(maxsize=100, ttl=600)
 games_cache = TTLCache(maxsize=100, ttl=600)
+best_props_cache = TTLCache(maxsize=100, ttl=600)
 
 
 @cached(prizepicks_cache)
@@ -418,6 +419,7 @@ def find_best_props(
     return all_props_dict
 
 
+@cached(best_props_cache)
 def getBestPropsWNBA(include_prizepicks=True):
     prop_types = [
         "player_points",

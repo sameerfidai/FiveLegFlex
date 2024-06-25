@@ -3,7 +3,7 @@ import requests
 from cachetools import TTLCache, cached
 import pytz
 
-API_KEY = "72ea95fc57869b5059c744ac9dfb4931"
+API_KEY = "3b5120e61e494a65616a8df55258d184"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -12,6 +12,7 @@ ODDS_FORMAT = "american"
 prizepicks_cache = TTLCache(maxsize=100, ttl=600)
 odds_cache = TTLCache(maxsize=100, ttl=600)
 games_cache = TTLCache(maxsize=100, ttl=600)
+best_props_cache = TTLCache(maxsize=100, ttl=600)
 
 
 @cached(prizepicks_cache)
@@ -467,6 +468,7 @@ def find_best_props(
     return all_props_dict
 
 
+@cached(best_props_cache)
 def getBestPropsNBA(include_prizepicks=True):
     prop_types = [
         "player_points",
