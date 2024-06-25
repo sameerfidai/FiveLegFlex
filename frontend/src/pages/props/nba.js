@@ -57,24 +57,24 @@ const FilterButtons = ({ selectedFilter, setSelectedFilter, selectedPropType, se
   return (
     <div className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-2 md:space-y-0 md:space-x-4 w-full">
       <div className="flex flex-row space-x-2 mb-2 md:mb-0">
-        <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "all" ? "bg-gold text-black shadow-lg" : "bg-black text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("all")}>
+        <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "all" ? "bg-gold text-fullblack shadow-lg" : "bg-black text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("all")}>
           All
         </button>
-        <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "over" ? "bg-green text-black shadow-lg" : "bg-black text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("over")}>
+        <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "over" ? "bg-green text-fullblack shadow-lg" : "bg-black text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("over")}>
           Over
         </button>
-        <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "under" ? "bg-red text-black shadow-lg" : "bg-black text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("under")}>
+        <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "under" ? "bg-red text-fullblack shadow-lg" : "bg-black text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("under")}>
           Under
         </button>
       </div>
 
       <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 items-center">
         <select
-          className="px-4 py-2 font-semibold rounded-lg bg-black text-white h-12 md:h-10 appearance-none pr-8 hover:bg-opacity-80 cursor-pointer"
+          className="px-4 py-2 font-semibold rounded-lg bg-black text-white h-12 md:h-10 appearance-none pr-8 hover:bg-opacity-80 cursor-pointer dark:bg-black dark:text-white"
           value={selectedPropType}
           onChange={(e) => setSelectedPropType(e.target.value)}
           style={{
-            backgroundImage: `url('data:image/svg+xml,%3Csvg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath fill="white" d="M7 7l3-3 3 3zM7 13l3 3 3-3z"/%3E%3C/svg%3E')`,
+            backgroundImage: `url('data:image/svg+xml,%3Csvg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg'%3E%3Cpath fill="white" d="M7 7l3-3 3 3zM7 13l3 3 3-3z"/%3E%3C/svg%3E')`,
             backgroundPosition: "right 0.5rem center",
             backgroundSize: "1.5em 1.5em",
             backgroundRepeat: "no-repeat",
@@ -89,11 +89,11 @@ const FilterButtons = ({ selectedFilter, setSelectedFilter, selectedPropType, se
         </select>
 
         <select
-          className="px-4 py-2 font-semibold rounded-lg bg-black text-white h-12 md:h-10 appearance-none pr-8 hover:bg-opacity-80 cursor-pointer"
+          className="px-4 py-2 font-semibold rounded-lg bg-black text-white h-12 md:h-10 appearance-none pr-8 hover:bg-opacity-80 cursor-pointer dark:bg-black dark:text-white"
           value={selectedGame}
           onChange={(e) => setSelectedGame(e.target.value)}
           style={{
-            backgroundImage: `url('data:image/svg+xml,%3Csvg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath fill="white" d="M7 7l3-3 3 3zM7 13l3 3 3-3z"/%3E%3C/svg%3E')`,
+            backgroundImage: `url('data:image/svg+xml,%3Csvg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg'%3E%3Cpath fill="white" d="M7 7l3-3 3 3zM7 13l3 3 3-3z"/%3E%3C/svg%3E')`,
             backgroundPosition: "right 0.5rem center",
             backgroundSize: "1.5em 1.5em",
             backgroundRepeat: "no-repeat",
@@ -109,7 +109,7 @@ const FilterButtons = ({ selectedFilter, setSelectedFilter, selectedPropType, se
       </div>
 
       <div className="flex items-center space-x-2">
-        <label className="text-white font-semibold">PrizePicks Only</label>
+        <label className="text-fullblack dark:text-white font-semibold">PrizePicks Only</label>
         <div className="inline-flex items-center">
           <label className="relative flex items-center p-3 rounded-full cursor-pointer" htmlFor="checkbox">
             <input
@@ -119,7 +119,7 @@ const FilterButtons = ({ selectedFilter, setSelectedFilter, selectedPropType, se
               checked={includePrizePicks}
               onChange={(e) => setIncludePrizePicks(e.target.checked)}
             />
-            <span className="absolute text-black transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
+            <span className="absolute text-fullblack dark:text-black transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" strokeWidth="1">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path>
               </svg>
@@ -156,7 +156,7 @@ const NBAPropsPage = () => {
       <Head>
         <title>NBA Props</title>
       </Head>
-      <div className="bg-fullblack text-white min-h-screen min-w-full">
+      <div className="bg-offwhite dark:bg-fullblack text-fullblack dark:text-white min-h-screen min-w-full">
         <div className="container mx-auto px-4 text-center">
           {hasProps && !error && (
             <FilterButtons
@@ -179,7 +179,7 @@ const NBAPropsPage = () => {
             </div>
           ) : (
             <div className="flex justify-center items-center w-full">
-              <div className="bg-fullblack text-white p-4 md:p-6 lg:p-8">
+              <div className="bg-offwhite dark:bg-fullblack text-fullblack dark:text-white p-4 md:p-6 lg:p-8">
                 <h1 className="text-center text-4xl font-bold mb-4">{bettingProps?.message || "No props available"}</h1>
               </div>
             </div>

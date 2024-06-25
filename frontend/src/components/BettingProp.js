@@ -49,18 +49,18 @@ const BettingProp = ({ prop }) => {
 
   return (
     <div
-      className={`bg-fullblack border-2 ${
-        isSelected ? "bg-gold bg-opacity-30 shadow-2xl" : "border-white bg-fullblack shadow-xl"
+      className={`border-2 ${
+        isSelected ? "bg-gold bg-opacity-30 shadow-2xl" : "border-fullblack dark:border-white bg-white dark:bg-fullblack shadow-xl"
       } rounded-lg p-4 flex flex-col justify-between h-full transition-transform duration-300 ease-in-out cursor-pointer hover:bg-gold hover:bg-opacity-30 hover:scale-105 w-full`}
       onClick={toggleSelection}
     >
       <div className="flex flex-col items-center mb-4">
-        <img className="w-32 h-32 rounded-full border-4 border-white mb-2" src={prop.img_url} alt={`Image of ${prop.player}`} />
-        <h2 className="text-2xl font-semibold text-center mb-1">{prop.player}</h2>
+        <img className="w-32 h-32 rounded-full border-4 border-fullblack dark:border-white mb-2" src={prop.img_url} alt={`Image of ${prop.player}`} />
+        <h2 className="text-2xl font-semibold text-center mb-1 text-fullblack dark:text-white">{prop.player}</h2>
         <p className="text-teal text-sm text-center mb-1">
           {prop.home_team} vs {prop.away_team}
         </p>
-        <p className="text-white text-sm text-center mb-1">
+        <p className="text-fullblack dark:text-white text-sm text-center mb-1">
           {prop.player_team} - {prop.player_position}
         </p>
         <p className="text-lg text-center">
@@ -68,7 +68,7 @@ const BettingProp = ({ prop }) => {
             {prop.prop_type.toUpperCase()}: {prop.line}
           </span>
         </p>
-        <p className="text-white text-sm text-center mb-1">{prop.game_time}</p>
+        <p className="text-fullblack dark:text-white text-sm text-center mb-1">{prop.game_time}</p>
       </div>
       <div className="flex justify-between items-center mb-4 w-full space-x-2">
         <div className={`flex-1 p-2 rounded-lg text-center font-bold shadow-md ${prop.bestBet === "over" ? "bg-green" : "bg-red"} bg-opacity-70`}>
@@ -79,18 +79,18 @@ const BettingProp = ({ prop }) => {
       <div className="flex flex-col space-y-2 w-full min-h-[8rem] max-h-32 overflow-auto custom-scrollbar">
         {sortedBookOdds.map((book, idx) => (
           <div key={idx} className="flex space-x-2">
-            <div className="flex items-center bg-black rounded-lg p-2 w-4/5 justify-between">
+            <div className="flex items-center bg-offwhite dark:bg-black rounded-lg p-2 w-4/5 justify-between">
               <div className="flex items-center">
                 <img src={bookLogos[book.book]} alt={bookNames[book.book]} className="h-5 rounded border border-gray transition-transform transform group-hover:scale-125" />
-                <span className="text-sm text-white ml-2 sm:max-md:text-xs">{bookNames[book.book]}</span>
+                <span className="text-sm text-fullblack dark:text-white ml-2 sm:max-md:text-xs">{bookNames[book.book]}</span>
               </div>
               <div className="flex">
-                <span className="text-sm font-bold text-white sm:max-md:text-xs">Line: {book.line}</span>
+                <span className="text-sm font-bold text-fullblack dark:text-white sm:max-md:text-xs">Line: {book.line}</span>
               </div>
             </div>
 
-            <div className="flex items-center bg-black rounded-lg p-2 w-20 justify-center h-full">
-              <span className="text-sm font-bold text-white sm:max-md:text-xs">{getOdds(book)}</span>
+            <div className="flex items-center bg-offwhite dark:bg-black rounded-lg p-2 w-20 justify-center h-full">
+              <span className="text-sm font-bold text-fullblack dark:text-white sm:max-md:text-xs">{getOdds(book)}</span>
             </div>
           </div>
         ))}
