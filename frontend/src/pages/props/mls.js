@@ -60,7 +60,7 @@ const FilterButtons = ({ selectedFilter, setSelectedFilter, selectedPropType, se
 
       <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 items-center">
         <select
-          className="px-4 py-2 font-semibold rounded-lg bg-white text-black h-12 md:h-10 appearance-none pr-8 hover:bg-opacity-80 cursor-pointer dark:bg-black dark:text-white"
+          className="px-4 py-2 font-semibold rounded-lg border bg-white text-black h-12 md:h-10 appearance-none pr-8 hover:bg-opacity-80 cursor-pointer dark:bg-black dark:text-white"
           value={selectedPropType}
           onChange={(e) => setSelectedPropType(e.target.value)}
           style={{
@@ -79,7 +79,7 @@ const FilterButtons = ({ selectedFilter, setSelectedFilter, selectedPropType, se
         </select>
 
         <select
-          className="px-4 py-2 font-semibold rounded-lg bg-white text-black h-12 md:h-10 appearance-none pr-8 hover:bg-opacity-80 cursor-pointer dark:bg-black dark:text-white"
+          className="px-4 py-2 font-semibold rounded-lg border bg-white text-black h-12 md:h-10 appearance-none pr-8 hover:bg-opacity-80 cursor-pointer dark:bg-black dark:text-white"
           value={selectedGame}
           onChange={(e) => setSelectedGame(e.target.value)}
           style={{
