@@ -64,7 +64,7 @@ const BettingProp = ({ prop }) => {
           {prop.player_team} - {prop.player_position}
         </p>
         <p className="text-lg text-center">
-          <span className="text-gold font-bold">
+          <span className="text-gold font-bold drop-shadow-sm">
             {prop.prop_type.toUpperCase()}: {prop.line}
           </span>
         </p>
