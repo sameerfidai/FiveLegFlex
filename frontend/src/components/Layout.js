@@ -28,7 +28,7 @@ const Layout = ({ children }) => {
 
   return (
     <div className="flex flex-col min-h-screen bg-white text-fullblack dark:bg-fullblack dark:text-white">
-      <nav className="bg-white dark:bg-fullblack bg-opacity-60 backdrop-blur-lg w-full sticky top-0 z-50 py-4 dark:border-b dark:border-black2">
+      <nav className="bg-white border-b border-lightgray dark:bg-fullblack bg-opacity-60 backdrop-blur-lg w-full sticky top-0 z-50 py-4 dark:border-b dark:border-black2">
         <div className="flex justify-between items-center px-10 w-full">
           <div className="flex justify-start">
             <Link href="/" className="text-xl font-bold text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out">

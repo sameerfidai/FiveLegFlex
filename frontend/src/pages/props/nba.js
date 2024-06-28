@@ -57,20 +57,29 @@ const FilterButtons = ({ selectedFilter, setSelectedFilter, selectedPropType, se
   return (
     <div className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-2 md:space-y-0 md:space-x-4 w-full">
       <div className="flex flex-row space-x-2 mb-2 md:mb-0">
-        <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "all" ? "bg-gold text-fullblack shadow-lg" : "bg-white border dark:bg-black dark:text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("all")}>
+        <button
+          className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "all" ? "bg-gold text-fullblack border border-lightgray" : "bg-white border border-lightgray dark:bg-black dark:text-white hover:bg-opacity-80"} h-12 md:h-10`}
+          onClick={() => setSelectedFilter("all")}
+        >
           All
         </button>
-        <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "over" ? "bg-green text-fullblack shadow-lg" : "bg-white border dark:bg-black dark:text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("over")}>
+        <button
+          className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "over" ? "bg-green text-fullblack border border-lightgray" : "bg-white border border-lightgray dark:bg-black dark:text-white hover:bg-opacity-80"} h-12 md:h-10`}
+          onClick={() => setSelectedFilter("over")}
+        >
           Over
         </button>
-        <button className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "under" ? "bg-red text-fullblack shadow-lg" : "bg-white border dark:bg-black dark:text-white hover:bg-opacity-80"} h-12 md:h-10`} onClick={() => setSelectedFilter("under")}>
+        <button
+          className={`px-4 py-2 font-semibold rounded-lg transition-transform duration-300 ${selectedFilter === "under" ? "bg-red text-fullblack border border-lightgray" : "bg-white border border-lightgray dark:bg-black dark:text-white hover:bg-opacity-80"} h-12 md:h-10`}
+          onClick={() => setSelectedFilter("under")}
+        >
           Under
         </button>
       </div>
 
       <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 items-center">
         <select
-          className="px-4 py-2 font-semibold rounded-lg border bg-white text-black h-12 md:h-10 appearance-none pr-8 hover:bg-opacity-80 cursor-pointer dark:bg-black dark:text-white"
+          className="px-4 py-2 font-semibold rounded-lg border border-lightgray bg-white text-black h-12 md:h-10 appearance-none pr-8 hover:bg-opacity-80 cursor-pointer dark:bg-black dark:text-white"
           value={selectedPropType}
           onChange={(e) => setSelectedPropType(e.target.value)}
           style={{
@@ -89,7 +98,7 @@ const FilterButtons = ({ selectedFilter, setSelectedFilter, selectedPropType, se
         </select>
 
         <select
-          className="px-4 py-2 font-semibold rounded-lg border bg-white text-black h-12 md:h-10 appearance-none pr-8 hover:bg-opacity-80 cursor-pointer dark:bg-black dark:text-white"
+          className="px-4 py-2 font-semibold rounded-lg border border-lightgray bg-white text-black h-12 md:h-10 appearance-none pr-8 hover:bg-opacity-80 cursor-pointer dark:bg-black dark:text-white"
           value={selectedGame}
           onChange={(e) => setSelectedGame(e.target.value)}
           style={{
