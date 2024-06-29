@@ -37,7 +37,7 @@ const BettingProp = ({ prop }) => {
   };
 
   const formatOdds = (odds) => {
-    return odds >= 0 ? `+${odds}` : odds;
+    return odds > 0 ? `+${odds}` : odds;
   };
 
   const getOdds = (book) => {
@@ -72,7 +72,7 @@ const BettingProp = ({ prop }) => {
       </div>
       <div className="flex justify-between items-center mb-4 w-full space-x-2">
         <div className={`flex-1 p-2 rounded-lg text-center font-bold shadow-md ${prop.bestBet === "over" ? "bg-green" : "bg-red"} bg-opacity-70`}>
-          {prop.bestBet.toUpperCase()} ({prop.bestBetOdds})
+          {prop.bestBet.toUpperCase()} ({formatOdds(prop.bestBetOdds)})
         </div>
         <div className={`flex-1 p-2 rounded-lg shadow-lg text-center font-bold ${prop.bestBetProbability >= 0.6 ? "bg-green bg-opacity-50" : prop.bestBetProbability >= 0.54 ? "bg-lightgreen bg-opacity-70" : "bg-gold bg-opacity-70"}`}>{(prop.bestBetProbability * 100).toFixed(2)}%</div>
       </div>
