@@ -300,23 +300,34 @@ def find_best_props(players_data, prop_type, prizepicks_index, game_info):
                     for odds in odds_list:
                         if odds["points"] == prizepicks_line:
                             over_prob = calculate_implied_probability(odds["odds"])
+                            under_prob = (
+                                1 - over_prob if over_prob is not None else None
+                            )
                             if over_prob is not None:
                                 player_props.append(
                                     {
                                         "book": book,
                                         "line": odds["points"],
                                         "odds": odds["odds"],
-                                        "probability": over_prob,
+                                        "over_probability": over_prob,
+                                        "under_probability": under_prob,
                                     }
                                 )
 
                 if player_props:
                     best_bet = max(
                         player_props,
-                        key=lambda x: x["probability"],
+                        key=lambda x: max(
+                            x["over_probability"], x["under_probability"]
+                        ),
                     )
 
-                    best_bet_probability = best_bet["probability"]
+                    best_bet_over = (
+                        best_bet["over_probability"] > best_bet["under_probability"]
+                    )
+                    best_bet_probability = max(
+                        best_bet["over_probability"], best_bet["under_probability"]
+                    )
 
                     composite_key = f"{player}_{readable_prop_type}"
                     all_props_dict[composite_key] = {
@@ -328,7 +339,7 @@ def find_best_props(players_data, prop_type, prizepicks_index, game_info):
                         "player_position": pp_player["position"],
                         "line": prizepicks_line,
                         "img_url": img_url,
-                        "bestBet": "over",
+                        "bestBet": "over" if best_bet_over else "under",
                         "bestBetOdds": best_bet["odds"],
                         "bestBook": best_bet["book"],
                         "bestBetProbability": best_bet_probability,
@@ -365,6 +376,7 @@ def getBestPropsMLS():
             player_props_odds_for_game = getPlayersPropsOddsForGame(
                 game["id"], prop_type
             )
+
             best_props = find_best_props(
                 player_props_odds_for_game,
                 prop_type,
