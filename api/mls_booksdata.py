@@ -247,6 +247,7 @@ def normalize_name(name):
         "Herbert": "Herb",
         "Derrick Jones Jr": "Derrick Jones",
         "PJ Washington": "P.J. Washington",
+        "Denis Bouanga": "Dénis Bouanga",
     }
 
     for key, value in name_replacements.items():
@@ -319,7 +320,7 @@ def find_best_props(players_data, prop_type, prizepicks_index, game_info):
 
                     composite_key = f"{player}_{readable_prop_type}"
                     all_props_dict[composite_key] = {
-                        "player": player,
+                        "player": normalize_name(player),
                         "prop_type": readable_prop_type,
                         "home_team": home_team,
                         "away_team": away_team,
