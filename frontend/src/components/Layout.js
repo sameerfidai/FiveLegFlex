@@ -58,9 +58,9 @@ const Layout = ({ children }) => {
                   <Link href="/props/mls" className="block px-4 py-2 text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold hover:bg-offwhite dark:hover:bg-black transition duration-300 ease-in-out rounded-b-md">
                     MLS
                   </Link>
-                  <Link href="/props/euros" className="block px-4 py-2 text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold hover:bg-offwhite dark:hover:bg-black transition duration-300 ease-in-out rounded-b-md">
+                  {/* <Link href="/props/euros" className="block px-4 py-2 text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold hover:bg-offwhite dark:hover:bg-black transition duration-300 ease-in-out rounded-b-md">
                     Euros 2024
-                  </Link>
+                  </Link> */}
                 </div>
               )}
             </div>
@@ -104,11 +104,11 @@ const Layout = ({ children }) => {
                 MLS
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link href="/props/euros" className="text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out">
                 Euros 2024
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link href="/about" className="text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out">
                 About
