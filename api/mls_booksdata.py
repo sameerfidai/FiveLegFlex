@@ -40,7 +40,7 @@ def getPrizePicksData():
         "DC United",
         "FC Dallas",
         "Houston Dynamo FC",
-        "Inter Miami CF",
+        "Club Internacional de Fútbol Miami",
         "LA Galaxy",
         "Los Angeles FC",
         "Minnesota United FC",
@@ -101,6 +101,7 @@ def getPrizePicksData():
             team = player_attributes["market"]
 
             if team not in mls_teams:
+                # print(f'{team} not in teams dict')
                 continue
 
             if player_id not in players_lines:
