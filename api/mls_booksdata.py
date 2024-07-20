@@ -249,6 +249,7 @@ def normalize_name(name):
         "Derrick Jones Jr": "Derrick Jones",
         "PJ Washington": "P.J. Washington",
         "Denis Bouanga": "Dénis Bouanga",
+        "Martin Ojeda": "Martín Ojeda",
     }
 
     for key, value in name_replacements.items():
@@ -378,6 +379,8 @@ def getBestPropsMLS():
                 game["id"], prop_type
             )
 
+            # print(game)
+            # print(player_props_odds_for_game)
             best_props = find_best_props(
                 player_props_odds_for_game,
                 prop_type,
