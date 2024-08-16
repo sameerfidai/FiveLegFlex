@@ -5,6 +5,16 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 First, run the API server in `/api`:
 
 ```bash
+# if you have Docker
+
+# build Docker image
+docker build -t fivelegflex .
+
+# run server
+docker run -p 8080:8080 fivelegflex
+
+
+#if you do NOT have Docker
 cd api
 
 # create and activate python virtual environment

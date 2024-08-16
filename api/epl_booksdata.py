@@ -347,7 +347,7 @@ def find_best_props(players_data, prop_type, prizepicks_index, game_info):
 
 
 @cached(best_props_cache)
-def getBestPropsMLS():
+def getBestPropsEPL():
     prop_types = [
         "player_shots",
         "player_shots_on_target",
@@ -357,11 +357,11 @@ def getBestPropsMLS():
     prizepicks_index = build_prizepicks_index(prizepicks_data)
 
     if not prizepicks_data or not prizepicks_index:
-        return {"message": "No MLS Props Data.", "data": []}
+        return {"message": "No EPL Props Data.", "data": []}
 
     games_today = getGames()
     if not games_today:
-        return {"message": "No MLS games.", "data": []}
+        return {"message": "No EPL games.", "data": []}
 
     all_best_props = []
 
@@ -388,6 +388,3 @@ def getBestPropsMLS():
     print(sorted_best_props)
 
     return {"message": "Success", "data": sorted_best_props}
-
-
-getBestPropsMLS()
