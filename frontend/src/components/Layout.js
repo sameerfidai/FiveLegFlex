@@ -31,32 +31,69 @@ const Layout = ({ children }) => {
       <nav className="bg-white border-b border-lightgray dark:bg-fullblack bg-opacity-60 backdrop-blur-lg w-full sticky top-0 z-50 py-4 dark:border-b dark:border-black2">
         <div className="flex justify-between items-center px-10 w-full">
           <div className="flex justify-start">
-            <Link href="/" className="text-xl font-bold text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out">
+            <Link
+              href="/"
+              className="text-xl font-bold text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out"
+            >
               FiveLegFlex
             </Link>
           </div>
 
           <div className="hidden md:flex items-center space-x-6">
             <div className="relative" ref={dropdownRef}>
-              <button onClick={handleDropdownToggle} className="whitespace-nowrap text-base font-bold text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out flex items-center">
+              <button
+                onClick={handleDropdownToggle}
+                className="whitespace-nowrap text-base font-bold text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out flex items-center"
+              >
                 Sports
-                <svg className={`w-4 h-4 ml-1 transition-transform duration-300 ease-in-out ${dropdownOpen ? "transform rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                <svg
+                  className={`w-4 h-4 ml-1 transition-transform duration-300 ease-in-out ${
+                    dropdownOpen ? "transform rotate-180" : ""
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
                 </svg>
               </button>
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-fullblack bg-opacity-95 border border-black2 dark:border-black2 rounded-md shadow-lg py-1 z-20">
-                  <Link href="/props/nba" className="block px-4 py-2 text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold hover:bg-offwhite dark:hover:bg-black transition duration-300 ease-in-out rounded-t-md">
+                  <Link
+                    href="/props/nba"
+                    className="block px-4 py-2 text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold hover:bg-offwhite dark:hover:bg-black transition duration-300 ease-in-out rounded-t-md"
+                  >
                     NBA
                   </Link>
-                  <Link href="/props/mlb" className="block px-4 py-2 text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold hover:bg-offwhite dark:hover:bg-black transition duration-300 ease-in-out rounded-t-md">
+                  <Link
+                    href="/props/mlb"
+                    className="block px-4 py-2 text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold hover:bg-offwhite dark:hover:bg-black transition duration-300 ease-in-out rounded-t-md"
+                  >
                     MLB
                   </Link>
-                  <Link href="/props/wnba" className="block px-4 py-2 text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold hover:bg-offwhite dark:hover:bg-black transition duration-300 ease-in-out rounded-t-md">
+                  <Link
+                    href="/props/wnba"
+                    className="block px-4 py-2 text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold hover:bg-offwhite dark:hover:bg-black transition duration-300 ease-in-out rounded-t-md"
+                  >
                     WNBA
                   </Link>
-                  <Link href="/props/mls" className="block px-4 py-2 text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold hover:bg-offwhite dark:hover:bg-black transition duration-300 ease-in-out rounded-b-md">
+                  <Link
+                    href="/props/mls"
+                    className="block px-4 py-2 text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold hover:bg-offwhite dark:hover:bg-black transition duration-300 ease-in-out rounded-b-md"
+                  >
                     MLS
+                  </Link>
+                  <Link
+                    href="/props/epl"
+                    className="block px-4 py-2 text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold hover:bg-offwhite dark:hover:bg-black transition duration-300 ease-in-out rounded-b-md"
+                  >
+                    EPL
                   </Link>
                   {/* <Link href="/props/euros" className="block px-4 py-2 text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold hover:bg-offwhite dark:hover:bg-black transition duration-300 ease-in-out rounded-b-md">
                     Euros 2024
@@ -64,7 +101,10 @@ const Layout = ({ children }) => {
                 </div>
               )}
             </div>
-            <Link href="/about" className="whitespace-nowrap text-base font-bold text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out">
+            <Link
+              href="/about"
+              className="whitespace-nowrap text-base font-bold text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out"
+            >
               About
             </Link>
             {/* Twitter Icon */}
@@ -75,33 +115,71 @@ const Layout = ({ children }) => {
             </a> */}
           </div>
 
-          <button className="md:hidden flex items-center justify-center p-2 text-fullblack dark:text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          <button
+            className="md:hidden flex items-center justify-center p-2 text-fullblack dark:text-white"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              ></path>
             </svg>
           </button>
         </div>
 
-        <div className={`md:hidden absolute top-16 left-0 w-full bg-white dark:bg-fullblack bg-opacity-90 border-t border-black2 dark:border-black2 px-5 py-4 transition-transform duration-300 ease-in-out ${mobileMenuOpen ? "block" : "hidden"}`}>
+        <div
+          className={`md:hidden absolute top-16 left-0 w-full bg-white dark:bg-fullblack bg-opacity-90 border-t border-black2 dark:border-black2 px-5 py-4 transition-transform duration-300 ease-in-out ${
+            mobileMenuOpen ? "block" : "hidden"
+          }`}
+        >
           <ul className="flex flex-col space-y-4">
             <li>
-              <Link href="/props/nba" className="text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out">
+              <Link
+                href="/props/nba"
+                className="text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out"
+              >
                 NBA
               </Link>
             </li>
             <li>
-              <Link href="/props/mlb" className="text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out">
+              <Link
+                href="/props/mlb"
+                className="text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out"
+              >
                 MLB
               </Link>
             </li>
             <li>
-              <Link href="/props/wnba" className="text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out">
+              <Link
+                href="/props/wnba"
+                className="text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out"
+              >
                 WNBA
               </Link>
             </li>
             <li>
-              <Link href="/props/mls" className="text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out">
+              <Link
+                href="/props/mls"
+                className="text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out"
+              >
                 MLS
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/props/epl"
+                className="text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out"
+              >
+                EPL
               </Link>
             </li>
             {/* <li>
@@ -110,7 +188,10 @@ const Layout = ({ children }) => {
               </Link>
             </li> */}
             <li>
-              <Link href="/about" className="text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out">
+              <Link
+                href="/about"
+                className="text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out"
+              >
                 About
               </Link>
             </li>
@@ -125,12 +206,16 @@ const Layout = ({ children }) => {
         </div>
       </nav>
 
-      <div className="flex-grow flex p-6 justify-center items-center bg-offwhite dark:bg-fullblack text-fullblack dark:text-white">{children}</div>
+      <div className="flex-grow flex p-6 justify-center items-center bg-offwhite dark:bg-fullblack text-fullblack dark:text-white">
+        {children}
+      </div>
 
       <footer className="bg-offwhite dark:bg-fullblack text-fullblack dark:text-white py-4 mt-auto">
         <div className="">
           <div className="flex justify-center items-center">
-            <p className="text-sm font-medium text-fullblack dark:text-white">&copy; 2024 FiveLegFlex. All rights reserved.</p>
+            <p className="text-sm font-medium text-fullblack dark:text-white">
+              &copy; 2024 FiveLegFlex. All rights reserved.
+            </p>
           </div>
         </div>
       </footer>
