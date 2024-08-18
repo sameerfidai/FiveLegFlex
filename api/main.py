@@ -6,6 +6,7 @@ from euros2024_booksdata import getBestPropsEuros
 from wnba_booksdata import getBestPropsWNBA
 from mlb_booksdata import getBestPropsMLB
 from epl_booksdata import getBestPropsEPL
+from laliga_booksdata import getBestPropsLaLiga
 
 # from scrape_props_selenium import get_top_projections
 
@@ -40,6 +41,11 @@ async def read_best_props_mls():
 @app.get("/api/best-props-epl")
 async def read_best_props_epl():
     return getBestPropsEPL()
+
+
+@app.get("/api/best-props-laliga")
+async def read_best_props_laliga():
+    return getBestPropsLaLiga()
 
 
 @app.get("/api/best-props-euros")

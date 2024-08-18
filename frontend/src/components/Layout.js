@@ -95,6 +95,12 @@ const Layout = ({ children }) => {
                   >
                     EPL
                   </Link>
+                  <Link
+                    href="/props/laliga"
+                    className="block px-4 py-2 text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold hover:bg-offwhite dark:hover:bg-black transition duration-300 ease-in-out rounded-b-md"
+                  >
+                    La Liga
+                  </Link>
                   {/* <Link href="/props/euros" className="block px-4 py-2 text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold hover:bg-offwhite dark:hover:bg-black transition duration-300 ease-in-out rounded-b-md">
                     Euros 2024
                   </Link> */}
@@ -180,6 +186,14 @@ const Layout = ({ children }) => {
                 className="text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out"
               >
                 EPL
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/props/laliga"
+                className="text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out"
+              >
+                La Liga
               </Link>
             </li>
             {/* <li>
