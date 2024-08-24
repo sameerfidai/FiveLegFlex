@@ -344,7 +344,7 @@ def find_best_props(players_data, prop_type, prizepicks_index, game_info):
                         "away_team": away_team,
                         "player_team": pp_player["team_name"],
                         "player_position": pp_player["position"],
-                        "prizepicks_line": prizepicks_line,
+                        "line": prizepicks_line,
                         "img_url": img_url,
                         "bestBet": "over" if best_bet_over else "under",
                         "bestBetOdds": best_bet["odds"],

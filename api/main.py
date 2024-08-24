@@ -7,6 +7,7 @@ from wnba_booksdata import getBestPropsWNBA
 from mlb_booksdata import getBestPropsMLB
 from epl_booksdata import getBestPropsEPL
 from laliga_booksdata import getBestPropsLaLiga
+from cfb_booksdata import getBestPropsCFB
 
 # from scrape_props_selenium import get_top_projections
 
@@ -61,6 +62,11 @@ async def read_best_props_wnba(include_prizepicks: bool = Query(True)):
 @app.get("/api/best-props-mlb")
 async def read_best_props_mlb(include_prizepicks: bool = Query(True)):
     return getBestPropsMLB(include_prizepicks)
+
+
+@app.get("/api/best-props-cfb")
+async def read_best_props_cfb(include_prizepicks: bool = Query(True)):
+    return getBestPropsCFB(include_prizepicks)
 
 
 # @app.get("/api/top-projections")

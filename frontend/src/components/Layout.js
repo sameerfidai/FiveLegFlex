@@ -72,6 +72,12 @@ const Layout = ({ children }) => {
                     NBA
                   </Link>
                   <Link
+                    href="/props/cfb"
+                    className="block px-4 py-2 text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold hover:bg-offwhite dark:hover:bg-black transition duration-300 ease-in-out rounded-t-md"
+                  >
+                    CFB
+                  </Link>
+                  <Link
                     href="/props/mlb"
                     className="block px-4 py-2 text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold hover:bg-offwhite dark:hover:bg-black transition duration-300 ease-in-out rounded-t-md"
                   >
@@ -154,6 +160,14 @@ const Layout = ({ children }) => {
                 className="text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out"
               >
                 NBA
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/props/cfb"
+                className="text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out"
+              >
+                CFB
               </Link>
             </li>
             <li>
