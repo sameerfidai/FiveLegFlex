@@ -195,7 +195,7 @@ const CFBPropsPage = () => {
     data: bettingProps,
     error,
     loading,
-  } = useFetch(LOCAL_URL, includePrizePicks);
+  } = useFetch(API_URL, includePrizePicks);
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [selectedPropType, setSelectedPropType] = useState("all");
   const [selectedGame, setSelectedGame] = useState("all");
