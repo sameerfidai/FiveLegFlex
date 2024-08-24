@@ -287,26 +287,20 @@ def find_best_props(players_data, prop_type, prizepicks_index, game_info):
 
                     for odds in odds_list:
                         # Handle whole numbers and non-whole numbers differently
-                        if prizepicks_line.is_integer():
+                        if prizepicks_line == int(prizepicks_line):
                             # For whole numbers, include the exact line and 0.5 below
-                            if (
+                            include_line = (
                                 prizepicks_line - 0.5
                                 <= odds["points"]
                                 <= prizepicks_line
-                            ):
-                                include_line = True
-                            else:
-                                include_line = False
+                            )
                         else:
                             # For non-whole numbers, include the exact line and 0.5 above
-                            if (
+                            include_line = (
                                 prizepicks_line
                                 <= odds["points"]
                                 <= prizepicks_line + 0.5
-                            ):
-                                include_line = True
-                            else:
-                                include_line = False
+                            )
 
                         if include_line:
                             over_prob = calculate_implied_probability(odds["odds"])
@@ -327,8 +321,20 @@ def find_best_props(players_data, prop_type, prizepicks_index, game_info):
                                 )
 
                 if player_props:
-                    # Select the best over bet (highest probability)
-                    best_bet = max(player_props, key=lambda x: x["over_probability"])
+                    # Select the best bet (highest probability of either over or under)
+                    best_bet = max(
+                        player_props,
+                        key=lambda x: max(
+                            x["over_probability"], x["under_probability"]
+                        ),
+                    )
+
+                    best_bet_over = (
+                        best_bet["over_probability"] > best_bet["under_probability"]
+                    )
+                    best_bet_probability = max(
+                        best_bet["over_probability"], best_bet["under_probability"]
+                    )
 
                     composite_key = f"{player}_{readable_prop_type}"
                     all_props_dict[composite_key] = {
@@ -340,11 +346,11 @@ def find_best_props(players_data, prop_type, prizepicks_index, game_info):
                         "player_position": pp_player["position"],
                         "prizepicks_line": prizepicks_line,
                         "img_url": img_url,
-                        "bestBet": "over",
+                        "bestBet": "over" if best_bet_over else "under",
                         "bestBetOdds": best_bet["odds"],
                         "bestBook": best_bet["book"],
                         "bestBetLine": best_bet["line"],
-                        "bestBetProbability": best_bet["over_probability"],
+                        "bestBetProbability": best_bet_probability,
                         "allBookOdds": player_props,
                         "game_time": format_game_time_to_est(
                             game_info["commence_time"].isoformat()

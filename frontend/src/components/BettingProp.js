@@ -65,7 +65,7 @@ const BettingProp = ({ prop }) => {
         </p>
         <p className="text-lg text-center">
           <span className="text-gold font-bold drop-shadow-sm">
-            {prop.prop_type.toUpperCase()}: {prop.line}
+            {prop.prop_type.toUpperCase()}: {prop.prizepicks_line}
           </span>
         </p>
         <p className="text-fullblack dark:text-white text-sm text-center mb-1">{prop.game_time}</p>
