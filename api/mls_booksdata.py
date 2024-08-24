@@ -258,19 +258,6 @@ def normalize_name(name):
 
 
 def find_best_props(players_data, prop_type, prizepicks_index, game_info):
-    """
-    Determines the best betting props for players based on bookmaker and PrizePicks data.
-
-    Parameters:
-        players_data (dict): Player names with odds data from bookmakers.
-        prop_type (str): Type of player prop (e.g., "player_shots").
-        prizepicks_index (dict): Indexed PrizePicks data with normalized player names.
-        game_info (dict): Information about the game including commence time.
-
-    Returns:
-        dict: Compiled best bets with details on odds, line, probability, etc.
-    """
-
     all_props_dict = {}
     prop_type_mapping = {
         "player_shots": "Shots",
@@ -294,13 +281,34 @@ def find_best_props(players_data, prop_type, prizepicks_index, game_info):
                     "https://cdn-icons-png.flaticon.com/512/166/166344.png",
                 )
 
-                # Filter odds to only include those that match the PrizePicks line
                 for book, odds_list in data.items():
                     if book in ["home_team", "away_team"]:
                         continue
 
                     for odds in odds_list:
-                        if odds["points"] == prizepicks_line:
+                        # Handle whole numbers and non-whole numbers differently
+                        if prizepicks_line.is_integer():
+                            # For whole numbers, include the exact line and 0.5 below
+                            if (
+                                prizepicks_line - 0.5
+                                <= odds["points"]
+                                <= prizepicks_line
+                            ):
+                                include_line = True
+                            else:
+                                include_line = False
+                        else:
+                            # For non-whole numbers, include the exact line and 0.5 above
+                            if (
+                                prizepicks_line
+                                <= odds["points"]
+                                <= prizepicks_line + 0.5
+                            ):
+                                include_line = True
+                            else:
+                                include_line = False
+
+                        if include_line:
                             over_prob = calculate_implied_probability(odds["odds"])
                             under_prob = (
                                 1 - over_prob if over_prob is not None else None
@@ -313,23 +321,14 @@ def find_best_props(players_data, prop_type, prizepicks_index, game_info):
                                         "odds": odds["odds"],
                                         "over_probability": over_prob,
                                         "under_probability": under_prob,
+                                        "difference_from_prizepicks": odds["points"]
+                                        - prizepicks_line,
                                     }
                                 )
 
                 if player_props:
-                    best_bet = max(
-                        player_props,
-                        key=lambda x: max(
-                            x["over_probability"], x["under_probability"]
-                        ),
-                    )
-
-                    best_bet_over = (
-                        best_bet["over_probability"] > best_bet["under_probability"]
-                    )
-                    best_bet_probability = max(
-                        best_bet["over_probability"], best_bet["under_probability"]
-                    )
+                    # Select the best over bet (highest probability)
+                    best_bet = max(player_props, key=lambda x: x["over_probability"])
 
                     composite_key = f"{player}_{readable_prop_type}"
                     all_props_dict[composite_key] = {
@@ -339,12 +338,13 @@ def find_best_props(players_data, prop_type, prizepicks_index, game_info):
                         "away_team": away_team,
                         "player_team": pp_player["team_name"],
                         "player_position": pp_player["position"],
-                        "line": prizepicks_line,
+                        "prizepicks_line": prizepicks_line,
                         "img_url": img_url,
-                        "bestBet": "over" if best_bet_over else "under",
+                        "bestBet": "over",
                         "bestBetOdds": best_bet["odds"],
                         "bestBook": best_bet["book"],
-                        "bestBetProbability": best_bet_probability,
+                        "bestBetLine": best_bet["line"],
+                        "bestBetProbability": best_bet["over_probability"],
                         "allBookOdds": player_props,
                         "game_time": format_game_time_to_est(
                             game_info["commence_time"].isoformat()
