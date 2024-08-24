@@ -388,6 +388,3 @@ def getBestPropsLaLiga():
     print(sorted_best_props)
 
     return {"message": "Success", "data": sorted_best_props}
-
-
-getBestPropsLaLiga()
