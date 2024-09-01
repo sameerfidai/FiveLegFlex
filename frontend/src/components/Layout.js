@@ -86,6 +86,12 @@ const Layout = ({ children }) => {
                     CFB
                   </Link>
                   <Link
+                    href="/props/nfl"
+                    className="block px-4 py-2 text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold hover:bg-offwhite dark:hover:bg-black transition duration-300 ease-in-out"
+                  >
+                    NFL
+                  </Link>
+                  <Link
                     href="/props/mlb"
                     className="block px-4 py-2 text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold hover:bg-offwhite dark:hover:bg-black transition duration-300 ease-in-out"
                   >
@@ -196,6 +202,14 @@ const Layout = ({ children }) => {
                 className="text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out"
               >
                 CFB
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/props/nfl"
+                className="text-base font-medium text-fullblack dark:text-white hover:text-gold dark:hover:text-gold transition duration-300 ease-in-out"
+              >
+                NFL
               </Link>
             </li>
             <li>

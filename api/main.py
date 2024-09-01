@@ -70,7 +70,7 @@ async def read_best_props_cfb(include_prizepicks: bool = Query(True)):
     return getBestPropsCFB(include_prizepicks)
 
 
-@app.get("/api/best-props-cfb")
+@app.get("/api/best-props-nfl")
 async def read_best_props_nfl(include_prizepicks: bool = Query(True)):
     return getBestPropsNFL(include_prizepicks)
 

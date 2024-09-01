@@ -500,6 +500,3 @@ def getBestPropsNFL(include_prizepicks=True):
     )
 
     return {"message": "Success", "data": sorted_best_props[:100]}
-
-
-print(getBestPropsNFL())
