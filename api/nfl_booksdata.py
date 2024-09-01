@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import requests
 from cachetools import TTLCache, cached
 import pytz
@@ -9,7 +9,7 @@ from nba_booksdata import (
     API_KEY,
 )
 
-SPORT = "americanfootball_ncaaf"
+SPORT = "americanfootball_nfl"
 REGIONS = "us"
 ODDS_FORMAT = "american"
 
@@ -29,7 +29,7 @@ def getPrizePicksData():
         dict: A dictionary mapping player ID to player data (name, lines, team, etc).
     """
 
-    URL = "https://partner-api.prizepicks.com/projections?league_id=15"
+    URL = "https://partner-api.prizepicks.com/projections?league_id=9"
 
     try:
         response = requests.get(URL)
@@ -78,19 +78,13 @@ def getPrizePicksData():
         return {}
 
 
-from datetime import datetime, timezone, timedelta
-import pytz
-import requests
-from cachetools import cached
-
-
 @cached(games_cache)
 def getGames():
     """
-    Fetches a list of event details for NCAAF games occurring within the next 6 days in Eastern Time (ET).
+    Fetches a list of event details for NCAAF games occurring within the next 7 days in Eastern Time (ET).
 
     Returns:
-        list: A list containing the details of NCAAF games scheduled for the next 6 days in ET. Returns an empty list if no games are found or an error occurs.
+        list: A list containing the details of NFL games scheduled for the next 7 days in ET. Returns an empty list if no games are found or an error occurs.
     """
 
     events_url = f"https://api.the-odds-api.com/v4/sports/{SPORT}/events"
@@ -103,14 +97,15 @@ def getGames():
     # Get the current time in Eastern Time
     current_time_et = datetime.now(timezone.utc).astimezone(eastern_tz)
 
-    # Calculate the date 6 days from now
-    six_days_from_now = current_time_et.replace(hour=23, minute=59, second=59)
-    six_days_from_now += timedelta(days=5)  # Add 5 days to include the current day
+    # Calculate the date 7 days from now
+    seven_days_from_now = current_time_et.replace(hour=23, minute=59, second=59)
+    seven_days_from_now += timedelta(days=7)
 
     try:
         response = requests.get(events_url, params=params)
         response.raise_for_status()
         events_data = response.json()
+        print(events_data)
 
         if events_data:
             print(f"Retrieved {len(events_data)} events for {SPORT}.")
@@ -120,8 +115,8 @@ def getGames():
                     event["commence_time"].replace("Z", "+00:00")
                 ).astimezone(eastern_tz)
 
-                # Check if the event occurs within the next 6 days in Eastern Time
-                if current_time_et <= commence_time <= six_days_from_now:
+                # Check if the event occurs within the next 7 days in Eastern Time
+                if current_time_et <= commence_time <= seven_days_from_now:
                     games.append(
                         {
                             "id": event["id"],
@@ -130,7 +125,7 @@ def getGames():
                             "away_team": event["away_team"],
                         }
                     )
-            print(f"Found {len(games)} games in the next 6 days.")
+            print(f"Found {len(games)} games in the next 7 days.")
         else:
             print(f"No events found for {SPORT}.")
 
@@ -269,12 +264,12 @@ def find_best_props(
     prop_type_mapping = {
         "player_pass_tds": "Pass TDs",
         "player_pass_yds": "Pass Yards",
-        # "player_pass_completions": "Pass Completions",
-        # "player_pass_attempts": "Pass Attempts",
-        # "player_pass_interceptions": "Pass Intercepts",
+        "player_pass_completions": "Pass Completions",
+        "player_pass_attempts": "Pass Attempts",
+        "player_pass_interceptions": "INT",
         # "player_pass_longest_completion": "Pass Longest Completion",
         "player_rush_yds": "Rush Yards",
-        # "player_rush_attempts": "Rush Attempts",
+        "player_rush_attempts": "Rush Attempts",
         # "player_rush_longest": "Longest Rush",
         "player_receptions": "Receptions",
         "player_reception_yds": "Receiving Yards",
@@ -452,16 +447,16 @@ def find_best_props(
 
 
 @cached(best_props_cache)
-def getBestPropsCFB(include_prizepicks=True):
+def getBestPropsNFL(include_prizepicks=True):
     prop_types = [
         "player_pass_tds",
         "player_pass_yds",
-        # "player_pass_completions",
-        # "player_pass_attempts",
-        # "player_pass_interceptions",
+        "player_pass_completions",
+        "player_pass_attempts",
+        "player_pass_interceptions",
         # "player_pass_longest_completion",
         "player_rush_yds",
-        # "player_rush_attempts",
+        "player_rush_attempts",
         # "player_rush_longest",
         "player_receptions",
         "player_reception_yds",
@@ -478,11 +473,11 @@ def getBestPropsCFB(include_prizepicks=True):
     prizepicks_index = build_prizepicks_index(prizepicks_data)
 
     if not prizepicks_data or not prizepicks_index:
-        return {"message": "No CFB Props Data.", "data": []}
+        return {"message": "No NFL Props Data.", "data": []}
 
     games_today = getGames()
     if not games_today:
-        return {"message": "No CFB games.", "data": []}
+        return {"message": "No NFL games.", "data": []}
 
     all_best_props = []
 
@@ -505,3 +500,6 @@ def getBestPropsCFB(include_prizepicks=True):
     )
 
     return {"message": "Success", "data": sorted_best_props[:100]}
+
+
+print(getBestPropsNFL())
