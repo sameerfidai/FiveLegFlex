@@ -305,21 +305,19 @@ def find_best_props(
                         else "under"
                     )
 
-                    weighted_sum = 0
-                    total_weight = 0
-                    for book_odds in matching_props:
-                        if best_bet["bestBet"] == "over":
-                            weighted_sum += book_odds["overProbability"] * (
-                                1 / abs(book_odds["overOdds"])
-                            )
-                            total_weight += 1 / abs(book_odds["overOdds"])
-                        else:
-                            weighted_sum += book_odds["underProbability"] * (
-                                1 / abs(book_odds["underOdds"])
-                            )
-                            total_weight += 1 / abs(book_odds["underOdds"])
+                    # Calculate average probability without weighting
+                    total_probability = sum(
+                        (
+                            book_odds["overProbability"]
+                            if best_bet["bestBet"] == "over"
+                            else book_odds["underProbability"]
+                        )
+                        for book_odds in matching_props
+                    )
                     best_bet_probability = (
-                        weighted_sum / total_weight if total_weight != 0 else None
+                        total_probability / len(matching_props)
+                        if matching_props
+                        else None
                     )
 
                     composite_key = f"{player}_{readable_prop_type}"
