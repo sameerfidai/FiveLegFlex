@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
+import ThemeToggle from "./ThemeToggle";
 import "../app/globals.css";
 
 const Layout = ({ children }) => {
@@ -158,27 +159,33 @@ const Layout = ({ children }) => {
             >
               About
             </Link>
+            <ThemeToggle />
           </div>
 
-          <button
-            className="md:hidden flex items-center justify-center p-2 text-fullblack dark:text-white"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+          <div className="md:hidden flex items-center">
+            <button
+              className="flex items-center justify-center p-2 text-fullblack dark:text-white"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16m-7 6h7"
-              ></path>
-            </svg>
-          </button>
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16m-7 6h7"
+                ></path>
+              </svg>
+            </button>
+            <div className="ml-4">
+              <ThemeToggle />
+            </div>
+          </div>
         </div>
 
         {/* Mobile menu */}
