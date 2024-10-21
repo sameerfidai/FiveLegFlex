@@ -1,9 +1,9 @@
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import requests
 from cachetools import TTLCache, cached
 import pytz
 
-API_KEY = "9cf5fb7ade1babe3512e5ea92d6ddd10"
+API_KEY = "62fddeea1721bd244f9baf87614d353a"
 SPORT = "basketball_nba"
 REGIONS = "us"
 ODDS_FORMAT = "american"
@@ -76,16 +76,18 @@ def getPrizePicksData():
 @cached(games_cache)
 def getGames():
     """
-    Fetches a list of event details for upcoming NBA games.
+    Fetches a list of event details for upcoming NBA games within the next 3 days.
 
     Returns:
-        list: A list containing the details of upcoming NBA games. Returns an empty list if no games are found or an error occurs.
+        list: A list containing the details of upcoming NBA games within the next 3 days.
+              Returns an empty list if no games are found or an error occurs.
     """
 
     events_url = f"https://api.the-odds-api.com/v4/sports/{SPORT}/events"
     params = {"apiKey": API_KEY}
     games = []
     current_time = datetime.now(timezone.utc)
+    three_days_from_now = current_time + timedelta(days=3)
 
     try:
         response = requests.get(events_url, params=params)
@@ -98,7 +100,7 @@ def getGames():
                 commence_time = datetime.fromisoformat(
                     event["commence_time"].replace("Z", "+00:00")
                 )
-                if commence_time > current_time:
+                if current_time < commence_time <= three_days_from_now:
                     games.append(
                         {
                             "id": event["id"],
